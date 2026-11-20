@@ -1,0 +1,11 @@
+{
+  "seed": 2026,
+  "scenario": "default (no overrides)",
+  "ticks": 1540,
+  "seconds": 25.666666666666668,
+  "state": "won",
+  "lit": 5,
+  "flames": 3,
+  "score": 1818,
+  "input_frames": 1334
+}

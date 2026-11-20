@@ -1,0 +1,31 @@
+{
+  "kind": "headless-logic-only",
+  "runtime": "v26.13.1",
+  "platform": "win32",
+  "cpu": "Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz",
+  "cpu_threads": 8,
+  "memory_gb": 8,
+  "trials": [
+    {
+      "ticks": 18000,
+      "elapsed_ms": 277.43
+    },
+    {
+      "ticks": 18000,
+      "elapsed_ms": 227.65
+    },
+    {
+      "ticks": 18000,
+      "elapsed_ms": 182.44
+    },
+    {
+      "ticks": 18000,
+      "elapsed_ms": 206.65
+    },
+    {
+      "ticks": 18000,
+      "elapsed_ms": 147.09
+    }
+  ],
+  "note": "No Phase 4 performance threshold is released. This is a baseline, not a GPU FPS claim. High flame count is a scenario override to measure all 18,000 ticks without early death."
+}

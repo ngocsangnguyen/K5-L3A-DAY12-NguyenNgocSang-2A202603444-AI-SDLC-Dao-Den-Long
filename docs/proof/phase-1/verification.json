@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "runtime": "v26.13.1",
+  "platform": "win32",
+  "arch": "x64",
+  "contract_sha256": "0e1727f299d1643b30990240f69d12de7e68af407d9e6c4014ddf6f164227224",
+  "source_sha256": {
+    "src/core/game.js": "8ca2c90d761c605290efa5828428eae0171a798a2994909e7d3bb849474ae340",
+    "src/core/validate.js": "91654e85f5668b5f0fce99addee2abe5e33e72c10d1ac45a146c20b5728c7a9d",
+    "src/core/random.js": "dcf41b868b1053a7bd3c4541e4fc462cb72f3e24775ab0b8440da151d4f0b2cc",
+    "src/main.js": "198ea432e3a38bbd0ba5a49692743025d306af4e6371936a615cadefffae3a02",
+    "src/world.js": "fa1e5704d5861a7f357f4c62aa7c4d78b8044f20daafb3450819536b46b4122a",
+    "src/audio.js": "0c275badf398368b5eedbb89e77dc9fe07238fe648853b9f8e78c82988711da2",
+    "scripts/headless.mjs": "3f9f65d9774b628365fc1740343094035c56966e65c84ee7dd4a85812d6ed028",
+    "index.html": "b3fa529b8e4a59e4568b591b301496aa7eb79a075e2c84773e74825b4efe776b",
+    "style.css": "a2258d073ffebe533220dc90e6575f3d4ad698dc6c1fc9fd56f870149f5754c6"
+  },
+  "replay_sha256": "0a93cc88cba4f298c51ca2f4ea04a2e489a5d235402fd162e9680e6ba4a9056c",
+  "deterministic_byte_identical": true,
+  "commands": [
+    {
+      "command": "node --test",
+      "exit_code": 0,
+      "stdout": "✔ CLI writes tick0, exact N steps, persistent frames and mandatory end (224.9136ms)\n✔ CLI replay is byte-identical and runs zero steps correctly (466.2173ms)\n✔ CLI stops early at game over and retains terminal snapshot (133.1503ms)\n✔ malformed JSON, invalid fields, repeated frame ticks and bad CLI return 2 (808.5236ms)\n✔ tick 0 is pre-input; five lamps; scenario setup has no score/events (10.4696ms)\n✔ movement is fixed 60 Hz and camera-relative (3.2112ms)\n✔ diagonal input is normalized and partial input persists (1.3543ms)\n✔ pickup includes exact XZ radius and ignores vertical distance (1.2367ms)\n✔ pickup stops at capacity; explicit [] replaces defaults (3.3739ms)\n✔ deposit is on rising edge, partial deposit accumulates and does not overspend (1.3722ms)\n✔ cannot deposit outside radius, into lit lamp, or without carried light (1.2549ms)\n✔ pulse uses inclusive XZ radius, spends light, pushes and stuns named shade (1.2151ms)\n✔ pulse needs enough light, a fresh press and cooldown; stun expires (1.9274ms)\n✔ collision drops floor(ratio * carried), only one hit during invulnerability (1.6926ms)\n✔ lit lamp keeps shade out and protects player at safe-radius boundary (1.8203ms)\n✔ jump is edge-triggered and returns to ground; holding does not autojump (1.4369ms)\n✔ pulse cannot push a stunned shade into a lit-lamp safe zone (0.7947ms)\n✔ last lamp wins once with score and flame/time bonuses (1.2264ms)\n✔ zero flames and dawn terminate with the contract reasons (0.8612ms)\n✔ seeded generation reproduces positions and IDs; snapshot rounds coordinates (6.1333ms)\n✔ invalid input and scenario shapes are rejected (2.2558ms)\nℹ tests 21\nℹ suites 0\nℹ pass 21\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1907.2667\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/build.mjs",
+      "exit_code": 0,
+      "stdout": "Built static game: dist/ (no runtime CDN or server-side dependency)\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/playtest.mjs",
+      "exit_code": 0,
+      "stdout": "{\n  \"seed\": 2026,\n  \"scenario\": \"default (no overrides)\",\n  \"ticks\": 1540,\n  \"seconds\": 25.666666666666668,\n  \"state\": \"won\",\n  \"lit\": 5,\n  \"flames\": 3,\n  \"score\": 1818,\n  \"input_frames\": 1334\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 2026 --night 1 --inputs docs/proof/phase-1/default-playthrough-inputs.json --ticks 18000 --snapshot-every 60 --out docs/proof/phase-1/default-playthrough.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/pulse.json --inputs tests/scenarios/pulse-inputs.json --ticks 240 --out docs/proof/phase-1/replay.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/pulse.json --inputs tests/scenarios/pulse-inputs.json --ticks 240 --out artifacts/replay-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "limits": [
+    "Browser playability is checked separately; this report does not assert GUI or GPU performance.",
+    "Linux/macOS CI is configured but not asserted to have run locally.",
+    "Only Phase 1 is released; phases 2–4 are pending their tickets."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "dao-den-long",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Đảo Đèn Lồng — deterministic 3D game and Test Contract v1.0 runner",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test",
+    "headless": "node scripts/headless.mjs",
+    "verify": "node scripts/verify.mjs",
+    "benchmark": "node scripts/benchmark.mjs"
+  },
+  "dependencies": { "three": "0.187.0" }
+}

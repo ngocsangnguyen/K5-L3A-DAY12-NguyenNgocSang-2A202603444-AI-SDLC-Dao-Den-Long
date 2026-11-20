@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#10282e">
+  <meta name="description" content="Theo chân Mây qua Đảo Bến. Gom đom đóm, thắp năm đèn lồng và mang ánh sáng trở về.">
+  <title>Đảo Đèn Lồng — Đêm 1 · Đảo Bến</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M24 10h16v6H24zM24 50h16v5H24z' fill='%23b67843'/%3E%3Cellipse cx='32' cy='33' rx='20' ry='19' fill='%23ffbf70'/%3E%3Cpath d='M32 54v8' stroke='%23ffbf70' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+  <script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script>
+</head>
+<body>
+  <canvas id="world" aria-label="Thế giới 3D Đảo Đèn Lồng" tabindex="0"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Đảo Đèn Lồng — trang đầu">
+      <svg class="brand-icon" viewBox="0 0 40 48" aria-hidden="true"><path d="M15 3h10v5H15zM15 37h10v4H15z" fill="currentColor"/><ellipse cx="20" cy="23" rx="14" ry="16" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="20" cy="23" rx="6" ry="16" fill="none" stroke="currentColor"/><path d="M7 17h26M7 28h26M20 41v6" stroke="currentColor"/></svg>
+      <span>đảo đèn lồng<small>MỘT CHÚT SÁNG, MỘT CHÚT NHIỆM MÀU</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="night-label"><span class="moon">☾</span> Đêm 1 <i></i> Đảo Bến</span>
+      <button class="icon-button" id="sound-button" aria-label="Bật âm thanh" aria-pressed="false" title="Bật / tắt âm thanh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm5 4 5 6m0-6-5 6"/></svg></button>
+      <button class="icon-button" id="help-button" aria-label="Hướng dẫn chơi" title="Hướng dẫn chơi">?</button>
+      <button class="icon-button" id="pause-button" aria-label="Tạm dừng" title="Tạm dừng (Esc)" hidden>Ⅱ</button>
+    </div>
+  </header>
+
+  <main id="home" class="home">
+    <div class="eyebrow"><span></span> CHUYỆN KỂ TỪ BIỂN MÂY</div>
+    <h1>Giữ một đốm sáng.<br>Thắp cả <em>hòn đảo.</em></h1>
+    <p>Đêm xuống, sương đen phủ kín Đảo Bến.<br>Cùng Mây gom những đốm sáng nhỏ bé,<br>đánh thức năm ngọn đèn đang ngủ quên.</p>
+    <button id="start-button" class="primary-button"><span class="tiny-lantern" aria-hidden="true">✦</span> Bắt đầu hành trình</button>
+    <div class="home-meta"><span>3D · MỘT NGƯỜI CHƠI</span><span>5 PHÚT MỖI ĐÊM</span></div>
+  </main>
+
+  <section id="hud" class="hud" aria-label="Thông tin hành trình" hidden>
+    <div class="mission"><span class="eyebrow">ÁNH SÁNG ĐANG TRỞ VỀ</span><h2>Thắp sáng Đảo Bến</h2><div id="lamp-progress" class="lamp-progress" aria-label="Tiến độ thắp đèn"></div><span id="lamp-count">0 / 5 ngọn đèn</span></div>
+    <div class="stats">
+      <div class="stat"><span class="stat-label">ĐOM ĐÓM</span><div><span class="firefly-icon">✦</span> <strong id="carried">0</strong><small id="capacity">/ 12</small></div><div class="capacity-track"><i id="capacity-fill"></i></div></div>
+      <div class="stat"><span class="stat-label">NGỌN LỬA</span><div id="flames" class="flames" aria-label="3 ngọn lửa"></div></div>
+      <div class="stat"><span class="stat-label">TRƯỚC BÌNH MINH</span><strong class="timer" id="timer">05:00</strong></div>
+      <div class="stat score-stat"><span class="stat-label">ĐIỂM SỐ</span><strong id="score">0</strong></div>
+    </div>
+  </section>
+
+  <div id="markers" aria-hidden="true"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="interaction" class="interaction" hidden><kbd>E</kbd><span id="interaction-text">Thắp đèn</span></div>
+  <div id="pulse-status" class="pulse-status" hidden><span class="pulse-orb">✺</span><div><span>TỎA SÁNG</span><small id="pulse-hint">Q · cần 3 đom đóm</small></div><div id="pulse-ring" class="pulse-ring"></div></div>
+
+  <div class="bottom-bar" id="bottom-bar">
+    <div class="chapter"><span class="chapter-line"></span><span>ĐÊM 01<small>Đảo Bến</small></span></div>
+    <div class="key-guide"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> di chuyển</span><span><kbd>Space</kbd> nhảy</span><span><kbd>E</kbd> nạp đèn</span><span><kbd>Q</kbd> tỏa sáng</span><span class="camera-guide">Kéo chuột để xoay góc nhìn</span></div>
+  </div>
+
+  <div class="touch-controls" id="touch-controls" hidden>
+    <div class="dpad"><button data-key="KeyW" aria-label="Đi lên">▲</button><button data-key="KeyA" aria-label="Sang trái">◀</button><button data-key="KeyS" aria-label="Đi xuống">▼</button><button data-key="KeyD" aria-label="Sang phải">▶</button></div>
+    <div class="touch-actions"><button data-key="Space">Nhảy</button><button data-key="KeyQ">Tỏa sáng</button><button data-key="KeyE">Nạp đèn</button></div>
+  </div>
+
+  <dialog id="help-dialog" class="panel-dialog">
+    <span class="eyebrow">CHÀO MÂY, NGƯỜI GIỮ ĐÈN</span><h2>Mang ánh sáng trở về.</h2>
+    <p>Chạm vào đom đóm để thu thập. Mang đủ <strong id="help-cost">6</strong> đom đóm đến mỗi đèn và nhấn <kbd>E</kbd> để nạp. Có thể nạp nhiều lần.</p>
+    <ul><li><kbd>W A S D</kbd> hoặc phím mũi tên để di chuyển; <kbd>Space</kbd> để nhảy.</li><li><kbd>Q</kbd> tỏa sáng, tốn <strong id="help-pulse">3</strong> đom đóm để đẩy lùi và làm choáng Bóng Mực.</li><li>Đèn đã sáng là nơi an toàn. Hãy nghỉ chân trong vòng sáng.</li><li>Kéo chuột để xoay camera; cuộn để thu phóng. <kbd>Esc</kbd> tạm dừng.</li><li>Thắp đủ 5 đèn trước bình minh để thắng. Giữ gìn 3 ngọn lửa của Mây.</li></ul>
+    <button id="close-help" class="primary-button">Mình hiểu rồi</button>
+  </dialog>
+  <dialog id="pause-dialog" class="panel-dialog compact"><span class="eyebrow">NGHỈ CHÂN MỘT CHÚT</span><h2>Đom đóm vẫn chờ bạn.</h2><p>Hành trình đang tạm dừng.</p><button id="resume-button" class="primary-button">Tiếp tục hành trình</button><button id="restart-pause" class="text-button">Chơi lại từ đầu</button></dialog>
+  <dialog id="end-dialog" class="panel-dialog end-dialog"><span class="end-symbol" id="end-symbol">✺</span><span class="eyebrow" id="end-eyebrow">BÌNH MINH TRÊN ĐẢO BẾN</span><h2 id="end-title">Ánh sáng đã trở về.</h2><p id="end-description"></p><div class="end-stats"><div><small>ĐIỂM SỐ</small><strong id="end-score">0</strong></div><div><small>ĐÈN ĐÃ THẮP</small><strong id="end-lamps">5 / 5</strong></div></div><button id="restart-button" class="primary-button">Một hành trình nữa</button><button id="home-button" class="text-button">Về trang đầu</button></dialog>
+  <div id="error-panel" class="error-panel" hidden role="alert"><h2>Chưa thể mở thế giới 3D</h2><p id="error-message"></p><p>Thử bật tăng tốc đồ họa trong trình duyệt, hoặc dùng Chrome / Edge / Firefox mới.</p></div>
+  <noscript>Hãy bật JavaScript để chơi Đảo Đèn Lồng.</noscript>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
