@@ -1,9 +1,9 @@
 {
   "name": "dao-den-long",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "Đảo Đèn Lồng — three nights, Test Contract v1.1",
+  "description": "Đảo Đèn Lồng — fuel maintenance, Test Contract v1.2",
   "engines": {
     "node": ">=22"
   },

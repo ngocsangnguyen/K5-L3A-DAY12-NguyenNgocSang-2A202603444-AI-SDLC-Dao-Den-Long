@@ -1,0 +1,21 @@
+{
+  "random_motes": false,
+  "random_shades": false,
+  "random_drifters": false,
+  "wind_enabled": false,
+  "player": {
+    "charm_ticks": 300
+  },
+  "motes": [
+    {
+      "id": "M1",
+      "pos": [
+        20,
+        0,
+        0
+      ],
+      "kind": "dropped",
+      "ttl_s": 8
+    }
+  ]
+}

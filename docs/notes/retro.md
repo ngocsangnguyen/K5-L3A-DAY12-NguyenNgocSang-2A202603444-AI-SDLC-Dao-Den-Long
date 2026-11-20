@@ -14,3 +14,11 @@
 - Số đo GUI thực tế quan trọng: test CPU xanh không phát hiện drawcall overhead. Instancing cải thiện FPS; mẫu Đêm3 sát ngưỡng hơn nên còn cần stress test dài khi Phase4 yêu cầu.
 - Bot không phải người chơi: lần bot thua phản ánh cả chiến lược input yếu; cải thiện input thay vì đổi thông số chuẩn để làm test đạt.
 - Cần review độc lập và bổ sung usage, CI trên OS đích, video/Release/tag đúng hạn. Không tự coi các việc đó hoàn thành từ kết quả local.
+
+## Sau Phase 3
+
+- Khi đổi luật cốt lõi, giữ test cũ có hiệu lực và thay assertion lỗi thời có lý do cụ thể; không skip để làm bộ test xanh. ADR/changelog giúp thấy rõ early-win, điểm và safe-zone đã bị thay.
+- Dùng fuel nguyên và helper chung tránh sai biên30, ceil châm dầu, hoặc UI chọn khác core. Capacity suy ra count tránh lẫn số đèn đang sáng với số lần thắp.
+- Tình huống minh họa30s giúp kiểm tra trực quan nhanh, nhưng phải tách điểm hành trình và ghi nhãn. Replay duy trì đủ Đêm dựng sẵn không thay cho kiểm chứng khả năng chơi thắng mặc định.
+- Tăng túi ảnh hưởng bố cục dù chỉ là thay luật: screenshot thực tế phát hiện hint sát túi/dash; sửa rồi kiểm tra lại desktop/mobile. Hiệu năng cần đo lại, không sao chép số Phase2.
+- Tôn trọng yêu cầu không commit trong giai đoạn triển khai; khi người dùng chỉ thị commit/push/tag sau đó, cập nhật chỉ dẫn và công bố đúng các commit phase đã kiểm chứng, không tự coi đã nộp LMS.

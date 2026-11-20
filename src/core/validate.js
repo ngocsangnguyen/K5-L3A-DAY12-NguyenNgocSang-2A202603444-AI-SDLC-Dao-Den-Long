@@ -1,3 +1,5 @@
+import { capacityFor } from './lantern.js';
+
 export class InputError extends Error {
   constructor(message) { super(message); this.name = 'InputError'; }
 }
@@ -39,9 +41,9 @@ export function validateScenario(scenario = {}, tuning, night = 1) {
   if ('player' in scenario) {
     object(scenario.player, 'player');
     if ('pos' in scenario.player) position(scenario.player.pos, 'player.pos');
-    for (const key of ['carried', 'flames', 'invuln_ticks', 'dash_cd_ticks', 'pulse_cd_ticks', 'charm_ticks']) if (key in scenario.player) nonnegative(scenario.player[key], `player.${key}`, true);
+    for (const key of ['carried', 'flames', 'invuln_ticks', 'dash_cd_ticks', 'pulse_cd_ticks', 'charm_ticks', 'successful_lights']) if (key in scenario.player) nonnegative(scenario.player[key], `player.${key}`, true);
     if ('vel' in scenario.player) position(scenario.player.vel, 'player.vel');
-    if (scenario.player.carried > tuning.carry_capacity) fail('player.carried exceeds carry_capacity');
+    if (scenario.player.carried > capacityFor(tuning, scenario.player.successful_lights ?? 0)) fail('player.carried exceeds capacity');
   }
   for (const key of ['random_motes', 'random_shades', 'random_drifters', 'wind_enabled']) if (key in scenario && typeof scenario[key] !== 'boolean') fail(`${key} must be boolean`);
   if ('time_left_s' in scenario) nonnegative(scenario.time_left_s, 'time_left_s');
@@ -59,7 +61,8 @@ export function validateScenario(scenario = {}, tuning, night = 1) {
       const id = v.id ?? `S${i + 1}`;
       if (typeof id !== 'string' || !id || ids.has(id)) fail('shade IDs must be nonempty unique strings');
       ids.add(id);
-      if ('state' in v && !['spawning','wander','chase','recoil','stunned'].includes(v.state)) fail('invalid shade state');
+      if ('state' in v && !['spawning','wander','chase','recoil','stunned','drain'].includes(v.state)) fail('invalid shade state');
+      if ('target_lantern_id' in v && v.target_lantern_id !== null && !Array.from({length:[0,5,6,7][night]},(_,n)=>`L${n+1}`).includes(v.target_lantern_id)) fail('invalid target_lantern_id');
       if ('state_ticks_left' in v) nonnegative(v.state_ticks_left,'shade.state_ticks_left',true);
     });
   }
@@ -76,6 +79,9 @@ export function validateScenario(scenario = {}, tuning, night = 1) {
         if (v.deposited > tuning.lantern_cost) fail('deposited exceeds lantern_cost');
       }
       if ('lit' in v && typeof v.lit !== 'boolean') fail('lantern.lit must be boolean');
+      if ('ever_lit' in v && typeof v.ever_lit !== 'boolean') fail('lantern.ever_lit must be boolean');
+      if ('fuel' in v) { nonnegative(v.fuel,'lantern.fuel'); if(v.fuel > tuning.fuel_max) fail('lantern.fuel exceeds fuel_max'); }
+      if ('relit_count' in v) nonnegative(v.relit_count,'lantern.relit_count',true);
     });
   }
   for (const key of ['drifters','charms']) if (key in scenario) {

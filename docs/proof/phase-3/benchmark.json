@@ -1,0 +1,36 @@
+{
+  "kind": "headless-cli-including-io",
+  "runtime": "v26.13.1",
+  "platform": "win32",
+  "cpu": "Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz",
+  "cpu_threads": 8,
+  "memory_gb": 8,
+  "threshold_ms": 30000,
+  "trials": [
+    {
+      "night": 1,
+      "command": "node scripts/headless.mjs --seed 2026 --night 1 --scenario tests/scenarios/phase-3/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-3/benchmark-night-1.jsonl",
+      "ticks": 14400,
+      "state": "lost",
+      "elapsed_ms": 989.97,
+      "passed": true
+    },
+    {
+      "night": 2,
+      "command": "node scripts/headless.mjs --seed 2026 --night 2 --scenario tests/scenarios/phase-3/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-3/benchmark-night-2.jsonl",
+      "ticks": 16200,
+      "state": "lost",
+      "elapsed_ms": 1885.02,
+      "passed": true
+    },
+    {
+      "night": 3,
+      "command": "node scripts/headless.mjs --seed 2026 --night 3 --scenario tests/scenarios/phase-3/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-3/benchmark-night-3.jsonl",
+      "ticks": 18000,
+      "state": "lost",
+      "elapsed_ms": 2790.91,
+      "passed": true
+    }
+  ],
+  "note": "High flames in an explicit scenario ensure the CLI reaches each full night rather than dying early. This is not GPU FPS."
+}

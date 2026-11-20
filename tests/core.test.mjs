@@ -12,25 +12,25 @@ const names=(events)=>events.map(e=>e.name);
 
 test('contract constants and all three maps match Ticket-02',()=>{
   assert.equal(tuning.carry_capacity,10);assert.equal(tuning.lantern_cost,10);assert.equal(tuning.pulse_cooldown_s,3);assert.equal(tuning.shade_speed,4);
-  for(const night of [1,2,3]){const g=make({},night);assert.equal(g.lanterns.length,night+4);assert.equal(g.timeLeft,[0,300,330,360][night]);assert.equal(g.tick,0);assert.equal(g.score,0);assert.deepEqual(g.events,[]);}
+  for(const night of [1,2,3]){const g=make({},night);assert.equal(g.lanterns.length,night+4);assert.equal(g.timeLeft,[0,240,270,300][night]);assert.equal(g.tick,0);assert.equal(g.score,0);assert.deepEqual(g.events,[]);}
   assert.deepEqual(levelFor(1).lanterns[0],[0,0,25]);assert.deepEqual(levelFor(2).lanterns[5],[53,0,-10]);assert.deepEqual(levelFor(3).lanterns[0],[0,6,6]);
 });
 test('tick 0 setup has no score/event, lamp override merges by ID',()=>{
   const g=make({lanterns:[{id:'L2',lit:true}]});assert.deepEqual(g.player.pos,[0,0,0]);assert.equal(g.lanterns[1].deposited,10);assert.equal(g.lanterns.length,5);assert.equal(g.score,0);assert.deepEqual(g.events,[]);
 });
 test('movement 60Hz, yaw rotation, diagonal normalization and input persistence regressions',()=>{
-  const g=make();g.step({move:[0,1],cam_yaw_deg:90});steps(g,59);near(g.player.pos[0],6);near(g.player.pos[2],0);near(g.timeLeft,299);
+  const g=make();g.step({move:[0,1],cam_yaw_deg:90});steps(g,59);near(g.player.pos[0],6);near(g.player.pos[2],0);near(g.timeLeft,239);
   const d=make();steps(d,60,{move:[1,1]});near(distanceXZ(d.player.pos,[0,0,0]),6);d.step({move:[0,0]});const p=[...d.player.pos];d.step({interact:true});assert.deepEqual(d.player.pos,p);
 });
-test('pickup XZ inclusive, vertical threshold, capacity; pickup has no score in v1.1',()=>{
+test('pickup XZ inclusive, vertical threshold, capacity; pickup has no score',()=>{
   const g=make({motes:[[1,1.5,0],[1.001,0,0],[0,1.501,0],...Array.from({length:15},()=>[0,0,0])]});const ev=g.step();assert.equal(g.player.carried,10);assert.equal(g.score,0);assert.equal(ev.filter(e=>e.name==='mote_picked').length,10);assert.equal(ev.find(e=>e.name==='mote_picked').tick,1);
   assert.ok(g.motes.some(m=>m.pos[1]===1.501));
 });
 test('partial deposit, edge trigger, nearest then smaller ID, deposit score',()=>{
-  const g=make({player:{carried:4},lanterns:[{id:'L2',pos:[-2,0,0]},{id:'L1',pos:[2,0,0]}]});g.step({interact:true});assert.equal(g.lanterns[0].deposited,4);assert.equal(g.score,40);
-  g.player.carried=10;g.step({interact:true});assert.equal(g.lanterns[0].deposited,4);g.step({interact:false});g.step({interact:true});assert.equal(g.lanterns[0].lit,true);assert.equal(g.player.carried,4);assert.equal(g.score,200);
+  const g=make({player:{carried:4},lanterns:[{id:'L2',pos:[-2,0,0]},{id:'L1',pos:[2,0,0]}]});g.step({interact:true});assert.equal(g.lanterns[0].deposited,4);assert.equal(g.score,20);
+  g.player.carried=10;g.step({interact:true});assert.equal(g.lanterns[0].deposited,4);g.step({interact:false});g.step({interact:true});assert.equal(g.lanterns[0].lit,true);assert.equal(g.player.carried,4);assert.equal(g.score,150);
 });
-test('cannot deposit out of range or into a lit lamp',()=>{
+test('cannot deposit out of range',()=>{
   const g=make({player:{carried:10},lanterns:[{id:'L1',pos:[2.001,0,0]}]});g.step({interact:true});assert.equal(g.player.carried,10);
 });
 test('pulse targets 3D distance from foot+.8, cost/cooldown, push over 15 ticks',()=>{
@@ -106,9 +106,9 @@ test('tier walls and bell block walking; stepping off a tier falls to lower surf
 test('wind warning at1680, active1800..2099, disabled freezes wind',()=>{
   const g=make({player:{pos:[30,0,0]},wind_enabled:true},3);steps(g,1680);assert.equal(g.wind.warning,true);steps(g,120);assert.equal(g.wind.active,true);const before=[...g.player.pos];steps(g,10);assert.ok(distanceXZ(before,g.player.pos)>.3);steps(g,290);assert.equal(g.wind.active,false);
 });
-test('no_flames wins precedence; alive all_lit wins at exact dawn; score on deposit and final bonus',()=>{
+test('no_flames wins precedence; final interaction at dawn counts before new dawn scoring',()=>{
   const lamps=[1,2,3,4,5].map(n=>({id:`L${n}`,lit:true}));const dead=make({player:{flames:0},lanterns:lamps});dead.step();assert.equal(dead.state,'lost');
-  const g=make({time_left_s:1/60,player:{carried:10},lanterns:[{id:'L1',pos:[0,0,0]},...lamps.slice(1)]});g.step({interact:true});assert.equal(g.state,'won');assert.equal(g.score,350);const tick=g.tick;g.step();assert.equal(g.tick,tick);
+  const g=make({time_left_s:1/60,player:{carried:10},lanterns:[{id:'L1',pos:[0,0,0]},...lamps.slice(1)]});g.step({interact:true});assert.equal(g.state,'won');assert.equal(g.events.at(-1).data.reason,'dawn_survived');assert.equal(g.score,1046);const tick=g.tick;g.step();assert.equal(g.tick,tick);
   const dawn=make({time_left_s:1});steps(dawn,60);assert.equal(dawn.events.at(-1).data.reason,'dawn');
 });
 test('determinism, snapshot schema and malformed scenario/input validation',()=>{

@@ -1,0 +1,1366 @@
+{
+  "status": "passed",
+  "contract_version": "1.2",
+  "runtime": "v26.13.1",
+  "platform": "win32",
+  "contract_sha256": "378ab1bb992d5be19caccab5a666ac2758e28eea3d19d77ef562206e03a33e7e",
+  "source_sha256": {
+    "src/core/game.js": "c23b8dfcc7d10365429b11d2feeea3e1bfa6f82b91c028bf3fe509b86172bb61",
+    "src/core/lantern.js": "816b3a4ea2b98c226f5fa6854b436bf8660faebbbed018e75d800ff3bef3857f",
+    "src/core/levels.js": "11cda3b23a94f80c85b245309ff042893660ebb2dec8d07be16328e32fb53a12",
+    "src/core/validate.js": "22a4d12df5be83f8e442e6df8135604c7fb0d4ee08a8f57e07f543b084ec5955",
+    "src/core/campaign.js": "59209f03e6acb33fe7b0f053376fc5fe13030e4d0be73d9ac5a4479a55952bfa",
+    "src/main.js": "b1a1555727683b9ae2513d203b9061dd3274a2029426ced8181ad653b086fda6",
+    "src/world.js": "9b01c5f62c22e9acd867bc41b54ef968e38dcfff71d58c50a441afe2e7b74fe0",
+    "src/audio.js": "bbcb5eb5a18f5d3b8d6a5be63fee557a34b303bbd6081a1e4e10d0085b303e3a",
+    "src/settings.js": "7db3b69eb65af4304c485ddf4d7f0df3d7d9ea0d51d416a3414c802ba185feaf",
+    "src/fuel-demo.js": "42e6e13a43272af4b1816a2d32020d22ac592b94adfe1ed5497d537137421d0e",
+    "scripts/headless.mjs": "ad4650ebe90cec0a406576496fcda085d038616813f241495861fd5b6914a367",
+    "index.html": "24b6af863075207aa6341c080ec0e8af4109dbc66b6b1dae82a8a313fdc84ea3",
+    "style.css": "ee685b2ef7d3ff85daa5d3663dfddb027c82b4ab043d240ed703b169c8fb5bdd"
+  },
+  "cases": [
+    {
+      "name": "regression-dash",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "66975735e1f2dfdac8efb815df4b5e6ae54ff89aa53551c3d49ba50fd33c0325",
+      "end": {
+        "type": "end",
+        "ticks": 120,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          5.6,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 1.0166666666666666,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "regression-charm",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "6f998c01d7a5d29b1492de8b0fa8417a4e23c9a75d6769d877af303f66ed63fc",
+      "end": {
+        "type": "end",
+        "ticks": 700,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          5.6
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "regression-drifter",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "6937e28dc5c79273ffff1407ea45bc03d85c1fc4016fdf9f04629f84e61f44d3",
+      "end": {
+        "type": "end",
+        "ticks": 160,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 2,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0.5166666666666667,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "regression-pause",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "4502f136e9c961921888926a0a4246b255a41e0101f8a4e89ee1db44b04aeb1b",
+      "end": {
+        "type": "end",
+        "ticks": 180,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          1.32,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 3.5
+      }
+    },
+    {
+      "name": "regression-fall",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "ee38781771eacf6e53f3a06d9b1e159b3723840fd48b3f04edb1719f0b351d62",
+      "end": {
+        "type": "end",
+        "ticks": 65,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 2,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": true,
+        "invuln_s": 1.4333333333333333,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "regression-bridge-pad",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "b48612ba08fee0c4953270a4dcaf41363704f49ba6666b9104dab77d3d42d168",
+      "end": {
+        "type": "end",
+        "ticks": 100,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          51.237,
+          0,
+          6.755
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "regression-upper-pad",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "7e45fd379a21cd32cedea8fab6315bca2c50de49a70ea0f7919ab004631705fe",
+      "end": {
+        "type": "end",
+        "ticks": 100,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          6,
+          6.467
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "regression-ramp",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "5e396a4749f122cf3e1deeabb0a67159cf4531bd30b582845f8431bd36ea3b5b",
+      "end": {
+        "type": "end",
+        "ticks": 90,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          19.053,
+          3,
+          11
+        ],
+        "vel": [
+          -5.196,
+          0,
+          -3
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "regression-wind",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "0f66e69c356477df4f7c6132cb5fffe7565bc0110b6ec6d45c569ca3054e47ef",
+      "end": {
+        "type": "end",
+        "ticks": 2100,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          21.951,
+          0,
+          -5.934
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "refuel-ceil",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "31945631a258c7f9f6146e35a84ff6664a5175df2cd01fae490a3874283861a9",
+      "end": {
+        "type": "end",
+        "ticks": 5,
+        "state": "playing",
+        "score": 10
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 1,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "expiry-relight",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "7370707a8be968970e09c165b0666cc314faf748e130736e3634d2bcf0525ce5",
+      "end": {
+        "type": "end",
+        "ticks": 2,
+        "state": "playing",
+        "score": 65
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 12,
+        "successful_lights": 1,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "multi-drain",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "c45fe824c34f58fe3f3ac850b4e0c5896cb4f9f50ec9259b11bb4a65a51a59b5",
+      "end": {
+        "type": "end",
+        "ticks": 60,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          30,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "drain-pulse",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "0f4bd680db3010e1b5e0e447bc988f67d3fe212fd1fdcde0efd5d27d49508140",
+      "end": {
+        "type": "end",
+        "ticks": 10,
+        "state": "playing",
+        "score": 15
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 2.85,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "safe-restored",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "7102879997789536db78e9457ceff7f17e1788d4bfc3c06058e4c558a0a0a54e",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "playing",
+        "score": 5
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "capacity-grow",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "4999f3d03aa209059f8a0600fd443817c7ebfd34885859c5d7fc20e17aae5357",
+      "end": {
+        "type": "end",
+        "ticks": 3,
+        "state": "playing",
+        "score": 65
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 20,
+        "capacity": 20,
+        "successful_lights": 5,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "no-early-win",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "fb5f9d5e50f3d7ed458b06c6d1a11698a1e14967a8d1b13c6e82626ba6c3d4c2",
+      "end": {
+        "type": "end",
+        "ticks": 120,
+        "state": "won",
+        "score": 890
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "pause-fuel",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "de9322bcf925fbfbef2428e495671df124e1e995d30d5f14848c38a2f5bc3043",
+      "end": {
+        "type": "end",
+        "ticks": 180,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          30,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "dawn-win-1",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "7d3baa921a20a9e600b34b725977a529356c2a5ba0443df071b00588a1ae107c",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "won",
+        "score": 303
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "dawn-lose-1",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "3bb194928cd3c47ef8a85e055ace8081cd6f4f0a1225aa3ed75edfab9aa20c7e",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "lost",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "dawn-win-2",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "6dced6e7d2125cf544b09f416161cc27fc149b78921a5e4673781031ace200e5",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "won",
+        "score": 354
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "dawn-lose-2",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "8082ff41ef2091315f1f885c56986520d97b9b3c44de093a460c0486b7115baa",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "lost",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "dawn-win-3",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "24b9f931b68a5950e94a9e0cc00c6349d93990608857f262070be71ff858a888",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "won",
+        "score": 405
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          -30
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "dawn-lose-3",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "c5ef2ab362d230852a01cb165338dad80f68f2d9d33c5dc0678eaf87002743f2",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "lost",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          -30
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "final-tick-out",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "24c0905b646a3ccee2aec77bbbde5eaae924995058d26eddc3383ea9364e4069",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "lost",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "final-tick-no-flames",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "c083bf2407e2856c0938f51176d331216a6801ac966197dab81e2cd6202d4207",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "lost",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 0,
+        "carried": 0,
+        "capacity": 10,
+        "successful_lights": 0,
+        "invuln": true,
+        "invuln_s": 1.5,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "maintain-night-1",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "3219c5a4bd96dfb57c9d9566271669d204ac57946d69c69b03881f407c0b1158",
+      "end": {
+        "type": "end",
+        "ticks": 14400,
+        "state": "won",
+        "score": 496
+      },
+      "final_player": {
+        "pos": [
+          4,
+          0,
+          -12
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 5,
+        "capacity": 16,
+        "successful_lights": 3,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "maintain-night-2",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "c56244972b4879a733656d65e989a86a0860ac78bd3f5fdce4cc68b4740cc660",
+      "end": {
+        "type": "end",
+        "ticks": 16200,
+        "state": "won",
+        "score": 613
+      },
+      "final_player": {
+        "pos": [
+          8,
+          0,
+          -12
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 5,
+        "capacity": 18,
+        "successful_lights": 4,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "maintain-night-3",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "6693307148b935bd929377a02648aed59357820cdef3e7e1de7de0afd7902f37",
+      "end": {
+        "type": "end",
+        "ticks": 18000,
+        "state": "won",
+        "score": 730
+      },
+      "final_player": {
+        "pos": [
+          12,
+          0,
+          -12
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 5,
+        "capacity": 20,
+        "successful_lights": 5,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    }
+  ],
+  "commands": [
+    {
+      "command": "node --test",
+      "exit_code": 0,
+      "stdout": "✔ campaign advances1→2→3, resets health, sums only won nights, no double credit (12.985ms)\n✔ settings normalize and persist; malformed or unavailable storage falls back (6.3782ms)\n✔ CLI writes tick0, exact N steps, persistent frames and mandatory end (350.0955ms)\n✔ CLI replay is byte-identical and runs zero steps correctly (746.3713ms)\n✔ CLI stops early at game over and retains terminal snapshot (237.6701ms)\n✔ malformed JSON, invalid fields, repeated frame ticks and bad CLI return 2 (1144.3359ms)\n✔ all nights expose the contract schema and pause advances wall tick only (400.9429ms)\n✔ contract constants and all three maps match Ticket-02 (11.2389ms)\n✔ tick 0 setup has no score/event, lamp override merges by ID (1.2741ms)\n✔ movement 60Hz, yaw rotation, diagonal normalization and input persistence regressions (9.1677ms)\n✔ pickup XZ inclusive, vertical threshold, capacity; pickup has no score (3.0441ms)\n✔ partial deposit, edge trigger, nearest then smaller ID, deposit score (1.9306ms)\n✔ cannot deposit out of range (0.7182ms)\n✔ pulse targets 3D distance from foot+.8, cost/cooldown, push over 15 ticks (7.2363ms)\n✔ pulse cannot activate without 3 motes, holding does not repeat (4.9223ms)\n✔ dash is exactly 14m/s for 12 ticks with cooldown from activation (1.9532ms)\n✔ stationary dash follows facing; air dash freezes altitude without immunity (1.1793ms)\n✔ jump requires grounded edge, gravity -20, full air steering (1.9301ms)\n✔ damage has height threshold, one hit per tick in ID order, recoil and 90 tick immunity (5.1333ms)\n✔ dropped motes are in 1.5–2.5m ring, TTL480, pickup from next tick only (12.6884ms)\n✔ hitting shade recoils exactly2m over the next60 ticks (1.9237ms)\n✔ lit safe area blocks shades including a newly stunned shade; state names valid (6.4059ms)\n✔ fall ignores invulnerability once, loses carried, waits60 then respawns invulnerable (2.3517ms)\n✔ fall with final flame loses immediately, no respawn (0.9453ms)\n✔ pause freezes every simulation counter, TTL, motion and spawning but wall tick advances (2.2529ms)\n✔ initial20 unique standard motes, no shades until tick300; scheduled respawn and caps (11.9959ms)\n✔ charm600 ticks, speed7.2, refresh and respawn2700; dash no cooldown but ignores active re-press (37.3398ms)\n✔ drifter steals before shade damage and only once, regardless of invulnerability (4.1161ms)\n✔ pulse chase drifter flees without theft; fleeing drifter drops stolen and leaves120 ticks later (4.5104ms)\n✔ drifter spawns only nights2/3 at1200 with cap2 (20.3799ms)\n✔ bridge has exact bounds, two islands, tier heights and ramps (0.8135ms)\n✔ launch pad keeps horizontal momentum despite contrary movement and lands on other island (3.3425ms)\n✔ tier walls and bell block walking; stepping off a tier falls to lower surface (3.3638ms)\n✔ wind warning at1680, active1800..2099, disabled freezes wind (34.4801ms)\n✔ no_flames wins precedence; final interaction at dawn counts before new dawn scoring (4.7423ms)\n✔ determinism, snapshot schema and malformed scenario/input validation (12.5152ms)\n✔ v1.2 contract constants, setup defaults/rounding and no scenario capacity bonus (9.9061ms)\n✔ fuel decay is exactly6000 integer steps, out once before any later actions (65.7346ms)\n✔ full lamp is not selectable and direct interaction has no event or score (3.5841ms)\n✔ refuel ceil, clamp100, charge only used motes and award5 each (4.1198ms)\n✔ tick order burns a full lamp before interaction; tie picks lower receiving ID (2.1863ms)\n✔ expiry then relight in same tick uses5, capacity grows, and records relight (1.7721ms)\n✔ first light costs10, partial relight costs5, counters count gameplay only (2.1309ms)\n✔ capacity formula allows20, caps pickup, and resets for a new night (3.125ms)\n✔ exact30 has safe zone, one integer unit less loses it (0.9689ms)\n✔ refuel above30 expels drainer immediately with no hit and exits drain (2.1313ms)\n✔ weak lamp no longer protects Mây against collision (1.5718ms)\n✔ two drainers add to natural decay; each logs after60 draining ticks (5.654ms)\n✔ drain depletion switches lamp off before AI and shade exits to wander (1.114ms)\n✔ wander prefers weak over unlit, ties by ID, enters drain only within2 (1.5208ms)\n✔ chase does not retarget a weak lamp; drain chase radius is inclusive6 (1.6273ms)\n✔ drain exits if target farther than2m; healthy/invalid targets never drain (1.6003ms)\n✔ pulse gives total15 for drain,5 for normal shade, then recovers to wander (8.9601ms)\n✔ pause freezes oil, draining cadence, successful lights and capacity (4.7316ms)\n✔ lighting every lamp does not finish early; no all_lit event exists (2.7241ms)\n✔ dawn threshold and fuel bonus: night1 (1.7017ms)\n✔ dawn threshold and fuel bonus: night2 (1.5207ms)\n✔ dawn threshold and fuel bonus: night3 (1.8001ms)\n✔ oil extinguishing on final tick counts before dawn verdict (0.9641ms)\n✔ final-tick last flame loss overrides sufficient lit lamps (0.9907ms)\n✔ malformed v1.2 fields reject fuel, target ID and successful_lights errors (1.0963ms)\nℹ tests 61\nℹ suites 0\nℹ pass 61\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3331.1578\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/build.mjs",
+      "exit_code": 0,
+      "stdout": "Built static game: dist/ (no runtime CDN or server-side dependency)\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/regression-dash.scenario.json --inputs tests/scenarios/phase-3/regression-dash.inputs.json --ticks 120 --snapshot-every 10 --out docs/proof/phase-3/regression-dash.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/regression-dash.scenario.json --inputs tests/scenarios/phase-3/regression-dash.inputs.json --ticks 120 --snapshot-every 10 --out artifacts/phase3-regression-dash-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/regression-charm.scenario.json --inputs tests/scenarios/phase-3/regression-charm.inputs.json --ticks 700 --snapshot-every 10 --out docs/proof/phase-3/regression-charm.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/regression-charm.scenario.json --inputs tests/scenarios/phase-3/regression-charm.inputs.json --ticks 700 --snapshot-every 10 --out artifacts/phase3-regression-charm-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/regression-drifter.scenario.json --inputs tests/scenarios/phase-3/regression-drifter.inputs.json --ticks 160 --snapshot-every 10 --out docs/proof/phase-3/regression-drifter.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/regression-drifter.scenario.json --inputs tests/scenarios/phase-3/regression-drifter.inputs.json --ticks 160 --snapshot-every 10 --out artifacts/phase3-regression-drifter-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/regression-pause.scenario.json --inputs tests/scenarios/phase-3/regression-pause.inputs.json --ticks 180 --snapshot-every 10 --out docs/proof/phase-3/regression-pause.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/regression-pause.scenario.json --inputs tests/scenarios/phase-3/regression-pause.inputs.json --ticks 180 --snapshot-every 10 --out artifacts/phase3-regression-pause-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/regression-fall.scenario.json --inputs tests/scenarios/phase-3/regression-fall.inputs.json --ticks 65 --snapshot-every 10 --out docs/proof/phase-3/regression-fall.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/regression-fall.scenario.json --inputs tests/scenarios/phase-3/regression-fall.inputs.json --ticks 65 --snapshot-every 10 --out artifacts/phase3-regression-fall-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/regression-bridge-pad.scenario.json --inputs tests/scenarios/phase-3/regression-bridge-pad.inputs.json --ticks 100 --snapshot-every 10 --out docs/proof/phase-3/regression-bridge-pad.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/regression-bridge-pad.scenario.json --inputs tests/scenarios/phase-3/regression-bridge-pad.inputs.json --ticks 100 --snapshot-every 10 --out artifacts/phase3-regression-bridge-pad-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/regression-upper-pad.scenario.json --inputs tests/scenarios/phase-3/regression-upper-pad.inputs.json --ticks 100 --snapshot-every 10 --out docs/proof/phase-3/regression-upper-pad.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/regression-upper-pad.scenario.json --inputs tests/scenarios/phase-3/regression-upper-pad.inputs.json --ticks 100 --snapshot-every 10 --out artifacts/phase3-regression-upper-pad-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/regression-ramp.scenario.json --inputs tests/scenarios/phase-3/regression-ramp.inputs.json --ticks 90 --snapshot-every 10 --out docs/proof/phase-3/regression-ramp.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/regression-ramp.scenario.json --inputs tests/scenarios/phase-3/regression-ramp.inputs.json --ticks 90 --snapshot-every 10 --out artifacts/phase3-regression-ramp-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/regression-wind.scenario.json --inputs tests/scenarios/phase-3/regression-wind.inputs.json --ticks 2100 --snapshot-every 10 --out docs/proof/phase-3/regression-wind.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/regression-wind.scenario.json --inputs tests/scenarios/phase-3/regression-wind.inputs.json --ticks 2100 --snapshot-every 10 --out artifacts/phase3-regression-wind-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/refuel-ceil.scenario.json --inputs tests/scenarios/phase-3/refuel-ceil.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-3/refuel-ceil.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/refuel-ceil.scenario.json --inputs tests/scenarios/phase-3/refuel-ceil.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/phase3-refuel-ceil-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/expiry-relight.scenario.json --inputs tests/scenarios/phase-3/expiry-relight.inputs.json --ticks 2 --snapshot-every 10 --out docs/proof/phase-3/expiry-relight.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/expiry-relight.scenario.json --inputs tests/scenarios/phase-3/expiry-relight.inputs.json --ticks 2 --snapshot-every 10 --out artifacts/phase3-expiry-relight-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/multi-drain.scenario.json --inputs tests/scenarios/phase-3/multi-drain.inputs.json --ticks 60 --snapshot-every 10 --out docs/proof/phase-3/multi-drain.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/multi-drain.scenario.json --inputs tests/scenarios/phase-3/multi-drain.inputs.json --ticks 60 --snapshot-every 10 --out artifacts/phase3-multi-drain-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/drain-pulse.scenario.json --inputs tests/scenarios/phase-3/drain-pulse.inputs.json --ticks 10 --snapshot-every 10 --out docs/proof/phase-3/drain-pulse.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/drain-pulse.scenario.json --inputs tests/scenarios/phase-3/drain-pulse.inputs.json --ticks 10 --snapshot-every 10 --out artifacts/phase3-drain-pulse-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/safe-restored.scenario.json --inputs tests/scenarios/phase-3/safe-restored.inputs.json --ticks 1 --snapshot-every 10 --out docs/proof/phase-3/safe-restored.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/safe-restored.scenario.json --inputs tests/scenarios/phase-3/safe-restored.inputs.json --ticks 1 --snapshot-every 10 --out artifacts/phase3-safe-restored-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/capacity-grow.scenario.json --inputs tests/scenarios/phase-3/capacity-grow.inputs.json --ticks 3 --snapshot-every 10 --out docs/proof/phase-3/capacity-grow.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/capacity-grow.scenario.json --inputs tests/scenarios/phase-3/capacity-grow.inputs.json --ticks 3 --snapshot-every 10 --out artifacts/phase3-capacity-grow-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/no-early-win.scenario.json --inputs tests/scenarios/phase-3/no-early-win.inputs.json --ticks 120 --snapshot-every 10 --out docs/proof/phase-3/no-early-win.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/no-early-win.scenario.json --inputs tests/scenarios/phase-3/no-early-win.inputs.json --ticks 120 --snapshot-every 10 --out artifacts/phase3-no-early-win-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/pause-fuel.scenario.json --inputs tests/scenarios/phase-3/pause-fuel.inputs.json --ticks 180 --snapshot-every 10 --out docs/proof/phase-3/pause-fuel.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/pause-fuel.scenario.json --inputs tests/scenarios/phase-3/pause-fuel.inputs.json --ticks 180 --snapshot-every 10 --out artifacts/phase3-pause-fuel-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/dawn-win-1.scenario.json --inputs tests/scenarios/phase-3/dawn-win-1.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-3/dawn-win-1.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/dawn-win-1.scenario.json --inputs tests/scenarios/phase-3/dawn-win-1.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/phase3-dawn-win-1-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/dawn-lose-1.scenario.json --inputs tests/scenarios/phase-3/dawn-lose-1.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-3/dawn-lose-1.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/dawn-lose-1.scenario.json --inputs tests/scenarios/phase-3/dawn-lose-1.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/phase3-dawn-lose-1-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/dawn-win-2.scenario.json --inputs tests/scenarios/phase-3/dawn-win-2.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-3/dawn-win-2.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/dawn-win-2.scenario.json --inputs tests/scenarios/phase-3/dawn-win-2.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/phase3-dawn-win-2-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/dawn-lose-2.scenario.json --inputs tests/scenarios/phase-3/dawn-lose-2.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-3/dawn-lose-2.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/dawn-lose-2.scenario.json --inputs tests/scenarios/phase-3/dawn-lose-2.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/phase3-dawn-lose-2-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/dawn-win-3.scenario.json --inputs tests/scenarios/phase-3/dawn-win-3.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-3/dawn-win-3.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/dawn-win-3.scenario.json --inputs tests/scenarios/phase-3/dawn-win-3.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/phase3-dawn-win-3-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/dawn-lose-3.scenario.json --inputs tests/scenarios/phase-3/dawn-lose-3.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-3/dawn-lose-3.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/dawn-lose-3.scenario.json --inputs tests/scenarios/phase-3/dawn-lose-3.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/phase3-dawn-lose-3-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/final-tick-out.scenario.json --inputs tests/scenarios/phase-3/final-tick-out.inputs.json --ticks 1 --snapshot-every 10 --out docs/proof/phase-3/final-tick-out.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/final-tick-out.scenario.json --inputs tests/scenarios/phase-3/final-tick-out.inputs.json --ticks 1 --snapshot-every 10 --out artifacts/phase3-final-tick-out-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/final-tick-no-flames.scenario.json --inputs tests/scenarios/phase-3/final-tick-no-flames.inputs.json --ticks 1 --snapshot-every 10 --out docs/proof/phase-3/final-tick-no-flames.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/final-tick-no-flames.scenario.json --inputs tests/scenarios/phase-3/final-tick-no-flames.inputs.json --ticks 1 --snapshot-every 10 --out artifacts/phase3-final-tick-no-flames-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/maintain-night-1.scenario.json --inputs tests/scenarios/phase-3/maintain-night-1.inputs.json --ticks 14400 --snapshot-every 60 --out docs/proof/phase-3/maintain-night-1.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/maintain-night-1.scenario.json --inputs tests/scenarios/phase-3/maintain-night-1.inputs.json --ticks 14400 --snapshot-every 60 --out artifacts/phase3-maintain-night-1-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/maintain-night-2.scenario.json --inputs tests/scenarios/phase-3/maintain-night-2.inputs.json --ticks 16200 --snapshot-every 60 --out docs/proof/phase-3/maintain-night-2.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-3/maintain-night-2.scenario.json --inputs tests/scenarios/phase-3/maintain-night-2.inputs.json --ticks 16200 --snapshot-every 60 --out artifacts/phase3-maintain-night-2-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/maintain-night-3.scenario.json --inputs tests/scenarios/phase-3/maintain-night-3.inputs.json --ticks 18000 --snapshot-every 60 --out docs/proof/phase-3/maintain-night-3.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-3/maintain-night-3.scenario.json --inputs tests/scenarios/phase-3/maintain-night-3.inputs.json --ticks 18000 --snapshot-every 60 --out artifacts/phase3-maintain-night-3-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/benchmark.mjs",
+      "exit_code": 0,
+      "stdout": "{\n  \"kind\": \"headless-cli-including-io\",\n  \"runtime\": \"v26.13.1\",\n  \"platform\": \"win32\",\n  \"cpu\": \"Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz\",\n  \"cpu_threads\": 8,\n  \"memory_gb\": 8,\n  \"threshold_ms\": 30000,\n  \"trials\": [\n    {\n      \"night\": 1,\n      \"command\": \"node scripts/headless.mjs --seed 2026 --night 1 --scenario tests/scenarios/phase-3/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-3/benchmark-night-1.jsonl\",\n      \"ticks\": 14400,\n      \"state\": \"lost\",\n      \"elapsed_ms\": 989.97,\n      \"passed\": true\n    },\n    {\n      \"night\": 2,\n      \"command\": \"node scripts/headless.mjs --seed 2026 --night 2 --scenario tests/scenarios/phase-3/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-3/benchmark-night-2.jsonl\",\n      \"ticks\": 16200,\n      \"state\": \"lost\",\n      \"elapsed_ms\": 1885.02,\n      \"passed\": true\n    },\n    {\n      \"night\": 3,\n      \"command\": \"node scripts/headless.mjs --seed 2026 --night 3 --scenario tests/scenarios/phase-3/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-3/benchmark-night-3.jsonl\",\n      \"ticks\": 18000,\n      \"state\": \"lost\",\n      \"elapsed_ms\": 2790.91,\n      \"passed\": true\n    }\n  ],\n  \"note\": \"High flames in an explicit scenario ensure the CLI reaches each full night rather than dying early. This is not GPU FPS.\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "limits": [
+    "Instructor hidden tests are unavailable.",
+    "Browser checks and FPS are separate evidence.",
+    "Maintenance scenarios are constructed, not default playthroughs.",
+    "Publication of phase commits/tags is explicitly authorized by the latest user instruction; verify remote refs separately."
+  ]
+}

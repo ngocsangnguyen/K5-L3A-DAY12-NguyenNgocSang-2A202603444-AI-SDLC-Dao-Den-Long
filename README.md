@@ -1,92 +1,78 @@
-# Đảo Đèn Lồng — Ba hòn đảo
+# Đảo Đèn Lồng — Giữ đảo sáng tới bình minh
 
-Bài cá nhân Nguyễn Ngọc Sáng — 2A202603444. Bản hiện tại **Phase 2 / Ticket-02 / Test Contract v1.1**.
-
-**Video demo cuối:** chưa quay; `.mp4` dưới 5 phút sẽ bổ sung trước bàn giao Phase 4. Hiện có [ảnh, replay và số đo Phase 2](docs/proof/phase-2/README.md).
+Nguyễn Ngọc Sáng — 2A202603444. Bản hiện tại **Phase3 / Ticket03 / Test Contract1.2**.
 
 ## Chạy game
 
-Cần Node.js 22+, npm, trình duyệt WebGL2. Trong repo chạy2 lệnh:
+Cần Node.js22+, npm, trình duyệt WebGL2. Trong repo chạy:
 
 ```sh
 npm ci
 npm start
 ```
 
-Mở **http://localhost:4173** bằng Edge/Chrome/Firefox của bạn. Chọn **Bắt đầu hành trình → Vào đảo**. Giữ terminal đang chạy. Nếu đang mở bản cũ, nhấn Ctrl+F5. Trong Git Bash/PowerShell Windows có thể dùng `npm.cmd ci` và `npm.cmd start`, không cần đổi execution policy. Đổi cổng: `npm start -- --port 4174`.
+Windows dùng `npm.cmd ci` và `npm.cmd start`. Mở [http://localhost:4173](http://localhost:4173) bằng Edge/Chrome/Firefox của bạn; giữ terminal chạy. Chọn **Bắt đầu hành trình → Vào đảo**. Nếu đang mở bản cũ, Ctrl+F5. Đổi cổng: `npm start -- --port 4174`.
 
-Bắt đầu ở Đảo Bến để đi theo chuỗi 3 đêm. Các nút Đảo Cau/Đảo Chuông cho phép bắt đầu luyện tập từ đêm đó; tổng điểm chỉ tính những đêm đã thắng trong lượt hiện tại.
+**Thử giữ đèn sáng** là tình huống minh họa30giây có đèn yếu/đang bị hút dầu, không cộng vào hành trình. Game thường vẫn bắt đầu từ trạng thái mặc định. Chọn Đảo Cau/Đảo Chuông để luyện tập từ Đêm2/3.
 
-## Hành trình
+## Luật và điều khiển
 
-| Đêm | Màn | Mục tiêu | Thời lượng |
+|Đêm|Màn|Thời lượng|Cần sáng tại bình minh|
 |---|---|---|---|
-|1|Đảo Bến|5 đèn, đảo tròn40m|300s|
-|2|Đảo Cau|6 đèn, hai đảo28m, cầu tre và bục nhảy|330s|
-|3|Đảo Chuông|7 đèn,3 tầng, dốc, bục nhảy và gió|360s|
+|1|Đảo Bến, đảo tròn40m|240s|3/5|
+|2|Đảo Cau, hai đảo/cầu/bục nhảy|270s|4/6|
+|3|Đảo Chuông, ba tầng/dốc/gió|300s|5/7|
 
-Mỗi đèn cần10 đom đóm, nạp nhiều lần được; túi10 ô. Tỏa sáng tốn3 đom đóm; Bóng Mực choáng2s và bị đẩy4m trong15 tick. Đèn sáng có vòng an toàn6m. Có3 ngọn lửa, hồi đầy đầu đêm. Rơi khỏi đảo mất1 lửa và toàn bộ đom đóm, hồi sinh sau1s nếu còn sống. Gió Lạc cướp đom đóm; Bùa Gió tăng tốc và bỏ cooldown lướt10s.
+Không thắng sớm. Hết3 Ngọn Lửa thua ngay, kể cả tick bình minh. Hết giờ mà thiếu đèn sáng cũng thua. Thắng để sang Đêm kế; tổng điểm chỉ cộng các Đêm đã thắng trong lượt hiện tại. Có chơi lại.
 
-| Phím | Hành động |
+Đèn chưa từng sáng cần10 đom đóm, nạp nhiều lần được. Khi sáng có100 dầu, tự hao1/s; cạn dầu tắt và mất lượng đã nạp. Thắp lại cần5. Châm đèn đang sáng: mỗi đom đóm thêm10 dầu, làm tròn lên số cần dùng, không vượt100. E chọn đèn nhận được gần nhất, hòa thì id nhỏ hơn; đèn đầy không nhận.
+
+Túi ban đầu10, mỗi lần thắp thành công tăng2, tối đa20; reset đầu Đêm. Đèn dầu≥30 có vùng an toàn6m; dưới30 nhấp nháy1Hz và mất vùng an toàn. Bóng Mực wander ưu tiên đèn yếu, tới2m thì đứng hút thêm5 dầu/s/con. Châm lên≥30 đẩy chúng khỏi vùng an toàn. Tỏa sáng tốn3, gây choáng2s/đẩy4m. Gió Lạc cướp đom đóm; Bùa Gió tăng tốc và bỏ hồi lướt10s. Rơi mất1 lửa và toàn bộ đom đóm, hồi sinh sau1s nếu còn sống.
+
+|Phím|Hành động|
 |---|---|
 |WASD / mũi tên|Di chuyển theo camera|
 |Space|Nhảy|
 |Shift / R|Lướt14m/s trong0.2s, hồi1.5s|
-|E|Nạp vào đèn chưa sáng gần nhất|
+|E|Nạp/thắp lại/châm dầu|
 |Q|Tỏa sáng, hồi3s|
 |Esc / P|Tạm dừng|
 |Kéo chuột / cuộn|Xoay camera / thu phóng|
 
-Điện thoại có nút cảm ứng. Menu pause có Tiếp tục, Chơi lại Đêm, Cài đặt, Về menu. Âm lượng và độ nhạy lưu ở localStorage; nút loa bật/tắt nhạc/SFX. Âm thanh mặc định tắt.
+Có nút cảm ứng. Pause → Cài đặt có âm lượng, độ nhạy, âm thanh và **Bảng màu dễ phân biệt**, lưu trên trình duyệt. Chế độ này đổi mắt/viền Bóng Mực sang xanh#00B3FF, cảnh báo trắng kèm⚠. Đèn tắt luôn xẹp20% và rách giấy để phân biệt không cần màu. Âm thanh mặc định tắt.
 
-**Điểm:**10 mỗi đom đóm **nạp**,100 mỗi đèn thắp,5 mỗi Bóng Mực trúng pulse. Nhặt không cộng điểm. Khi thắng: `floor(giây còn lại)×2 + lửa còn lại×50`. Tổng điểm là tổng các đêm đã thắng, không cộng đêm thua hoặc cộng hai lần cùng kết quả.
+**Điểm:** mỗi đom đóm nạp/châm+5; thắp lần đầu+100, thắp lại+40; pulse mỗi con+5, tổng+15 nếu nó đang drain. Khi thắng: mỗi đèn còn sáng+50+floor(dầu), mỗi lửa còn lại+50. Không thưởng thời gian; nhặt không cộng điểm. Không cộng lại hai lần cùng kết quả.
 
-## Test và bằng chứng
+## Kiểm chứng
 
 ```sh
 npm run verify
 ```
 
-Chạy unit/CLI/campaign/settings, build,12 scenario mới hai lần so byte, replay thắng Đêm 1 mặc định và benchmark CLI ba đêm. Bất kỳ bước lỗi sẽ exit khác0; log và hash nguồn ở [verification.json](docs/proof/phase-2/verification.json). Chạy riêng `npm test`, `npm run benchmark`.
+Chạy unit/CLI/campaign/settings, build và28 tình huống CLI, mỗi tình huống hai lần so byte. Gồm dầu, ba ngưỡng bình minh, chết ở tick cuối, pause và regression Phase1/2 còn hiệu lực. Có3 tình huống dựng sẵn duy trì trọn240/270/300s; không nhận là chơi thắng ba màn mặc định. [Bằng chứng](docs/proof/phase-3/README.md), [verification.json](docs/proof/phase-3/verification.json), [ADR](docs/adr/003-fuel-and-dawn.md), [breaking changelog](CHANGELOG.md).
 
-FPS đã đo tại1280×720 qua cửa sổ10s sau warm-up: khoảng59.0/48.9/30.8 cho Đêm 1/2/3. Đây là số đo local ở cảnh đầu đêm, không bảo đảm mọi máy/cảnh. Lượt trước tối ưu25.7FPS cũng được giữ lại. Xem [browser checks](docs/proof/phase-2/browser-checks.md) và [browser-fps.json](docs/proof/phase-2/browser-fps.json). Headless chạy đủ các đêm dưới30s; không dùng số đo này để suy ra GPU FPS.
+CI Linux/macOS có cấu hình nhưng chưa có kết quả chạy trong phiên local. Test ẩn chưa được cung cấp. Proof Phase1/2 giữ nguyên và chỉ mô tả phiên bản lịch sử.
 
-CI Linux/macOS đã cấu hình, chưa nhận là chạy thành công cho tới khi có kết quả GitHub. Bật hook local nếu muốn: `git config core.hooksPath .githooks`.
-
-## Headless — Contract1.1
+## Headless — Contract1.2
 
 ```sh
-node scripts/headless.mjs --seed 42 --night 2 --ticks 600 --out artifacts/night2.jsonl
+node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-3/multi-drain.scenario.json --inputs tests/scenarios/phase-3/multi-drain.inputs.json --ticks 60 --snapshot-every 10 --out artifacts/drain.jsonl
 ```
 
-Scenario ví dụ sau lần chạy verify:
+CLI nhận `--night 1/2/3`; scenario/inputs không bắt buộc. Fixed60Hz, không GPU. Snapshot0 trước input; bước k đọc input k tạo trạng thái k+1. Pause tăng wall tick nhưng sim_tick/time/dầu/timer/spawn đứng yên. Field input vắng giữ giá trị; nút kích hoạt cạnh false→true. Scenario không cho điểm/sự kiện/bonus sức chứa. `night_start` ở bước đầu. End luôn dòng cuối; có snapshot cuối nếu ngoài chu kỳ. Sai scenario/inputs: exit2 và stderr; lỗi I/O: exit1.
 
-```sh
-node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/drifter.scenario.json --inputs tests/scenarios/phase-2/drifter.inputs.json --ticks 160 --snapshot-every 10 --out artifacts/drifter.jsonl
-```
+Dầu tính nguyên đơn vị1/60, chỉ làm tròn1chữ số khi xuất. `fuel_drain` mỗi60 bước hút liên tiếp của từng con/đèn, pause không tính. Scenario đèn `lit:true` thiếu fuel mặc định100; off có fuel0. `successful_lights` cho phép dựng sức chứa nhưng việc đặt sẵn đèn không tự tăng nó. Xem [spec](docs/spec/phase-3.md) và ADR. Tuning tại [game.contract.json](game.contract.json); bản đồ tại `src/core/levels.js`. GUI/CLI dùng chung `Game`.
 
-CLI nhận `--night 1/2/3`. Fixed 60 Hz, không GPU/cửa sổ; tick0 trước input, tick k đọc input k tạo trạng thái k+1. Pause: wall tick tăng, sim_tick/time/timer/spawn/TTL đứng yên. Frame thiếu field giữ giá trị cũ, nút kích hoạt ở cạnh false→true. Scenario không tạo event/điểm; `night_start` ở bước gameplay đầu tiên. End luôn là dòng cuối; thêm snapshot cuối nếu ngoài khoảng định kỳ. File inputs/scenario sai exit2 và stderr; lỗi I/O output exit1. `player.invuln` là boolean, kèm `invuln_s` để xem thời gian còn lại. Motes random có `ttl_s:null`, dropped có TTL giây.
+## Build và sáng tạo của tôi
 
-Thông số đúng nguồn duy nhất ở [game.contract.json](game.contract.json); bản đồ/collision ở `src/core/levels.js`. Browser và headless gọi cùng `Game`.
+`npm run build` tạo `dist/` với Three.js local/giấy phép, không CDN; thử bằng `npm start -- --dist`. Dùng HTTP, không file://. Lệnh tương tự trên Windows/macOS/Linux; phiên này kiểm chứng Windows.
 
-## Build
+Model Mây với nón lá/đèn nhỏ, cây, biển mây, vòng sáng và lá gió được dựng bằng code; nhạc/SFX tổng hợp Web Audio. Trang trí/cài đặt không thêm thực thể vào headless. Giữ instancing từ Phase2. Minh họa dầu được đánh dấu rõ và chỉ mở qua nút riêng; regression/byte replay kiểm tra lõi chuẩn. Lời Ông Đăng là đoạn dẫn sáng tác của bản này.
 
-```sh
-npm run build
-```
+## Ghi chép và giới hạn
 
-`dist/` là bản web tĩnh kèm Three.js local và giấy phép, không cần CDN/âm thanh/font/model bên ngoài. Dùng static HTTP server, không mở file://. Thử build bằng `npm start -- --dist`. Game web và CLI dùng cùng lệnh trên Windows/macOS/Linux.
-
-## Sáng tạo của tôi
-
-Tất cả model, nón lá/đèn nhỏ của Mây, cây, biển mây, vòng sáng và lá gió được dựng bằng code. Nhạc/SFX tổng hợp Web Audio. Giữ phong cách và màu ticket; trang trí/âm thanh không thêm thực thể vào headless. Instancing là tối ưu hiển thị, không thay luật. Lời Ông Đăng là đoạn dẫn sáng tác cho bản này, không trích nguyên văn một nội dung chưa được cung cấp.
-
-## Quyết định và giới hạn
-
-- [Ticket gốc](docs/spec/TICKET-02.txt), [acceptance criteria](docs/spec/phase-2.md), [giả định/delta](docs/notes/phase-2.md), [nhật ký AI](docs/notes/ai-log.md), [retro](docs/notes/retro.md).
-- **Đêm 3 chưa được ticket cho điểm xuất phát:** tạm chọn(0,0,-30) ở tầng0, tránh khối tháp tại gốc. Đây là giả định cần đối chiếu Coach nếu có bổ sung; scenario luôn override được.
-- Chưa có test ẩn; chưa chơi thủ công thắng cả3 đêm trong GUI, chưa đánh giá chất lượng nghe toàn bộ âm thanh. Phạm vi bằng chứng được ghi rõ trong proof.
-- Phase 1 source/test/harness được giữ ở commit local `80da52e`, proof cũ giữ nguyên. Commit local không thay cho tag nộp trên GitHub; không tạo tag lùi ngày.
-- Phase 3/4 chờ ticket; tag/push/review học viên, video và Release cuối vẫn theo [TODO](docs/TODO.md) và lịch Coach.
-
-[Tài liệu lab gốc](docs/lab/README.md) · [SUBMISSION](SUBMISSION.md) · [RULES](RULES.md) · [RUBRIC](RUBRIC.md) · [CREDITS](CREDITS.md) · [LICENSE](LICENSE).
+- [Nhật ký AI](docs/notes/ai-log.md), [retro](docs/notes/retro.md), [TODO](docs/TODO.md), [Ticket02 gốc](docs/spec/TICKET-02.txt).
+- Đêm3 giữ giả định xuất phát(0,0,-30) tầng0; Coach chưa bổ sung tọa độ. Scenario override được.
+- Chưa chơi thủ công thắng cả3 Đêm mặc định; chưa có video cuối/CI OS đích. Không tự bịa token/chi phí.
+- Người dùng đã cho phép commit/push và gắn tag `phase-1`, `phase-2`, `phase-3`, thay thế yêu cầu không commit ban đầu. Phase1/2 dùng đúng baseline80da52e/31ea99c; Phase3 là bản Contract1.2. Kết quả công bố phải đối chiếu các tag trên GitHub; không backdate hoặc coi tag là bằng chứng nộp LMS/đúng hạn.
+- Phase4 chờ ticket. [Tài liệu lab](docs/lab/README.md) · [SUBMISSION](SUBMISSION.md) · [RULES](RULES.md) · [RUBRIC](RUBRIC.md) · [CREDITS](CREDITS.md).

@@ -1,0 +1,47 @@
+{
+  "context": "Local IAB, 1280x720, 2s warmup + 10s sample, colorblind enabled, start of normal nights",
+  "trials": [
+    {
+      "kind": "browser-render",
+      "sample_window_s": 10,
+      "complete": true,
+      "width": 1280,
+      "height": 720,
+      "pixel_ratio": 1,
+      "render_calls": 38,
+      "frames": 473,
+      "elapsed_s": 10.008400000000014,
+      "average_fps": 47.260301346868566,
+      "night": 1,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+    },
+    {
+      "kind": "browser-render",
+      "sample_window_s": 10,
+      "complete": true,
+      "width": 1280,
+      "height": 720,
+      "pixel_ratio": 1,
+      "render_calls": 41,
+      "frames": 376,
+      "elapsed_s": 10.025200000000016,
+      "average_fps": 37.50548617483935,
+      "night": 2,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+    },
+    {
+      "kind": "browser-render",
+      "sample_window_s": 10,
+      "complete": true,
+      "width": 1280,
+      "height": 720,
+      "pixel_ratio": 1,
+      "render_calls": 39,
+      "frames": 501,
+      "elapsed_s": 10.008500000000023,
+      "average_fps": 50.05745116650835,
+      "night": 3,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+    }
+  ]
+}

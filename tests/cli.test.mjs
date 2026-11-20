@@ -16,7 +16,7 @@ test('CLI writes tick0, exact N steps, persistent frames and mandatory end', () 
   const lines = readFileSync(out, 'utf8').trim().split('\n').map(JSON.parse);
   assert.equal(lines[0].tick, 0); assert.equal(lines[0].player.pos[2], 0);
   assert.equal(lines.at(-2).tick, 120); assert.equal(lines.at(-2).sim_tick, 120);
-  assert.equal(lines.at(-2).player.pos[2], 6); assert.equal(lines.at(-2).time_left_s, 298);
+  assert.equal(lines.at(-2).player.pos[2], 6); assert.equal(lines.at(-2).time_left_s, 238);
   assert.deepEqual(lines.at(-1), { type: 'end', ticks: 120, state: 'playing', score: 0 });
 }));
 test('CLI replay is byte-identical and runs zero steps correctly', () => fixture((dir) => {
@@ -46,7 +46,7 @@ test('malformed JSON, invalid fields, repeated frame ticks and bad CLI return 2'
   assert.equal(run(['--ticks', '-1', '--out', out]).status, 2);
   assert.equal(run(['--ticks', '3', '--snapshot-every', '0', '--out', out]).status, 2);
 }));
-test('all nights expose v1.1 schema and pause advances wall tick only',()=>fixture(dir=>{
+test('all nights expose the contract schema and pause advances wall tick only',()=>fixture(dir=>{
   for(const night of [1,2,3]){
     const out=join(dir,`n${night}.jsonl`),inputs=join(dir,'inputs.json');writeFileSync(inputs,JSON.stringify({frames:[{tick:0,pause:true},{tick:1,pause:false},{tick:60,pause:true}]}));
     const result=spawnSync(process.execPath,['scripts/headless.mjs','--seed','12','--night',String(night),'--inputs',inputs,'--ticks','61','--out',out],{encoding:'utf8'});assert.equal(result.status,0,result.stderr);

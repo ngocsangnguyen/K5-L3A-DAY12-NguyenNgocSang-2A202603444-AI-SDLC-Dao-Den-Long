@@ -12,9 +12,9 @@
 - Harness: AGENTS.md + skill verify-game + npm verify + GitHub Actions Linux/macOS + hook pre-commit có thể bật bằng `git config core.hooksPath .githooks`.
 - Token/chi phí: giao diện phiên làm việc không cung cấp số usage hoặc hóa đơn kiểm chứng được. Chưa có số liệu để báo cáo; không tự bịa ước tính chính xác. Học viên cần bổ sung ước tính từ thống kê tài khoản trước khi nộp, kèm ghi rõ đây là ước tính.
 
-## Phase 2–4
+## Phạm vi ticket
 
-Chưa có ticket được phát hành/cung cấp, chưa có usage hay kết quả để ghi.
+Đã nhận Ticket02 và Ticket03. Chưa có Ticket04; không tự tạo yêu cầu/kết quả Phase4.
 
 ## Phase 2 — 20/11/2026
 
@@ -27,3 +27,20 @@ Chưa có ticket được phát hành/cung cấp, chưa có usage hay kết qu�
 - Bot mặc định cũ thua vì không dùng dash và tiêu pulse quá sớm. Sửa chiến lược input, không sửa luật game: bot thắng Đêm1 với5 đèn,2 lửa, không override scenario. Lưu input và replay CLI, không nhận là đã chơi thủ công thắng GUI.
 - Bằng chứng scope rõ: UI pad sang đảo B, retry đúng Đêm3, settings persist, mobile, console; nhiều tính năng khác có scenario/unit thay vì tuyên bố đã xem mọi tình huống bằng mắt.
 - Token/chi phí: chưa có thống kê usage kiểm chứng được từ phiên desktop. Học viên cần bổ sung ước tính từ tài khoản trước nộp; không tự bịa số. Giữ1 dependency, không gọi dịch vụ tài sản/media ngoài và không spawn subagent.
+
+## Phase 3 — 20/11/2026
+
+- Nhận Ticket03 trực tiếp trong chat. Người dùng yêu cầu không commit file: không stage/commit/tag/push; giữ HEAD31ea99c. Không tạo subagent hoặc dependency mới.
+- Áp dụng skill verify-game; viết spec và ADR003, dùng fuel nguyên1/60, capacity suy ra successful_lights, đổi điều kiện cuối Đêm và điểm ở Game dùng chung. UI đọc cùng helper nhận đèn/vùng an toàn.
+- Cập nhật test cũ về điểm/thời lượng/thắng với lý do trong ADR; thêm25 test dầu/bình minh. Không skip. Xóa bot thắng sớm cũ để tránh ghi đè proof Phase2; thay bằng replay tình huống rõ nguồn.
+- Test phát hiện preset lit bị dùng deposited5 theo giá relight: sửa mặc định deposited10 cho đèn preset lần đầu để giữ regression Phase2 còn hiệu lực. Strengthen test khoảng cách drain đúng biên6m. Dầu không dùng số xuất làm tròn để quyết định biên30.
+- Browser thật xác nhận E châm2 con ở đèn85 dầu, điểm10; thắp lại5 con cho thêm65 điểm, túi12. Cài đặt màu giữ sau reload; mắt/viền xanh, cảnh báo trắng⚠. Đèn tắt xẹp/rách; dầu yếu có animation1s. Thấy hint sát túi/dash, chỉnh khoảng cách desktop/mobile và chụp lại.
+- Đo FPS lại cả3 cảnh đầu Đêm ở1280×720, cửa sổ10s sau warmup2s, lưu rawreport riêng. Không dùng số CPU để suy FPS. Console mẫu không có warn/error. Có ảnh390×844 và minh họa được ghi rõ không phải default playthrough.
+- `npm run verify`:61 test đạt,0 skip;28 scenario CLI mỗi cái chạy hai lần byte-identical, build và benchmark trọn ba Đêm đạt. Bằng chứng ghi riêng phase-3; không chỉnh phase-1/2.
+- Usage/token/chi phí chưa có số liệu kiểm chứng được từ tài khoản; không tự bịa. Chưa chạy CI macOS/Linux/test ẩn, chưa chơi thủ công thắng trọn ba Đêm thường.
+
+## Công bố ba phase — chỉ thị tiếp theo
+
+- Người dùng yêu cầu “commit từng tag phase 1, 2, 3 lên”, thay thế yêu cầu không commit trước đó. Cập nhật harness/tài liệu hiện hành theo ủy quyền mới; không thay lịch sử ghi chép giai đoạn triển khai.
+- Kiểm tra remote ban đầu: main9818fc1, chưa có tag. Phase1/2 đã có commit80da52e/31ea99c cùng proof passed, giữ nguyên để gắn đúng tag; Phase3 tạo commit mới sau kiểm chứng.
+- Chỉ push tiến nhánh main và ba tag rõ tên; không force-push, không backdate. Đối chiếu ref GitHub sau push; không coi việc này là xác nhận hạn Coach hoặc hoàn thành nộp LMS.

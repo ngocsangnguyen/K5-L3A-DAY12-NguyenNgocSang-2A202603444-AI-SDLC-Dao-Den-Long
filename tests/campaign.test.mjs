@@ -9,6 +9,6 @@ test('campaign advances1→2→3, resets health, sums only won nights, no double
 });
 test('settings normalize and persist; malformed or unavailable storage falls back',()=>{
   const store=new Map(),storage={getItem:k=>store.get(k)??null,setItem:(k,v)=>store.set(k,v)};
-  saveSettings(storage,{volume:.6,sensitivity:1.7,enabled:true});assert.deepEqual(loadSettings(storage),{volume:.6,sensitivity:1.7,enabled:true});
-  assert.deepEqual(normalizeSettings({volume:2,sensitivity:-1}),{volume:1,sensitivity:.2,enabled:false});storage.setItem('dao-den-long.settings','bad');assert.equal(loadSettings(storage).volume,.35);assert.equal(loadSettings({getItem(){throw Error();}}).volume,.35);
+  saveSettings(storage,{volume:.6,sensitivity:1.7,enabled:true,colorblind:true});assert.deepEqual(loadSettings(storage),{volume:.6,sensitivity:1.7,enabled:true,colorblind:true});
+  assert.deepEqual(normalizeSettings({volume:2,sensitivity:-1}),{volume:1,sensitivity:.2,enabled:false,colorblind:false});assert.equal(normalizeSettings({colorblind:'yes'}).colorblind,false);storage.setItem('dao-den-long.settings','bad');assert.equal(loadSettings(storage).volume,.35);assert.equal(loadSettings({getItem(){throw Error();}}).volume,.35);
 });

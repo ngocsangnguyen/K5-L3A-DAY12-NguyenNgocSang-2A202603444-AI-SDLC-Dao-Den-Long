@@ -1,7 +1,8 @@
 # Đảo Đèn Lồng
 
-- Read `docs/spec/TICKET-02.txt`, `docs/spec/phase-2.md` and `game.contract.json` before changing gameplay.
-- Current scope: Phase 2, Contract 1.1, nights 1/2/3. Do not invent Phase 3/4 tickets.
+- Read `docs/spec/phase-3.md`, `docs/adr/003-fuel-and-dawn.md`, retained Ticket-02 and `game.contract.json` before changing gameplay.
+- Current scope: Phase 3, Contract1.2. No Phase4 ticket has been supplied.
+- Latest user instruction authorizes committing and pushing phases1/2/3 with matching tags. This supersedes the earlier no-commit request. Preserve verified historical phase commits; never backdate or force-push tags.
 - Node >=22. Install: `npm ci`. Run: `npm start`. Build: `npm run build`.
 - Required check: `npm run verify`; it runs unit/contract tests, deterministic replay, and a static build. A failing check blocks completion.
 - `src/core/` owns gameplay, fixed 60 Hz ticks, seeded RNG, scoring, and input edges. It must not import DOM, Three.js, wall clock, or Math.random.
@@ -10,8 +11,10 @@
 - Tick0 is pre-input. Wall tick increases while paused; sim_tick and all gameplay counters freeze. Actions use rising edges.
 - Follow the ticket's exact tick order. Pickup/hit use XZ+height; pulse uses 3D from feet+.8. Never reuse Phase1's XZ-only pulse.
 - Ground/collision/spawn coordinates belong to `src/core/levels.js`. Wind, scheduled spawns and TTL use sim_tick, never wall tick.
-- Scenario setup gives no points/events. Points belong to deposit, not pickup. End precedence: no_flames, all_lit, dawn.
-- Preserve `docs/proof/phase-1/`; new evidence goes in phase-2. Phase1 source/test history is commit80da52e.
+- Fuel uses integer1/60 units; decisions never read rounded output. Phase2 applies natural/drain decay before extinguishing; relight/refuel happens later in the tick.
+- Scenario setup gives no points/events/capacity bonus. Capacity derives from successful_lights, not currently lit count. Share lantern helpers between UI and core.
+- No early win. At dawn, precedence: no_flames, enough current lamps→dawn_survived, otherwise dawn. Score no longer rewards time.
+- Preserve docs/proof/phase-1 and phase-2; new evidence goes in phase-3. Previous source is retained in local commits80da52e/31ea99c.
 - Keep UI effects out of headless. Document all assumptions and contract changes.
 - Preserve existing lab documents under `docs/lab/`; keep harness and useful history.
 - Before delivery, review diff and record actual checks and limitations. Do not create phase tags without verified phase completion or backdate tags.

@@ -1,0 +1,72 @@
+{
+  "frames": [
+    {
+      "tick": 12000,
+      "interact": true
+    },
+    {
+      "tick": 12001,
+      "interact": false,
+      "move": [
+        1,
+        0
+      ]
+    },
+    {
+      "tick": 12041,
+      "interact": true,
+      "move": [
+        0,
+        0
+      ]
+    },
+    {
+      "tick": 12042,
+      "interact": false,
+      "move": [
+        1,
+        0
+      ]
+    },
+    {
+      "tick": 12082,
+      "interact": true,
+      "move": [
+        0,
+        0
+      ]
+    },
+    {
+      "tick": 12083,
+      "interact": false,
+      "move": [
+        1,
+        0
+      ]
+    },
+    {
+      "tick": 12123,
+      "interact": true,
+      "move": [
+        0,
+        0
+      ]
+    },
+    {
+      "tick": 12124,
+      "interact": false,
+      "move": [
+        1,
+        0
+      ]
+    },
+    {
+      "tick": 12164,
+      "interact": true,
+      "move": [
+        0,
+        0
+      ]
+    }
+  ]
+}

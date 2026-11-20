@@ -1,0 +1,56 @@
+{
+  "frames": [
+    {
+      "tick": 10200,
+      "interact": true
+    },
+    {
+      "tick": 10201,
+      "interact": false,
+      "move": [
+        1,
+        0
+      ]
+    },
+    {
+      "tick": 10241,
+      "interact": true,
+      "move": [
+        0,
+        0
+      ]
+    },
+    {
+      "tick": 10242,
+      "interact": false,
+      "move": [
+        1,
+        0
+      ]
+    },
+    {
+      "tick": 10282,
+      "interact": true,
+      "move": [
+        0,
+        0
+      ]
+    },
+    {
+      "tick": 10283,
+      "interact": false,
+      "move": [
+        1,
+        0
+      ]
+    },
+    {
+      "tick": 10323,
+      "interact": true,
+      "move": [
+        0,
+        0
+      ]
+    }
+  ]
+}
