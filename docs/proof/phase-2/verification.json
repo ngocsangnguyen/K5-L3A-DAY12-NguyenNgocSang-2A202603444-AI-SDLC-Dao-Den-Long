@@ -1,0 +1,606 @@
+{
+  "status": "passed",
+  "contract_version": "1.1",
+  "runtime": "v26.13.1",
+  "platform": "win32",
+  "contract_sha256": "836feb8ae94c36ee7599e7ddc366c37faececd664d0c1967db52c355c8e46a35",
+  "source_sha256": {
+    "src/core/game.js": "bfebf44c8d6719f8db4be18083d808fc83f322db769d6a5442ad89c84300a86b",
+    "src/core/levels.js": "a944752131a67de0c9287b8a590aab9d4d3662f4e7b5723bb3f4be592f99e5d7",
+    "src/core/validate.js": "0f9dc3a1c4a6fa44e941712feec0e4a3d3a29bb8f668a26f63fd1093b8f3f0fc",
+    "src/core/campaign.js": "59209f03e6acb33fe7b0f053376fc5fe13030e4d0be73d9ac5a4479a55952bfa",
+    "src/main.js": "2d9d1352e4ea4da6e6f6b5933a01d901e723d8a3836148ded64ba3075656abee",
+    "src/world.js": "e00a71d9a707ce37fd8d2408dbb469cf226c12a07b9ec62b5c384c32ce58234c",
+    "src/audio.js": "bbcb5eb5a18f5d3b8d6a5be63fee557a34b303bbd6081a1e4e10d0085b303e3a",
+    "src/settings.js": "96beeeb5030934cbef97bb7ef06cc94fccbbe6b396dcaacaf4ad6003bf63ff30",
+    "scripts/headless.mjs": "ad4650ebe90cec0a406576496fcda085d038616813f241495861fd5b6914a367",
+    "index.html": "63d99a7c75da083e34b4f6bd963979e8bcb740946b6d26bf7ff2b37633f3b0e2",
+    "style.css": "55aca5235756164b7de1007f1a81d790eb68f7fc6304004d081312f4250d0d29"
+  },
+  "default_playthrough": {
+    "type": "end",
+    "ticks": 10415,
+    "state": "won",
+    "score": 1367
+  },
+  "cases": [
+    {
+      "name": "dash",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "5d76b01f3a4e948c3aea5e4f1aa8825cef01ca578cfd0701503ccb7a77ed4e69",
+      "end": {
+        "type": "end",
+        "ticks": 120,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          5.6,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 1.0166666666666666,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "charm",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "d2fd3e8cc6498e8b2ead68a60d7ffc92b54659034bcc26160eb4fceb8c936905",
+      "end": {
+        "type": "end",
+        "ticks": 700,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          5.6
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "drifter",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "a57c3c387bd2e7ca546c93efb376b1a62ecfc733c8994f86517f0b78e613840e",
+      "end": {
+        "type": "end",
+        "ticks": 160,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 2,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0.5166666666666667,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "pause",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "a745b667f8ea138b270985bb89df5d631e8034c5de6ea16a731f6b6f188ea541",
+      "end": {
+        "type": "end",
+        "ticks": 180,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          1.32,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 3.5
+      }
+    },
+    {
+      "name": "fall",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "2b0cf43503dc56df843ec66967d1a36a8f9361b34ca444b390118ef607ff8fd9",
+      "end": {
+        "type": "end",
+        "ticks": 65,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          0
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 2,
+        "carried": 0,
+        "invuln": true,
+        "invuln_s": 1.4333333333333333,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "bridge-pad",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "edbfd923ac131cc40c6dd74b2c177d1eb2902b7cb96aef565bb89ec37830a60b",
+      "end": {
+        "type": "end",
+        "ticks": 100,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          51.237,
+          0,
+          6.755
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "upper-pad",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "c663d554c198434083c7a9b0fdd1326273d01039711efd5de3ee06cdf2e9ad7c",
+      "end": {
+        "type": "end",
+        "ticks": 100,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          0,
+          6,
+          6.467
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "ramp",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "833631ce9ca498066a1a79462b42fa1c1e6eadb928807cc0e7975079bbddb12f",
+      "end": {
+        "type": "end",
+        "ticks": 90,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          19.053,
+          3,
+          11
+        ],
+        "vel": [
+          -5.196,
+          0,
+          -3
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "wind",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "5b9b6cd5da6d9bd6468de0f3a0c409799abb814e9e4c1b41aa046069df741f0d",
+      "end": {
+        "type": "end",
+        "ticks": 2100,
+        "state": "playing",
+        "score": 0
+      },
+      "final_player": {
+        "pos": [
+          21.951,
+          0,
+          -5.934
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "win-night-1",
+      "night": 1,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "84be9e83822138bbb42f951d0e70a8fe2211ca59f40e44d1629da884788afdc7",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "won",
+        "score": 948
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          25
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "win-night-2",
+      "night": 2,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "9ba2c0556d686c7fb28048e26fe33bb09bba88cbcb64a52f73833a02762c6b3e",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "won",
+        "score": 1008
+      },
+      "final_player": {
+        "pos": [
+          0,
+          0,
+          20
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    },
+    {
+      "name": "win-night-3",
+      "night": 3,
+      "status": "passed",
+      "byte_identical": true,
+      "sha256": "9382af30ef4059cc14f20d1a3d5623a58b3a6dfd8dfaf6596367e5bd52927167",
+      "end": {
+        "type": "end",
+        "ticks": 1,
+        "state": "won",
+        "score": 1068
+      },
+      "final_player": {
+        "pos": [
+          0,
+          6,
+          6
+        ],
+        "vel": [
+          0,
+          0,
+          0
+        ],
+        "grounded": true,
+        "flames": 3,
+        "carried": 0,
+        "invuln": false,
+        "invuln_s": 0,
+        "dash_cd_s": 0,
+        "pulse_cd_s": 0,
+        "charm_s": 0
+      }
+    }
+  ],
+  "commands": [
+    {
+      "command": "node --test",
+      "exit_code": 0,
+      "stdout": "✔ campaign advances1→2→3, resets health, sums only won nights, no double credit (16.8906ms)\n✔ settings normalize and persist; malformed or unavailable storage falls back (13.8921ms)\n✔ CLI writes tick0, exact N steps, persistent frames and mandatory end (512.6092ms)\n✔ CLI replay is byte-identical and runs zero steps correctly (1205.0668ms)\n✔ CLI stops early at game over and retains terminal snapshot (410.5008ms)\n✔ malformed JSON, invalid fields, repeated frame ticks and bad CLI return 2 (2033.5438ms)\n✔ all nights expose v1.1 schema and pause advances wall tick only (976.7988ms)\n✔ contract constants and all three maps match Ticket-02 (20.9543ms)\n✔ tick 0 setup has no score/event, lamp override merges by ID (1.3756ms)\n✔ movement 60Hz, yaw rotation, diagonal normalization and input persistence regressions (9.67ms)\n✔ pickup XZ inclusive, vertical threshold, capacity; pickup has no score in v1.1 (3.2578ms)\n✔ partial deposit, edge trigger, nearest then smaller ID, deposit score (3.4467ms)\n✔ cannot deposit out of range or into a lit lamp (1.0176ms)\n✔ pulse targets 3D distance from foot+.8, cost/cooldown, push over 15 ticks (17.3611ms)\n✔ pulse cannot activate without 3 motes, holding does not repeat (6.9366ms)\n✔ dash is exactly 14m/s for 12 ticks with cooldown from activation (2.8042ms)\n✔ stationary dash follows facing; air dash freezes altitude without immunity (1.7716ms)\n✔ jump requires grounded edge, gravity -20, full air steering (2.6496ms)\n✔ damage has height threshold, one hit per tick in ID order, recoil and 90 tick immunity (6.191ms)\n✔ dropped motes are in 1.5–2.5m ring, TTL480, pickup from next tick only (19.1698ms)\n✔ hitting shade recoils exactly2m over the next60 ticks (2.5297ms)\n✔ lit safe area blocks shades including a newly stunned shade; state names valid (5.7674ms)\n✔ fall ignores invulnerability once, loses carried, waits60 then respawns invulnerable (2.1702ms)\n✔ fall with final flame loses immediately, no respawn (0.9881ms)\n✔ pause freezes every simulation counter, TTL, motion and spawning but wall tick advances (2.3307ms)\n✔ initial20 unique standard motes, no shades until tick300; scheduled respawn and caps (17.6694ms)\n✔ charm600 ticks, speed7.2, refresh and respawn2700; dash no cooldown but ignores active re-press (42.6336ms)\n✔ drifter steals before shade damage and only once, regardless of invulnerability (4.5706ms)\n✔ pulse chase drifter flees without theft; fleeing drifter drops stolen and leaves120 ticks later (7.171ms)\n✔ drifter spawns only nights2/3 at1200 with cap2 (18.5438ms)\n✔ bridge has exact bounds, two islands, tier heights and ramps (1.3059ms)\n✔ launch pad keeps horizontal momentum despite contrary movement and lands on other island (4.7769ms)\n✔ tier walls and bell block walking; stepping off a tier falls to lower surface (4.5976ms)\n✔ wind warning at1680, active1800..2099, disabled freezes wind (44.2564ms)\n✔ no_flames wins precedence; alive all_lit wins at exact dawn; score on deposit and final bonus (6.5341ms)\n✔ determinism, snapshot schema and malformed scenario/input validation (18.9376ms)\nℹ tests 36\nℹ suites 0\nℹ pass 36\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5974.9525\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/build.mjs",
+      "exit_code": 0,
+      "stdout": "Built static game: dist/ (no runtime CDN or server-side dependency)\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/playtest.mjs",
+      "exit_code": 0,
+      "stdout": "{\n  \"seed\": 2026,\n  \"scenario\": \"default (no overrides)\",\n  \"ticks\": 10415,\n  \"seconds\": 173.58333333333334,\n  \"state\": \"won\",\n  \"lit\": 5,\n  \"flames\": 2,\n  \"score\": 1367,\n  \"input_frames\": 8906\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 2026 --night 1 --inputs docs/proof/phase-2/default-playthrough-inputs.json --ticks 18000 --snapshot-every 120 --out docs/proof/phase-2/default-playthrough.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-2/dash.scenario.json --inputs tests/scenarios/phase-2/dash.inputs.json --ticks 120 --snapshot-every 10 --out docs/proof/phase-2/dash.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-2/dash.scenario.json --inputs tests/scenarios/phase-2/dash.inputs.json --ticks 120 --snapshot-every 10 --out artifacts/dash-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/charm.scenario.json --inputs tests/scenarios/phase-2/charm.inputs.json --ticks 700 --snapshot-every 10 --out docs/proof/phase-2/charm.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/charm.scenario.json --inputs tests/scenarios/phase-2/charm.inputs.json --ticks 700 --snapshot-every 10 --out artifacts/charm-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/drifter.scenario.json --inputs tests/scenarios/phase-2/drifter.inputs.json --ticks 160 --snapshot-every 10 --out docs/proof/phase-2/drifter.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/drifter.scenario.json --inputs tests/scenarios/phase-2/drifter.inputs.json --ticks 160 --snapshot-every 10 --out artifacts/drifter-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-2/pause.scenario.json --inputs tests/scenarios/phase-2/pause.inputs.json --ticks 180 --snapshot-every 10 --out docs/proof/phase-2/pause.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-2/pause.scenario.json --inputs tests/scenarios/phase-2/pause.inputs.json --ticks 180 --snapshot-every 10 --out artifacts/pause-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-2/fall.scenario.json --inputs tests/scenarios/phase-2/fall.inputs.json --ticks 65 --snapshot-every 10 --out docs/proof/phase-2/fall.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-2/fall.scenario.json --inputs tests/scenarios/phase-2/fall.inputs.json --ticks 65 --snapshot-every 10 --out artifacts/fall-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/bridge-pad.scenario.json --inputs tests/scenarios/phase-2/bridge-pad.inputs.json --ticks 100 --snapshot-every 10 --out docs/proof/phase-2/bridge-pad.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/bridge-pad.scenario.json --inputs tests/scenarios/phase-2/bridge-pad.inputs.json --ticks 100 --snapshot-every 10 --out artifacts/bridge-pad-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-2/upper-pad.scenario.json --inputs tests/scenarios/phase-2/upper-pad.inputs.json --ticks 100 --snapshot-every 10 --out docs/proof/phase-2/upper-pad.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-2/upper-pad.scenario.json --inputs tests/scenarios/phase-2/upper-pad.inputs.json --ticks 100 --snapshot-every 10 --out artifacts/upper-pad-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-2/ramp.scenario.json --inputs tests/scenarios/phase-2/ramp.inputs.json --ticks 90 --snapshot-every 10 --out docs/proof/phase-2/ramp.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-2/ramp.scenario.json --inputs tests/scenarios/phase-2/ramp.inputs.json --ticks 90 --snapshot-every 10 --out artifacts/ramp-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-2/wind.scenario.json --inputs tests/scenarios/phase-2/wind.inputs.json --ticks 2100 --snapshot-every 10 --out docs/proof/phase-2/wind.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-2/wind.scenario.json --inputs tests/scenarios/phase-2/wind.inputs.json --ticks 2100 --snapshot-every 10 --out artifacts/wind-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-2/win-night-1.scenario.json --inputs tests/scenarios/phase-2/win-night-1.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-2/win-night-1.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/phase-2/win-night-1.scenario.json --inputs tests/scenarios/phase-2/win-night-1.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/win-night-1-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/win-night-2.scenario.json --inputs tests/scenarios/phase-2/win-night-2.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-2/win-night-2.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/win-night-2.scenario.json --inputs tests/scenarios/phase-2/win-night-2.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/win-night-2-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-2/win-night-3.scenario.json --inputs tests/scenarios/phase-2/win-night-3.inputs.json --ticks 5 --snapshot-every 10 --out docs/proof/phase-2/win-night-3.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/headless.mjs --seed 42 --night 3 --scenario tests/scenarios/phase-2/win-night-3.scenario.json --inputs tests/scenarios/phase-2/win-night-3.inputs.json --ticks 5 --snapshot-every 10 --out artifacts/win-night-3-again.jsonl",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/benchmark.mjs",
+      "exit_code": 0,
+      "stdout": "{\n  \"kind\": \"headless-cli-including-io\",\n  \"runtime\": \"v26.13.1\",\n  \"platform\": \"win32\",\n  \"cpu\": \"Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz\",\n  \"cpu_threads\": 8,\n  \"memory_gb\": 8,\n  \"threshold_ms\": 30000,\n  \"trials\": [\n    {\n      \"night\": 1,\n      \"command\": \"node scripts/headless.mjs --seed 2026 --night 1 --scenario tests/scenarios/phase-2/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-2/benchmark-night-1.jsonl\",\n      \"ticks\": 18000,\n      \"state\": \"lost\",\n      \"elapsed_ms\": 1804.16,\n      \"passed\": true\n    },\n    {\n      \"night\": 2,\n      \"command\": \"node scripts/headless.mjs --seed 2026 --night 2 --scenario tests/scenarios/phase-2/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-2/benchmark-night-2.jsonl\",\n      \"ticks\": 19800,\n      \"state\": \"lost\",\n      \"elapsed_ms\": 5409.01,\n      \"passed\": true\n    },\n    {\n      \"night\": 3,\n      \"command\": \"node scripts/headless.mjs --seed 2026 --night 3 --scenario tests/scenarios/phase-2/performance.scenario.json --ticks 21600 --snapshot-every 21600 --out docs/proof/phase-2/benchmark-night-3.jsonl\",\n      \"ticks\": 21600,\n      \"state\": \"lost\",\n      \"elapsed_ms\": 3905.78,\n      \"passed\": true\n    }\n  ],\n  \"note\": \"High flames in an explicit scenario ensure the CLI reaches each full night rather than dying early. This is not GPU FPS.\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "limits": [
+    "Hidden instructor tests are not available.",
+    "Browser FPS and visual checks are recorded separately.",
+    "Linux/macOS workflow is configured; only its actual GitHub run verifies those systems.",
+    "Phase3/4 are not implemented without tickets."
+  ]
+}

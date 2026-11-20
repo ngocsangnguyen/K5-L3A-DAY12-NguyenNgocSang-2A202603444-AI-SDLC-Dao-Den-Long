@@ -1,21 +1,13 @@
-# Những việc còn lại
+# Việc còn lại sau Phase 2
 
-## Hoàn tất nộp Phase 1
+- [ ] Học viên review source, luật và bằng chứng; đối chiếu giả định spawn Đêm3 với Coach nếu có thông báo thêm.
+- [ ] Bổ sung usage/token hoặc chi phí ước tính từ tài khoản; ghi rõ là ước tính.
+- [ ] Xác nhận giờ bắt đầu/hạn tag thực tế. Commit local không thay thế việc nộp bài.
+- [ ] Tạo/push tag phase-1 từ bản phù hợp và phase-2 từ bản đã review, chỉ trong hạn Coach cho phép; không backdate, không nhận là đã push khi chưa có trên GitHub.
+- [ ] Kiểm tra repo public và kết quả CI macOS/Linux sau push.
+- [ ] Đọc Ticket-03, cập nhật luật/test/giả định có lý do, kiểm chứng và nộp phase-3 trước mốc2h30 theo lịch.
+- [ ] Đọc Ticket-04, đo theo lệnh/ngưỡng chính thức, clone sạch, hoàn thiện và nộp phase-4 trước4h.
+- [ ] Quay demo.mp4 dưới5phút, có chơi thử/test/đo; link đầu README.
+- [ ] GitHub Release v1.0.0 có bản chạy được và video; kiểm tra chưa đăng nhập vẫn xem được; nộp LMS theo Coach.
 
-- [ ] Học viên chơi thử, review code và giải thích được luật/kiến trúc.
-- [ ] Xác nhận giờ bắt đầu và hạn tag với Coach; không suy đoán deadline từ giờ tạo file.
-- [ ] Bổ sung usage/token hoặc chi phí ước tính từ tài khoản vào nhật ký.
-- [ ] Kiểm tra repo GitHub public và CI Linux/macOS sau khi push.
-- [ ] Commit và push bản Phase 1 đã review; tạo/push tag `phase-1` đúng hạn. Không tạo lùi ngày hoặc nhận là đã nộp khi chưa push thành công.
-
-## Khi các phase sau được phát hành
-
-- [ ] Đọc Ticket-02, ghi delta yêu cầu/giả định/test; triển khai và hồi quy; lưu bằng chứng; tag `phase-2` trước mốc 2h.
-- [ ] Đọc Ticket-03; thay luật cũ có lý do và cập nhật test; tag `phase-3` trước 2h30.
-- [ ] Đọc Ticket-04; đo theo đúng lệnh/ngưỡng chính thức; kiểm tra clone sạch; tag `phase-4` trước 4h.
-- [ ] Hoàn thiện retro bốn phase và README.
-- [ ] Quay video `.mp4` dưới 5 phút; có chơi thử, kết quả test và đo nếu yêu cầu. Đặt link đầu README.
-- [ ] Tạo GitHub Release `v1.0.0` với bản web tĩnh `dist/` đóng gói và video.
-- [ ] Kiểm tra repo/Release/video không cần đăng nhập; nộp link LMS theo Coach.
-
-Các phase sau chưa có ticket tại thời điểm triển khai Phase 1; không dùng code hiện tại để khẳng định đã đạt các yêu cầu chưa được công bố.
+Không commit thêm nội dung sản phẩm sau hết giờ lab nếu không có gia hạn chính thức. Không tạo ticket hay bằng chứng cho phase chưa nhận. Skill verify-game yêu cầu review con người trước final phase submission; chưa coi nộp bài là hoàn tất trong phiên local này.

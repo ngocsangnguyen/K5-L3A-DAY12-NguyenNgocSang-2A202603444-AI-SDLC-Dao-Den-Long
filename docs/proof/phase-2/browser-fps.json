@@ -1,0 +1,51 @@
+{
+  "prior_optimization": {
+    "average_fps": 25.72008024883699,
+    "width": 1280,
+    "height": 720
+  },
+  "reports": [
+    {
+      "kind": "browser-render",
+      "sample_window_s": 10,
+      "complete": true,
+      "width": 1280,
+      "height": 720,
+      "pixel_ratio": 1,
+      "render_calls": 38,
+      "frames": 590,
+      "elapsed_s": 10.00840000000002,
+      "average_fps": 58.9504815954597,
+      "night": 1,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+    },
+    {
+      "kind": "browser-render",
+      "sample_window_s": 10,
+      "complete": true,
+      "width": 1280,
+      "height": 720,
+      "pixel_ratio": 1,
+      "render_calls": 41,
+      "frames": 489,
+      "elapsed_s": 10.008400000000005,
+      "average_fps": 48.85895847488107,
+      "night": 2,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+    },
+    {
+      "kind": "browser-render",
+      "sample_window_s": 10,
+      "complete": true,
+      "width": 1280,
+      "height": 720,
+      "pixel_ratio": 1,
+      "render_calls": 39,
+      "frames": 308,
+      "elapsed_s": 10.00830000000001,
+      "average_fps": 30.774457200523532,
+      "night": 3,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+    }
+  ]
+}

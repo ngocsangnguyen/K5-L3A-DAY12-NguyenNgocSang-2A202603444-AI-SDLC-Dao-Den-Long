@@ -19,7 +19,7 @@
       <span>đảo đèn lồng<small>MỘT CHÚT SÁNG, MỘT CHÚT NHIỆM MÀU</small></span>
     </a>
     <div class="top-actions">
-      <span class="night-label"><span class="moon">☾</span> Đêm 1 <i></i> Đảo Bến</span>
+      <span class="night-label"><span class="moon">☾</span><span id="night-number">Đêm 1</span><i></i><span id="island-name">Đảo Bến</span></span>
       <button class="icon-button" id="sound-button" aria-label="Bật âm thanh" aria-pressed="false" title="Bật / tắt âm thanh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm5 4 5 6m0-6-5 6"/></svg></button>
       <button class="icon-button" id="help-button" aria-label="Hướng dẫn chơi" title="Hướng dẫn chơi">?</button>
       <button class="icon-button" id="pause-button" aria-label="Tạm dừng" title="Tạm dừng (Esc)" hidden>Ⅱ</button>
@@ -29,9 +29,10 @@
   <main id="home" class="home">
     <div class="eyebrow"><span></span> CHUYỆN KỂ TỪ BIỂN MÂY</div>
     <h1>Giữ một đốm sáng.<br>Thắp cả <em>hòn đảo.</em></h1>
-    <p>Đêm xuống, sương đen phủ kín Đảo Bến.<br>Cùng Mây gom những đốm sáng nhỏ bé,<br>đánh thức năm ngọn đèn đang ngủ quên.</p>
+    <p>Ba hòn đảo, ba đêm giữa biển mây.<br>Cùng Mây gom những đốm sáng nhỏ bé,<br>mang ánh sáng đến tận Tháp Chuông.</p>
     <button id="start-button" class="primary-button"><span class="tiny-lantern" aria-hidden="true">✦</span> Bắt đầu hành trình</button>
-    <div class="home-meta"><span>3D · MỘT NGƯỜI CHƠI</span><span>5 PHÚT MỖI ĐÊM</span></div>
+    <div class="home-meta"><span>3D · MỘT NGƯỜI CHƠI</span><span>HÀNH TRÌNH QUA 3 ĐÊM</span></div>
+    <div class="island-picker" aria-label="Chọn đêm bắt đầu"><button data-night="1" aria-pressed="true">Đảo Bến</button><button data-night="2" aria-pressed="false">Đảo Cau</button><button data-night="3" aria-pressed="false">Đảo Chuông</button></div>
   </main>
 
   <section id="hud" class="hud" aria-label="Thông tin hành trình" hidden>
@@ -51,22 +52,30 @@
 
   <div class="bottom-bar" id="bottom-bar">
     <div class="chapter"><span class="chapter-line"></span><span>ĐÊM 01<small>Đảo Bến</small></span></div>
-    <div class="key-guide"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> di chuyển</span><span><kbd>Space</kbd> nhảy</span><span><kbd>E</kbd> nạp đèn</span><span><kbd>Q</kbd> tỏa sáng</span><span class="camera-guide">Kéo chuột để xoay góc nhìn</span></div>
+    <div class="key-guide"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> di chuyển</span><span><kbd>Space</kbd> nhảy</span><span><kbd>Shift</kbd> lướt</span><span><kbd>E</kbd> nạp đèn</span><span><kbd>Q</kbd> tỏa sáng</span><span class="camera-guide">Kéo chuột để xoay góc nhìn</span></div>
   </div>
 
   <div class="touch-controls" id="touch-controls" hidden>
     <div class="dpad"><button data-key="KeyW" aria-label="Đi lên">▲</button><button data-key="KeyA" aria-label="Sang trái">◀</button><button data-key="KeyS" aria-label="Đi xuống">▼</button><button data-key="KeyD" aria-label="Sang phải">▶</button></div>
-    <div class="touch-actions"><button data-key="Space">Nhảy</button><button data-key="KeyQ">Tỏa sáng</button><button data-key="KeyE">Nạp đèn</button></div>
+    <div class="touch-actions"><button data-key="Space">Nhảy</button><button data-key="ShiftLeft">Lướt</button><button data-key="KeyQ">Tỏa sáng</button><button data-key="KeyE">Nạp đèn</button></div>
   </div>
 
   <dialog id="help-dialog" class="panel-dialog">
     <span class="eyebrow">CHÀO MÂY, NGƯỜI GIỮ ĐÈN</span><h2>Mang ánh sáng trở về.</h2>
     <p>Chạm vào đom đóm để thu thập. Mang đủ <strong id="help-cost">6</strong> đom đóm đến mỗi đèn và nhấn <kbd>E</kbd> để nạp. Có thể nạp nhiều lần.</p>
-    <ul><li><kbd>W A S D</kbd> hoặc phím mũi tên để di chuyển; <kbd>Space</kbd> để nhảy.</li><li><kbd>Q</kbd> tỏa sáng, tốn <strong id="help-pulse">3</strong> đom đóm để đẩy lùi và làm choáng Bóng Mực.</li><li>Đèn đã sáng là nơi an toàn. Hãy nghỉ chân trong vòng sáng.</li><li>Kéo chuột để xoay camera; cuộn để thu phóng. <kbd>Esc</kbd> tạm dừng.</li><li>Thắp đủ 5 đèn trước bình minh để thắng. Giữ gìn 3 ngọn lửa của Mây.</li></ul>
+    <ul><li><kbd>W A S D</kbd> hoặc phím mũi tên để di chuyển; <kbd>Space</kbd> để nhảy; <kbd>Shift</kbd> hoặc <kbd>R</kbd> để lướt.</li><li><kbd>Q</kbd> tỏa sáng, tốn <strong id="help-pulse">3</strong> đom đóm để đẩy lùi và làm choáng Bóng Mực.</li><li>Đèn đã sáng là nơi an toàn. Đảo Cau có cầu và bục nhảy; Đảo Chuông có dốc lên tầng cao.</li><li>Gió Lạc cướp đom đóm; tỏa sáng để lấy lại. Bùa đỏ tăng tốc và bỏ hồi chiêu lướt trong 10 giây.</li><li>Kéo chuột để xoay camera; cuộn để thu phóng. <kbd>Esc / P</kbd> tạm dừng.</li><li>Thắp đủ đèn trước bình minh để thắng. Ra khỏi đảo sẽ rơi và mất một ngọn lửa.</li></ul>
     <button id="close-help" class="primary-button">Mình hiểu rồi</button>
   </dialog>
-  <dialog id="pause-dialog" class="panel-dialog compact"><span class="eyebrow">NGHỈ CHÂN MỘT CHÚT</span><h2>Đom đóm vẫn chờ bạn.</h2><p>Hành trình đang tạm dừng.</p><button id="resume-button" class="primary-button">Tiếp tục hành trình</button><button id="restart-pause" class="text-button">Chơi lại từ đầu</button></dialog>
-  <dialog id="end-dialog" class="panel-dialog end-dialog"><span class="end-symbol" id="end-symbol">✺</span><span class="eyebrow" id="end-eyebrow">BÌNH MINH TRÊN ĐẢO BẾN</span><h2 id="end-title">Ánh sáng đã trở về.</h2><p id="end-description"></p><div class="end-stats"><div><small>ĐIỂM SỐ</small><strong id="end-score">0</strong></div><div><small>ĐÈN ĐÃ THẮP</small><strong id="end-lamps">5 / 5</strong></div></div><button id="restart-button" class="primary-button">Một hành trình nữa</button><button id="home-button" class="text-button">Về trang đầu</button></dialog>
+  <dialog id="pause-dialog" class="panel-dialog compact"><span class="eyebrow">NGHỈ CHÂN MỘT CHÚT</span><h2>Đom đóm vẫn chờ bạn.</h2><p>Hành trình đang tạm dừng.</p><button id="resume-button" class="primary-button">Tiếp tục hành trình</button><button id="restart-pause" class="text-button">Chơi lại Đêm này</button><button id="settings-button" class="text-button">Cài đặt</button><button id="pause-home" class="text-button">Về menu</button></dialog>
+  <dialog id="end-dialog" class="panel-dialog end-dialog"><span class="end-symbol" id="end-symbol">✺</span><span class="eyebrow" id="end-eyebrow">BÌNH MINH TRÊN ĐẢO BẾN</span><h2 id="end-title">Ánh sáng đã trở về.</h2><p id="end-description"></p><div class="end-stats"><div><small>ĐIỂM SỐ</small><strong id="end-score">0</strong></div><div><small>ĐÈN ĐÃ THẮP</small><strong id="end-lamps">5 / 5</strong></div></div><button id="next-night" class="primary-button" hidden>Đêm kế tiếp</button><button id="restart-button" class="primary-button">Thử lại Đêm này</button><button id="home-button" class="text-button">Về trang đầu</button></dialog>
+  <dialog id="intro-dialog" class="panel-dialog compact"><span class="eyebrow" id="intro-night">ĐÊM 1</span><h2 id="intro-title">Đảo Bến</h2><p class="quote" id="intro-story"></p><p id="intro-goal"></p><button id="enter-night" class="primary-button">Vào đảo</button><button id="intro-home" class="text-button">Về menu</button></dialog>
+  <dialog id="settings-dialog" class="panel-dialog"><span class="eyebrow">THEO CÁCH CỦA BẠN</span><h2>Cài đặt</h2><label class="setting-row" for="volume">Âm lượng <output id="volume-value">35%</output></label><input id="volume" type="range" min="0" max="100" value="35"><label class="setting-row" for="sensitivity">Độ nhạy chuột <output id="sensitivity-value">1.0×</output></label><input id="sensitivity" type="range" min="20" max="250" value="100"><label class="setting-check"><input id="audio-enabled" type="checkbox"> Bật nhạc và hiệu ứng</label><p>Thiết lập được lưu trên trình duyệt này.</p><button id="close-settings" class="primary-button">Lưu và quay lại</button></dialog>
+  <div id="mote-slots" class="mote-slots" hidden aria-label="Túi đom đóm 10 ô"></div>
+  <div id="dash-status" class="dash-status" hidden><span>LƯỚT</span><small id="dash-hint">Shift / R · sẵn sàng</small></div>
+  <div id="charm-status" class="charm-status" hidden>Bùa Gió <span id="charm-time"></span></div>
+  <div id="direction-cue" class="direction-cue" hidden><span id="direction-arrow">▲</span><small id="direction-text"></small></div>
+  <div id="wind-warning" class="wind-warning" hidden>Gió đang về… giữ vững ngọn đèn!</div>
+  <output id="fps-value" class="fps-value" aria-label="Hiệu năng" hidden></output>
   <div id="error-panel" class="error-panel" hidden role="alert"><h2>Chưa thể mở thế giới 3D</h2><p id="error-message"></p><p>Thử bật tăng tốc đồ họa trong trình duyệt, hoặc dùng Chrome / Edge / Firefox mới.</p></div>
   <noscript>Hãy bật JavaScript để chơi Đảo Đèn Lồng.</noscript>
   <script type="module" src="/src/main.js"></script>

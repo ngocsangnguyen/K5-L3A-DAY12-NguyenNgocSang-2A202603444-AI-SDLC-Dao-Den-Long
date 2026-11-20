@@ -46,3 +46,10 @@ test('malformed JSON, invalid fields, repeated frame ticks and bad CLI return 2'
   assert.equal(run(['--ticks', '-1', '--out', out]).status, 2);
   assert.equal(run(['--ticks', '3', '--snapshot-every', '0', '--out', out]).status, 2);
 }));
+test('all nights expose v1.1 schema and pause advances wall tick only',()=>fixture(dir=>{
+  for(const night of [1,2,3]){
+    const out=join(dir,`n${night}.jsonl`),inputs=join(dir,'inputs.json');writeFileSync(inputs,JSON.stringify({frames:[{tick:0,pause:true},{tick:1,pause:false},{tick:60,pause:true}]}));
+    const result=spawnSync(process.execPath,['scripts/headless.mjs','--seed','12','--night',String(night),'--inputs',inputs,'--ticks','61','--out',out],{encoding:'utf8'});assert.equal(result.status,0,result.stderr);
+    const records=readFileSync(out,'utf8').trim().split('\n').map(JSON.parse);const snapshot=records.at(-2);assert.equal(snapshot.night,night);assert.equal(snapshot.sim_tick,1);assert.equal(snapshot.tick,61);assert.equal(snapshot.lanterns.length,night+4);assert.ok('drifters' in snapshot&&'charms'in snapshot&&'wind'in snapshot);assert.ok(records.some(r=>r.name==='paused'));assert.ok(records.some(r=>r.name==='resumed'));
+  }
+}));

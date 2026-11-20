@@ -1,88 +1,92 @@
-# Đảo Đèn Lồng — Đêm 1 · Đảo Bến
+# Đảo Đèn Lồng — Ba hòn đảo
 
-Game web 3D cho Day 12 AI SDLC, bài cá nhân Nguyễn Ngọc Sáng — 2A202603444.
+Bài cá nhân Nguyễn Ngọc Sáng — 2A202603444. Bản hiện tại **Phase 2 / Ticket-02 / Test Contract v1.1**.
 
-**Video demo:** chưa quay; phải bổ sung video `.mp4` dưới 5 phút trước bàn giao cuối Phase 4. Hiện có [ảnh và bằng chứng Phase 1](docs/proof/phase-1/README.md).
+**Video demo cuối:** chưa quay; `.mp4` dưới 5 phút sẽ bổ sung trước bàn giao Phase 4. Hiện có [ảnh, replay và số đo Phase 2](docs/proof/phase-2/README.md).
 
-## Chạy game — 2 lệnh
+## Chạy game
 
-Cần Node.js **22 trở lên**, npm và trình duyệt hỗ trợ WebGL 2. Chạy trong thư mục repo:
+Cần Node.js 22+, npm, trình duyệt WebGL2. Trong repo chạy2 lệnh:
 
 ```sh
 npm ci
 npm start
 ```
 
-Mở **http://localhost:4173**, chọn **Bắt đầu hành trình**. Các lệnh giống nhau trên Windows, macOS và Linux. Lần cài dependency cần mạng; game không tải CDN, font hay model bên ngoài khi chơi. Nếu cổng bận: `npm start -- --port 4174`.
+Mở **http://localhost:4173** bằng Edge/Chrome/Firefox của bạn. Chọn **Bắt đầu hành trình → Vào đảo**. Giữ terminal đang chạy. Nếu đang mở bản cũ, nhấn Ctrl+F5. Trong Git Bash/PowerShell Windows có thể dùng `npm.cmd ci` và `npm.cmd start`, không cần đổi execution policy. Đổi cổng: `npm start -- --port 4174`.
 
-Trong PowerShell nếu `npm.ps1` bị chặn, dùng `npm.cmd ci` và `npm.cmd start`; không cần đổi chính sách bảo mật.
+Bắt đầu ở Đảo Bến để đi theo chuỗi 3 đêm. Các nút Đảo Cau/Đảo Chuông cho phép bắt đầu luyện tập từ đêm đó; tổng điểm chỉ tính những đêm đã thắng trong lượt hiện tại.
 
-## Cách chơi
+## Hành trình
 
-Mây thu gom đom đóm, mang đến thắp **5 ngọn đèn** trước bình minh. Mỗi đèn cần **6 đom đóm**, có thể nạp nhiều lần; túi chứa **12**. Đèn đã sáng tạo vùng an toàn. Bóng Mực chạm làm mất một ngọn lửa; hết 3 ngọn lửa hoặc hết 5 phút là thua. Sau thắng/thua có thể chơi lại.
+| Đêm | Màn | Mục tiêu | Thời lượng |
+|---|---|---|---|
+|1|Đảo Bến|5 đèn, đảo tròn40m|300s|
+|2|Đảo Cau|6 đèn, hai đảo28m, cầu tre và bục nhảy|330s|
+|3|Đảo Chuông|7 đèn,3 tầng, dốc, bục nhảy và gió|360s|
 
-| Điều khiển | Hành động |
+Mỗi đèn cần10 đom đóm, nạp nhiều lần được; túi10 ô. Tỏa sáng tốn3 đom đóm; Bóng Mực choáng2s và bị đẩy4m trong15 tick. Đèn sáng có vòng an toàn6m. Có3 ngọn lửa, hồi đầy đầu đêm. Rơi khỏi đảo mất1 lửa và toàn bộ đom đóm, hồi sinh sau1s nếu còn sống. Gió Lạc cướp đom đóm; Bùa Gió tăng tốc và bỏ cooldown lướt10s.
+
+| Phím | Hành động |
 |---|---|
-| WASD / phím mũi tên | Đi theo hướng camera |
-| Space | Nhảy |
-| E | Nạp đom đóm vào đèn chưa sáng gần nhất |
-| Q | Tỏa sáng: tốn 3 đom đóm, đẩy lùi và làm choáng Bóng Mực |
-| Kéo chuột / cuộn | Xoay camera / thu phóng |
-| Esc / nút tạm dừng | Tạm dừng, đồng hồ ngừng chạy |
-| Nút loa | Bật/tắt âm thanh; mặc định tắt |
+|WASD / mũi tên|Di chuyển theo camera|
+|Space|Nhảy|
+|Shift / R|Lướt14m/s trong0.2s, hồi1.5s|
+|E|Nạp vào đèn chưa sáng gần nhất|
+|Q|Tỏa sáng, hồi3s|
+|Esc / P|Tạm dừng|
+|Kéo chuột / cuộn|Xoay camera / thu phóng|
 
-Màn hình nhỏ có nút cảm ứng. Bấm dấu hỏi để xem hướng dẫn trong game.
+Điện thoại có nút cảm ứng. Menu pause có Tiếp tục, Chơi lại Đêm, Cài đặt, Về menu. Âm lượng và độ nhạy lưu ở localStorage; nút loa bật/tắt nhạc/SFX. Âm thanh mặc định tắt.
 
-**Điểm:** 10 mỗi đom đóm nhặt được; 100 mỗi đèn thắp; 20 mỗi Bóng Mực trúng một lần tỏa sáng. Khi thắng cộng `floor(số giây còn lại) × 2 + số ngọn lửa còn lại × 50`. Setup scenario không phát sự kiện hoặc cộng điểm.
+**Điểm:**10 mỗi đom đóm **nạp**,100 mỗi đèn thắp,5 mỗi Bóng Mực trúng pulse. Nhặt không cộng điểm. Khi thắng: `floor(giây còn lại)×2 + lửa còn lại×50`. Tổng điểm là tổng các đêm đã thắng, không cộng đêm thua hoặc cộng hai lần cùng kết quả.
 
-## Kiểm chứng
+## Test và bằng chứng
 
 ```sh
 npm run verify
 ```
 
-Lệnh này chạy unit test, kiểm tra CLI, build web, tạo một lượt thắng trên màn mặc định không override scenario, phát lại bằng CLI, và so hai output byte-identical. Thất bại ở bất kỳ bước nào sẽ thoát khác 0. Kết quả thật được lưu ở [docs/proof/phase-1](docs/proof/phase-1/README.md).
+Chạy unit/CLI/campaign/settings, build,12 scenario mới hai lần so byte, replay thắng Đêm 1 mặc định và benchmark CLI ba đêm. Bất kỳ bước lỗi sẽ exit khác0; log và hash nguồn ở [verification.json](docs/proof/phase-2/verification.json). Chạy riêng `npm test`, `npm run benchmark`.
 
-Chạy riêng: `npm test`; đo CPU simulation: `npm run benchmark` (không phải FPS GPU). CI Linux/macOS có sẵn; xem kết quả GitHub sau khi push. Bật hook local nếu muốn: `git config core.hooksPath .githooks`.
+FPS đã đo tại1280×720 qua cửa sổ10s sau warm-up: khoảng59.0/48.9/30.8 cho Đêm 1/2/3. Đây là số đo local ở cảnh đầu đêm, không bảo đảm mọi máy/cảnh. Lượt trước tối ưu25.7FPS cũng được giữ lại. Xem [browser checks](docs/proof/phase-2/browser-checks.md) và [browser-fps.json](docs/proof/phase-2/browser-fps.json). Headless chạy đủ các đêm dưới30s; không dùng số đo này để suy ra GPU FPS.
 
-## Headless — Test Contract v1.0
+CI Linux/macOS đã cấu hình, chưa nhận là chạy thành công cho tới khi có kết quả GitHub. Bật hook local nếu muốn: `git config core.hooksPath .githooks`.
 
-Tuning được đọc trực tiếp từ [game.contract.json](game.contract.json) bởi cả game và CLI.
-
-```sh
-node scripts/headless.mjs --seed 42 --night 1 --ticks 600 --out artifacts/run.jsonl
-```
-
-Với scenario/inputs:
+## Headless — Contract1.1
 
 ```sh
-node scripts/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/pulse.json --inputs tests/scenarios/pulse-inputs.json --ticks 240 --snapshot-every 10 --out artifacts/pulse.jsonl
+node scripts/headless.mjs --seed 42 --night 2 --ticks 600 --out artifacts/night2.jsonl
 ```
 
-Fixed step 60 Hz, không GPU/cửa sổ. Snapshot từ tick 0, event dùng tick bước vừa thực hiện, end luôn ở dòng cuối. Tọa độ XZ bao gồm biên, vị trí làm tròn 3 chữ số; Y hướng lên. Inputs giữ các field vắng và kích hoạt nút tại cạnh false→true. Exit 0 khi chạy thành công; file sai định dạng exit 2 với stderr; lỗi I/O đầu ra exit 1. Có thêm snapshot terminal nếu ngoài khoảng snapshot-every.
+Scenario ví dụ sau lần chạy verify:
 
-[Spec và contract](docs/spec/phase-1.md) · [Giả định/kiến trúc](docs/notes/phase-1.md) · [Nhật ký AI](docs/notes/ai-log.md) · [Retro](docs/notes/retro.md).
+```sh
+node scripts/headless.mjs --seed 42 --night 2 --scenario tests/scenarios/phase-2/drifter.scenario.json --inputs tests/scenarios/phase-2/drifter.inputs.json --ticks 160 --snapshot-every 10 --out artifacts/drifter.jsonl
+```
 
-## Build bản web tĩnh
+CLI nhận `--night 1/2/3`. Fixed 60 Hz, không GPU/cửa sổ; tick0 trước input, tick k đọc input k tạo trạng thái k+1. Pause: wall tick tăng, sim_tick/time/timer/spawn/TTL đứng yên. Frame thiếu field giữ giá trị cũ, nút kích hoạt ở cạnh false→true. Scenario không tạo event/điểm; `night_start` ở bước gameplay đầu tiên. End luôn là dòng cuối; thêm snapshot cuối nếu ngoài khoảng định kỳ. File inputs/scenario sai exit2 và stderr; lỗi I/O output exit1. `player.invuln` là boolean, kèm `invuln_s` để xem thời gian còn lại. Motes random có `ttl_s:null`, dropped có TTL giây.
+
+Thông số đúng nguồn duy nhất ở [game.contract.json](game.contract.json); bản đồ/collision ở `src/core/levels.js`. Browser và headless gọi cùng `Game`.
+
+## Build
 
 ```sh
 npm run build
 ```
 
-Thư mục `dist/` có HTML/CSS/JS, tuning, Three.js local và giấy phép. Phục vụ bằng static HTTP server (không mở file:// trực tiếp vì browser dùng ES modules/fetch). Có thể thử bằng `npm start -- --dist`. Đây là bản web chạy trên macOS/Linux, không cần Docker.
+`dist/` là bản web tĩnh kèm Three.js local và giấy phép, không cần CDN/âm thanh/font/model bên ngoài. Dùng static HTTP server, không mở file://. Thử build bằng `npm start -- --dist`. Game web và CLI dùng cùng lệnh trên Windows/macOS/Linux.
 
 ## Sáng tạo của tôi
 
-Đảo giữa biển mây có đường mòn nối năm ngọn đèn, bến gỗ, cây và nấm; tất cả dựng bằng geometry trong code. Đèn lớn có vòng sáng ấm, đảo sáng dần; đom đóm trôi và vòng tỏa sáng; chuông tổng hợp Web Audio, bật theo lựa chọn. Những chi tiết trang trí và âm thanh chỉ có trong `src/world.js`/`src/audio.js`, không được thêm vào simulation/headless. Kiểm chứng tất định và lượt thắng ở `docs/proof/phase-1/` vẫn dùng cùng logic.
+Tất cả model, nón lá/đèn nhỏ của Mây, cây, biển mây, vòng sáng và lá gió được dựng bằng code. Nhạc/SFX tổng hợp Web Audio. Giữ phong cách và màu ticket; trang trí/âm thanh không thêm thực thể vào headless. Instancing là tối ưu hiển thị, không thay luật. Lời Ông Đăng là đoạn dẫn sáng tác cho bản này, không trích nguyên văn một nội dung chưa được cung cấp.
 
-## Trạng thái bàn giao
+## Quyết định và giới hạn
 
-Đã triển khai theo **Phase 1 / PRD-0 / Contract v1.0**. Các Phase 2–4 phải chờ ticket chính thức; không tự suy đoán hoặc nhận là đã hoàn thành. [Danh sách việc còn lại](docs/TODO.md) gồm review của học viên, usage/token, tag/push đúng hạn, CI trên GitHub, video và Release cuối cùng. Tag/Release chỉ được tính là đã nộp khi thực sự có trên GitHub.
+- [Ticket gốc](docs/spec/TICKET-02.txt), [acceptance criteria](docs/spec/phase-2.md), [giả định/delta](docs/notes/phase-2.md), [nhật ký AI](docs/notes/ai-log.md), [retro](docs/notes/retro.md).
+- **Đêm 3 chưa được ticket cho điểm xuất phát:** tạm chọn(0,0,-30) ở tầng0, tránh khối tháp tại gốc. Đây là giả định cần đối chiếu Coach nếu có bổ sung; scenario luôn override được.
+- Chưa có test ẩn; chưa chơi thủ công thắng cả3 đêm trong GUI, chưa đánh giá chất lượng nghe toàn bộ âm thanh. Phạm vi bằng chứng được ghi rõ trong proof.
+- Phase 1 source/test/harness được giữ ở commit local `80da52e`, proof cũ giữ nguyên. Commit local không thay cho tag nộp trên GitHub; không tạo tag lùi ngày.
+- Phase 3/4 chờ ticket; tag/push/review học viên, video và Release cuối vẫn theo [TODO](docs/TODO.md) và lịch Coach.
 
-**Lịch lab:** phase-1 trước 1h; phase-2 trước 2h; phase-3 trước 2h30; phase-4 + Release v1.0.0 + video trước 4h, tính từ lúc bắt đầu theo Coach. Sau hết giờ lab không commit thêm nội dung sản phẩm.
-
-## Tài liệu, nguồn và giấy phép
-
-[Tài liệu lab ban đầu](docs/lab/README.md) · [GUIDE](GUIDE.md) · [CHECKPOINTS](CHECKPOINTS.md) · [SUBMISSION](SUBMISSION.md) · [RULES](RULES.md) · [RUBRIC](RUBRIC.md) · [Lab board](https://claude.ai/artifact/Q1RYyv1dxjUczzCbd2ZnoW).
-
-[CREDITS](CREDITS.md) và [LICENSE](LICENSE). Giữ nguyên quyền tác giả của đề bài gốc; mã triển khai gốc MIT, Three.js MIT. Không dùng asset của game/phim có sẵn.
+[Tài liệu lab gốc](docs/lab/README.md) · [SUBMISSION](SUBMISSION.md) · [RULES](RULES.md) · [RUBRIC](RUBRIC.md) · [CREDITS](CREDITS.md) · [LICENSE](LICENSE).

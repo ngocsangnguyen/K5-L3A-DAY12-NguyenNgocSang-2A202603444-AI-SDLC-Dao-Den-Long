@@ -1,379 +1,97 @@
 import * as THREE from 'three';
-import { randomFromSeed } from './core/random.js';
-import { ISLAND_RADIUS } from './core/game.js';
+import {randomFromSeed} from './core/random.js';
+import {levelFor,groundHeight} from './core/levels.js';
 
-const C = { grass: 0x315e51, sand: 0x698c72, rock: 0x284853, wood: 0x675d4d, gold: 0xffcc7c, dark: 0x152e35, leaf: 0x427d67 };
-const material = (color, options = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.9, ...options });
-const cone = (r, h, n = 7) => new THREE.ConeGeometry(r, h, n);
-const cylinder = (top, bottom, h, n = 12) => new THREE.CylinderGeometry(top, bottom, h, n);
-const sphere = (r = 1, n = 10) => new THREE.SphereGeometry(r, n, n - 2);
-const dummy = new THREE.Object3D();
-
-export class World {
-  constructor(canvas, tuning) {
-    this.canvas = canvas;
-    this.tuning = tuning;
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
-    this.renderer.setClearColor(0x102932);
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFShadowMap;
-    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.18;
-    this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.FogExp2(0x102932, 0.008);
-    this.camera = new THREE.PerspectiveCamera(43, 1, 0.1, 230);
-    this.camera.position.set(30, 45, 60);
-    this.target = new THREE.Vector3(-13, 0, 9);
-    this.camera.lookAt(this.target);
-    this.ambient = new THREE.HemisphereLight(0x9ed5cf, 0x1e323c, 1.85);
-    this.scene.add(this.ambient);
-    const moon = new THREE.DirectionalLight(0xb9d8e7, 2.1);
-    moon.position.set(-18, 36, 12); moon.castShadow = true;
-    moon.shadow.mapSize.set(1024, 1024);
-    Object.assign(moon.shadow.camera, { left: -32, right: 32, top: 32, bottom: -32, near: 1, far: 90 });
-    moon.shadow.normalBias = 0.04; moon.shadow.bias = -0.0001;
-    this.scene.add(moon);
-    this.random = randomFromSeed(810);
-    this.lampModels = new Map(); this.moteModels = new Map(); this.shadeModels = new Map();
-    this.pulses = []; this.floaters = []; this.stars = [];
-    this.moteGeometry = sphere(0.095, 7);
-    this.moteMaterial = material(0xffe9a2, { emissive: 0xffc54c, emissiveIntensity: 2.5 });
-    this.glowTexture = this.createGlowTexture();
-    this.glowMaterial = new THREE.SpriteMaterial({ map: this.glowTexture, color: 0xffcf73, transparent: true, opacity: 0.7, depthWrite: false, blending: THREE.AdditiveBlending });
-    this.buildIsland(); this.buildNature(); this.buildSea(); this.buildAtmosphere();
-    this.player = this.makePlayer(); this.scene.add(this.player);
-    this.resize();
+export const PALETTE={sky:0x0e1430,fog:0x1b2350,grass:0x2f5d50,sand:0xc9b48a,wood:0x6b4a2f,sea:0x12384a,lit:0xffb347,core:0xffe9b0,unlit:0x5b5f6e,mote:0xfff6c2,halo:0xffe58a,shade:0x120a1a,rim:0x7a3cff,stunned:0x3a3450,coat:0xe8e2d0,red:0xc8102e,gold:0xf2c14e,drifter:0x8fa3b8};
+const mat=(color,extra={})=>new THREE.MeshLambertMaterial({color,...extra});
+const cyl=(r,h,n=12)=>new THREE.CylinderGeometry(r,r,h,n);
+const orb=(r,n=10)=>new THREE.SphereGeometry(r,n,n-2);
+const dummy=new THREE.Object3D();
+export class World{
+  constructor(canvas,tuning,level=levelFor(1)){
+    this.canvas=canvas;this.tuning=tuning;this.level=level;this.random=randomFromSeed(810+level.night);
+    this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio,1));this.renderer.setClearColor(PALETTE.sky);this.renderer.outputColorSpace=THREE.SRGBColorSpace;
+    this.scene=new THREE.Scene();this.scene.fog=new THREE.FogExp2(PALETTE.fog,.005);
+    this.camera=new THREE.PerspectiveCamera(47,1,.1,400);this.target=new THREE.Vector3();this.camera.position.set(30,45,60);
+    this.ambient=new THREE.HemisphereLight(0xd5e3ff,0x19283a,.15);this.scene.add(this.ambient);
+    const moon=new THREE.DirectionalLight(0xc6daf6,1.5);moon.position.set(-20,35,15);this.scene.add(moon);
+    this.dynamic=new THREE.Group();this.scene.add(this.dynamic);
+    this.glowTexture=this.makeGlow();this.glowMat=new THREE.SpriteMaterial({map:this.glowTexture,color:PALETTE.halo,transparent:true,opacity:.55,depthWrite:false,blending:THREE.AdditiveBlending});
+    this.moteGeo=orb(.13,7);this.moteMat=new THREE.MeshBasicMaterial({color:PALETTE.mote});
+    this.moteBatch=new THREE.InstancedMesh(this.moteGeo,this.moteMat,256);this.moteBatch.frustumCulled=false;this.moteBatch.count=0;this.dynamic.add(this.moteBatch);
+    const glowGeo=new THREE.BufferGeometry();glowGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(256*3),3));glowGeo.setDrawRange(0,0);
+    this.moteGlows=new THREE.Points(glowGeo,new THREE.PointsMaterial({map:this.glowTexture,color:PALETTE.halo,size:1.2,transparent:true,opacity:.6,depthWrite:false,blending:THREE.AdditiveBlending}));this.moteGlows.frustumCulled=false;this.dynamic.add(this.moteGlows);
+    this.lamps=new Map();this.motes=new Map();this.shades=new Map();this.drifters=new Map();this.charms=new Map();this.pulses=[];
+    this.windLeaves=new THREE.InstancedMesh(new THREE.PlaneGeometry(.3,.14),mat(0xb9aa62,{side:THREE.DoubleSide}),32);this.windLeaves.frustumCulled=false;this.windLeaves.visible=false;this.dynamic.add(this.windLeaves);
+    this.buildTerrain();this.buildNature();this.buildClouds();this.player=this.makePlayer();this.dynamic.add(this.player);this.resize();
   }
-
-  addMesh(parent, geometry, mat, pos, scale) {
-    const mesh = new THREE.Mesh(geometry, mat);
-    if (pos) mesh.position.set(...pos);
-    if (scale) mesh.scale.set(...scale);
-    mesh.castShadow = true; mesh.receiveShadow = true;
-    parent.add(mesh); return mesh;
+  mesh(parent,geo,material,p=[0,0,0],scale){const m=new THREE.Mesh(geo,material);m.position.set(...p);if(scale)m.scale.set(...scale);parent.add(m);return m;}
+  makeGlow(){const c=document.createElement('canvas');c.width=c.height=64;const ctx=c.getContext('2d'),g=ctx.createRadialGradient(32,32,0,32,32,32);g.addColorStop(0,'#fff6c2');g.addColorStop(.15,'#ffe58acc');g.addColorStop(.45,'#ffe58a33');g.addColorStop(1,'#ffe58a00');ctx.fillStyle=g;ctx.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);}
+  glow(parent,p,size,material=this.glowMat){const s=new THREE.Sprite(material);s.position.set(...p);s.scale.setScalar(size);parent.add(s);return s;}
+  disk(radius,y,center=[0,0,0],color=PALETTE.grass){const mesh=this.mesh(this.scene,new THREE.CircleGeometry(radius,64),mat(color),[center[0],y,center[2]]);mesh.rotation.x=-Math.PI/2;return mesh;}
+  buildTerrain(){
+    for(const island of this.level.islands){const [x,y,z]=island.center,r=island.radius;
+      this.mesh(this.scene,new THREE.CylinderGeometry(r,r-3,4,48),mat(0x283d50),[x,y-2.3,z]);
+      this.mesh(this.scene,new THREE.CylinderGeometry(r+.1,r, .4,64),mat(PALETTE.sand),[x,y-.26,z]);
+      this.disk(r-.2,y-.035,island.center);
+      this.ringTrail(island.center,r*.6,y+.01);
+    }
+    const bridge=this.level.bridge;
+    if(bridge){const boards=new THREE.InstancedMesh(new THREE.BoxGeometry(.48,.14,4),mat(PALETTE.wood),36);for(let i=0;i<36;i++){dummy.position.set(26+i*.5,-.07,0);dummy.rotation.set(0,0,0);dummy.scale.set(1,1,1);dummy.updateMatrix();boards.setMatrixAt(i,dummy.matrix);}this.scene.add(boards);}
+    if(this.level.night===3){
+      const ring=new THREE.RingGeometry(12,24,64,1,0,Math.PI);ring.rotateX(-Math.PI/2);ring.rotateY(Math.PI);this.mesh(this.scene,ring,mat(PALETTE.grass,{side:THREE.DoubleSide}),[0,3,0]);
+      for(const r of [12,24]){const wall=new THREE.CylinderGeometry(r,r,3,64,1,true,0,Math.PI);const m=this.mesh(this.scene,wall,mat(0x46635b,{side:THREE.DoubleSide}),[0,1.5,0]);m.rotation.y=-Math.PI/2;}
+      this.mesh(this.scene,cyl(8,6,48),mat(0x465f59),[0,3,0]);this.disk(8,6.01);
+      for(const ramp of this.level.ramps){const a=ramp.angle*Math.PI/180,verts=[];for(const [r,y,side] of [[30,0,-1.5],[30,0,1.5],[24,3,-1.5],[24,3,1.5]])verts.push(r*Math.cos(a)-side*Math.sin(a),y+.02,r*Math.sin(a)+side*Math.cos(a));const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setIndex([0,2,1,1,2,3]);geo.computeVertexNormals();this.mesh(this.scene,geo,mat(PALETTE.sand,{side:THREE.DoubleSide}));}
+      this.mesh(this.scene,cyl(2,8,16),mat(PALETTE.wood),[0,10,0]);this.mesh(this.scene,new THREE.ConeGeometry(3.3,1.8,8),mat(0x476b61),[0,14.9,0]);this.mesh(this.scene,orb(.65),mat(PALETTE.gold),[0,14.1,1.85]);
+    }
+    for(const pad of this.level.pads){this.mesh(this.scene,cyl(1,.15,24),mat(PALETTE.wood),[pad.pos[0],pad.pos[1]+.02,pad.pos[2]]);const ring=this.mesh(this.scene,new THREE.TorusGeometry(.8,.06,6,28),new THREE.MeshBasicMaterial({color:PALETTE.gold}),[pad.pos[0],pad.pos[1]+.13,pad.pos[2]]);ring.rotation.x=Math.PI/2;this.glow(this.scene,[pad.pos[0],pad.pos[1]+.2,pad.pos[2]],2.5);}
+    const water=this.mesh(this.scene,new THREE.PlaneGeometry(700,700),mat(PALETTE.sea),[0,-11,0]);water.rotation.x=-Math.PI/2;
   }
-
-  createGlowTexture() {
-    const canvas = document.createElement('canvas'); canvas.width = canvas.height = 64;
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    gradient.addColorStop(0, '#fff7ce'); gradient.addColorStop(0.12, '#fff0a9ee'); gradient.addColorStop(0.35, '#ffdc7a55'); gradient.addColorStop(1, '#ffbd5500');
-    ctx.fillStyle = gradient; ctx.fillRect(0, 0, 64, 64);
-    return new THREE.CanvasTexture(canvas);
+  ringTrail(center,r,y){const ring=new THREE.RingGeometry(r-.55,r+.55,80);ring.rotateX(-Math.PI/2);this.mesh(this.scene,ring,mat(0x718677),[center[0],y,center[2]]);}
+  buildNature(){
+    const positions=[];for(const island of this.level.islands)for(let i=0;i<14;i++){const a=i/14*Math.PI*2,r=island.radius-3;const x=island.center[0]+Math.cos(a)*r,z=island.center[2]+Math.sin(a)*r;positions.push([x,groundHeight(this.level,x,z),z]);}
+    const trunks=new THREE.InstancedMesh(cyl(.2,3,6),mat(PALETTE.wood),positions.length),foliage=new THREE.InstancedMesh(new THREE.ConeGeometry(1.6,2.4,7),mat(0x3b7860),positions.length*3);
+    positions.forEach((p,i)=>{dummy.position.set(p[0],p[1]+1.4,p[2]);dummy.rotation.set(0,i,0);dummy.scale.set(1,1,1);dummy.updateMatrix();trunks.setMatrixAt(i,dummy.matrix);for(let j=0;j<3;j++){dummy.position.set(p[0],p[1]+2.4+j*.9,p[2]);dummy.scale.setScalar(1-j*.19);dummy.updateMatrix();foliage.setMatrixAt(i*3+j,dummy.matrix);}});this.scene.add(trunks,foliage);
+    const count=this.level.islands.length*180,grass=new THREE.InstancedMesh(new THREE.ConeGeometry(.13,.6,3),mat(0x70906a),count),rocks=new THREE.InstancedMesh(new THREE.DodecahedronGeometry(.7),mat(0x789483),count/9);
+    for(let i=0;i<count;i++){const island=this.level.islands[i%this.level.islands.length],a=this.random()*Math.PI*2,r=8+this.random()*(island.radius-10),x=island.center[0]+Math.cos(a)*r,z=island.center[2]+Math.sin(a)*r;const y=groundHeight(this.level,x,z);dummy.position.set(x,y+.15,z);dummy.rotation.set(0,this.random()*6,0);dummy.scale.setScalar(.5+this.random());dummy.updateMatrix();grass.setMatrixAt(i,dummy.matrix);if(i<count/9){dummy.scale.set(1,.5,1);dummy.updateMatrix();rocks.setMatrixAt(i,dummy.matrix);}}
+    this.scene.add(grass,rocks);
   }
-
-  buildIsland() {
-    // The playable surface is Y=0. Terrain below it is visual only.
-    const island = new THREE.Group(); this.scene.add(island);
-    this.addMesh(island, cylinder(23, 20, 3.8, 52), material(C.rock), [0, -2.2, 0]);
-    this.addMesh(island, cylinder(23.5, 23, 0.5, 70), material(C.sand), [0, -0.38, 0]);
-    const groundGeometry = new THREE.CircleGeometry(23, 72);
-    groundGeometry.rotateX(-Math.PI / 2);
-    const colors = [], count = groundGeometry.attributes.position.count;
-    for (let i = 0; i < count; i++) {
-      const color = new THREE.Color(C.grass).multiplyScalar(0.87 + this.random() * 0.22);
-      colors.push(color.r, color.g, color.b);
-    }
-    groundGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    const ground = this.addMesh(island, groundGeometry, material(0xffffff, { vertexColors: true }), [0, -0.055, 0]);
-    ground.castShadow = false;
-    const stones = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1, 0), material(0x34525a), 56);
-    for (let i = 0; i < 56; i++) {
-      const a = i * Math.PI * 2 / 56;
-      dummy.position.set(Math.cos(a) * 22, -1.1 - this.random() * 1.5, Math.sin(a) * 22);
-      dummy.rotation.set(this.random(), this.random() * 6, this.random());
-      dummy.scale.set(1 + this.random() * 1.3, 1.1 + this.random() * 2, 1 + this.random() * 1.5);
-      dummy.updateMatrix(); stones.setMatrixAt(i, dummy.matrix);
-    }
-    stones.receiveShadow = true; this.scene.add(stones);
-    const pathMaterial = material(0x6c8b70);
-    // Five winding routes and a soft perimeter trail connect every objective.
-    for (let i = 0; i < 5; i++) {
-      const angle = Math.PI / 2 + i * Math.PI * 2 / 5;
-      const end = new THREE.Vector3(Math.cos(angle) * 14, 0.007, Math.sin(angle) * 14);
-      const curve = new THREE.CatmullRomCurve3([new THREE.Vector3(0, 0.007, 0), new THREE.Vector3(Math.cos(angle + .22) * 5, .007, Math.sin(angle + .22) * 5), new THREE.Vector3(Math.cos(angle - .12) * 10, .007, Math.sin(angle - .12) * 10), end]);
-      this.ribbon(curve, 1.4, pathMaterial);
-    }
-    const ringPoints = Array.from({ length: 31 }, (_, i) => new THREE.Vector3(Math.cos(i / 30 * Math.PI * 2) * 14, .005, Math.sin(i / 30 * Math.PI * 2) * 14));
-    this.ribbon(new THREE.CatmullRomCurve3(ringPoints), 1.05, pathMaterial);
-    const spawn = this.addMesh(this.scene, cylinder(2.3, 2.5, .12, 32), material(0x88997b), [0, -.035, 0]); spawn.castShadow = false;
-    // A small dock points into the cloud sea.
-    const dock = new THREE.Group(); dock.position.set(1, 0, 22); this.scene.add(dock);
-    const wood = material(0x7c765c);
-    for (let i = 0; i < 10; i++) this.addMesh(dock, new THREE.BoxGeometry(2.8, .14, .48), wood, [0, -.1, i * .55]);
-    for (const x of [-1.25, 1.25]) for (const z of [.2, 4.8]) {
-      this.addMesh(dock, cylinder(.09, .12, 1.6), material(C.wood), [x, -.1, z]);
-      this.addMesh(dock, sphere(.14, 7), material(0xaaa17b), [x, .75, z]);
-    }
-    // A little resting spot by the first lamp.
-    const blanket = this.addMesh(this.scene, new THREE.BoxGeometry(2.3, .045, 1.2), material(0xb78865), [3.5, .02, 16.8]); blanket.rotation.y = -.2;
-    this.addMesh(this.scene, cylinder(.35, .35, .42, 12), material(0x668c78), [4.3, .22, 17.2]);
+  buildClouds(){const clouds=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),mat(0x49657c,{transparent:true,opacity:.35}),55);for(let i=0;i<55;i++){const a=this.random()*Math.PI*2,r=50+this.random()*75;dummy.position.set(Math.cos(a)*r,-5+this.random()*1.2,Math.sin(a)*r);dummy.rotation.set(0,this.random()*6,0);dummy.scale.set(5+this.random()*8,1+this.random(),3+this.random()*6);dummy.updateMatrix();clouds.setMatrixAt(i,dummy.matrix);}this.scene.add(clouds);}
+  makePlayer(){const g=new THREE.Group(),coat=mat(PALETTE.coat),skin=mat(0xdac3a1),hat=mat(PALETTE.sand);this.mesh(g,new THREE.CylinderGeometry(.28,.4,.75,8),coat,[0,.73,0]);this.mesh(g,orb(.27,12),skin,[0,1.32,0]);this.mesh(g,new THREE.ConeGeometry(.65,.38,24),hat,[0,1.58,0]);const brim=this.mesh(g,new THREE.TorusGeometry(.58,.025,5,28),mat(0x9b875e),[0,1.41,0]);brim.rotation.x=Math.PI/2;this.mesh(g,new THREE.BoxGeometry(.13,.65,.1),mat(PALETTE.red),[0,.94,.32]);this.legs=[];for(const x of [-.16,.16])this.legs.push(this.mesh(g,cyl(.085,.4,6),mat(0x294445),[x,.22,0]));this.mesh(g,cyl(.01,.5,4),mat(PALETTE.wood),[.46,1.2,.05]);this.mesh(g,orb(.17),new THREE.MeshBasicMaterial({color:PALETTE.lit}),[.46,.91,.05],[.8,1.15,.8]);this.glow(g,[.46,1,.05],1.4);const shadow=this.mesh(g,new THREE.CircleGeometry(.55,20),new THREE.MeshBasicMaterial({color:0x081324,transparent:true,opacity:.24,depthWrite:false}),[0,.02,0]);shadow.rotation.x=-Math.PI/2;return g;}
+  buildLampFrames(lamps){
+    if(this.lampFrames)this.release(this.lampFrames);this.lampFrames=new THREE.Group();this.dynamic.add(this.lampFrames);
+    const specs=[{geo:new THREE.CylinderGeometry(1,1.2,.25,10),color:PALETTE.sand,parts:[{p:[0,.1,0],s:[1,1,1]}]},{geo:new THREE.BoxGeometry(1,1,1),color:PALETTE.wood,parts:[{p:[-.65,1.65,0],s:[.13,2.7,.14]},{p:[.65,1.65,0],s:[.13,2.7,.14]},{p:[0,2.92,0],s:[1.75,.13,.2]}]},{geo:new THREE.ConeGeometry(1.45,.5,4),color:0x315c55,parts:[{p:[0,3.18,0],s:[1,1,1],yaw:Math.PI/4}]},{geo:cyl(.19,.08,10),color:PALETTE.gold,parts:[{p:[0,1.62,0],s:[1,1,1]},{p:[0,2.78,0],s:[1,1,1]}]}];
+    for(const spec of specs){const mesh=new THREE.InstancedMesh(spec.geo,mat(spec.color),lamps.length*spec.parts.length);let i=0;for(const l of lamps)for(const part of spec.parts){dummy.position.set(l.pos[0]+part.p[0],l.pos[1]+part.p[1],l.pos[2]+part.p[2]);dummy.scale.set(...part.s);dummy.rotation.set(0,part.yaw??0,0);dummy.updateMatrix();mesh.setMatrixAt(i++,dummy.matrix);}this.lampFrames.add(mesh);}
   }
-
-  ribbon(curve, width, mat) {
-    const points = curve.getPoints(80), vertices = [], indices = [];
-    points.forEach((point, i) => {
-      const tangent = curve.getTangent(i / 80);
-      const normal = new THREE.Vector3(-tangent.z, 0, tangent.x).normalize().multiplyScalar(width / 2);
-      vertices.push(point.x + normal.x, point.y, point.z + normal.z, point.x - normal.x, point.y, point.z - normal.z);
-      if (i < 80) { const n = i * 2; indices.push(n, n + 2, n + 1, n + 1, n + 2, n + 3); }
-    });
-    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); geo.setIndex(indices); geo.computeVertexNormals();
-    const mesh = this.addMesh(this.scene, geo, mat); mesh.receiveShadow = true; mesh.castShadow = false;
+  makeLamp(l){const g=new THREE.Group();g.position.set(...l.pos);this.dynamic.add(g);const paper=mat(PALETTE.unlit,{emissive:PALETTE.lit,emissiveIntensity:0});const body=this.mesh(g,orb(.62,12),paper,[0,2.2,0],[.82,1,.82]);const light=new THREE.PointLight(PALETTE.lit,0,16,2);light.position.y=2.5;g.add(light);const glow=this.glow(g,[0,2.2,0],4,this.glowMat.clone());glow.material.opacity=0;const ring=this.mesh(g,new THREE.RingGeometry(5.95,6,48),new THREE.MeshBasicMaterial({color:PALETTE.gold,transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}),[0,.04,0]);ring.rotation.x=-Math.PI/2;return {group:g,paper,body,light,glow,ring};}
+  makeShade(){const g=new THREE.Group(),bodyMat=mat(PALETTE.shade,{emissive:PALETTE.rim,emissiveIntensity:.2});this.mesh(g,orb(.65,10),bodyMat,[0,0,0],[1,1.1,1]);for(const x of [-.2,.2])this.mesh(g,orb(.075,6),new THREE.MeshBasicMaterial({color:0xeedcff}),[x,.15,.59]);this.glow(g,[0,0,0],2.3,new THREE.SpriteMaterial({map:this.glowTexture,color:PALETTE.rim,transparent:true,opacity:.3,depthWrite:false,blending:THREE.AdditiveBlending}));this.dynamic.add(g);return {group:g,bodyMat};}
+  makeDrifter(){const g=new THREE.Group(),material=mat(PALETTE.drifter,{side:THREE.DoubleSide,emissive:0x223145});for(let i=0;i<4;i++)this.mesh(g,new THREE.PlaneGeometry(.65-i*.1,.7),material,[Math.sin(i*.6)*.3,-i*.4,0]);this.dynamic.add(g);return {group:g};}
+  makeCharm(c){const g=new THREE.Group();g.position.set(...c.pos);this.mesh(g,new THREE.BoxGeometry(.45,.7,.06),mat(PALETTE.red),[0,1,0]);const border=this.mesh(g,new THREE.BoxGeometry(.53,.78,.04),mat(PALETTE.gold),[0,1,-.01]);this.glow(g,[0,1,0],1.8);this.dynamic.add(g);return {group:g};}
+  release(group){this.dynamic.remove(group);const geos=new Set(),materials=new Set();group.traverse(o=>{if(o.geometry&&o.geometry!==this.moteGeo)geos.add(o.geometry);if(o.material&&o.material!==this.glowMat&&o.material!==this.moteMat)materials.add(o.material);});for(const g of geos)g.dispose();for(const m of materials)m.dispose();}
+  remove(map){for(const m of map.values())this.release(m.group);map.clear();}
+  reset(game){for(const map of [this.lamps,this.motes,this.shades,this.drifters,this.charms])this.remove(map);for(const p of this.pulses)this.release(p.mesh);this.pulses=[];this.buildLampFrames(game.lanterns);for(const l of game.lanterns)this.lamps.set(l.id,this.makeLamp(l));for(const c of game.charms)this.charms.set(c.id,this.makeCharm(c));this.player.position.set(...game.player.pos);}
+  pulse(p){const m=this.mesh(this.dynamic,new THREE.RingGeometry(.95,1,48),new THREE.MeshBasicMaterial({color:PALETTE.lit,transparent:true,opacity:.8,side:THREE.DoubleSide,depthWrite:false}),[p[0],p[1]+.15,p[2]]);m.rotation.x=-Math.PI/2;this.pulses.push({mesh:m,age:0});}
+  sync(map,entities,make,update){const ids=new Set(entities.map(e=>e.id));for(const [id,m]of map)if(!ids.has(id)){this.dynamic.remove(m.group);map.delete(id);}for(const e of entities){if(!map.has(e.id))map.set(e.id,make(e));update(map.get(e.id),e);}}
+  update(game,time,dt,{home,yaw,distance,reduceMotion=false}){
+    const lit=game.lanterns.filter(l=>l.lit).length;this.ambient.intensity=.15+.55*(lit/game.lanterns.length);
+    this.player.position.set(...game.player.pos);this.player.rotation.y=Math.atan2(...game.facing);this.player.visible=game.player.invuln===0||Math.floor(time*12)%2===0||home;
+    this.legs.forEach((leg,i)=>leg.rotation.x=!home&&game.state==='playing'&&Math.hypot(game.player.vel[0],game.player.vel[2])>.1?Math.sin(time*13+i*Math.PI)*.5:0);
+    for(const l of game.lanterns){const m=this.lamps.get(l.id);m.paper.color.setHex(l.lit?PALETTE.lit:PALETTE.unlit);m.paper.emissive.setHex(PALETTE.core);m.paper.emissiveIntensity=l.lit?.9:0;m.light.intensity=l.lit?26:0;m.glow.material.opacity=l.lit?.6:0;m.ring.material.opacity=l.lit?.3:0;}
+    const glowPositions=this.moteGlows.geometry.attributes.position;
+    this.moteBatch.count=Math.min(game.motes.length,256);this.moteGlows.geometry.setDrawRange(0,this.moteBatch.count);
+    for(let i=0;i<this.moteBatch.count;i++){const e=game.motes[i],y=e.pos[1]+.55+(reduceMotion?0:Math.sin(time*2+i*1.78)*.12);dummy.position.set(e.pos[0],y,e.pos[2]);dummy.rotation.set(0,0,0);dummy.scale.set(1,1,1);dummy.updateMatrix();this.moteBatch.setMatrixAt(i,dummy.matrix);glowPositions.setXYZ(i,e.pos[0],y,e.pos[2]);}this.moteBatch.instanceMatrix.needsUpdate=true;glowPositions.needsUpdate=true;
+    this.sync(this.shades,game.shades,()=>this.makeShade(),(m,s)=>{m.group.position.set(...s.pos);m.group.position.y+=reduceMotion?0:Math.sin(time*2+s.pos[0])*.08;m.group.rotation.y=Math.atan2(game.player.pos[0]-s.pos[0],game.player.pos[2]-s.pos[2]);m.bodyMat.color.setHex(s.state==='stunned'?PALETTE.stunned:PALETTE.shade);m.group.scale.setScalar(s.state==='spawning'?.5:1);});
+    this.sync(this.drifters,game.drifters.filter(d=>d.state!=='removed'),()=>this.makeDrifter(),(m,d)=>{m.group.position.set(d.pos[0],d.pos[1]+.5,d.pos[2]);m.group.rotation.y=time*.8;});
+    for(const c of game.charms){const m=this.charms.get(c.id);if(m){m.group.visible=c.available;m.group.rotation.y=time*.7;}}
+    this.windLeaves.visible=game.wind.warning||game.wind.active;
+    if(this.windLeaves.visible){const a=game.wind.dir_deg*Math.PI/180;for(let i=0;i<32;i++){const travel=((time*3+i*1.7)%20)-10,side=Math.sin(i*7.1)*8;dummy.position.set(game.player.pos[0]+Math.cos(a)*travel-Math.sin(a)*side,game.player.pos[1]+1.5+(i%7)*.5,game.player.pos[2]+Math.sin(a)*travel+Math.cos(a)*side);dummy.rotation.set(time+i,i*.7,time*.8);dummy.scale.set(1,1,1);dummy.updateMatrix();this.windLeaves.setMatrixAt(i,dummy.matrix);}this.windLeaves.instanceMatrix.needsUpdate=true;}
+    for(let i=this.pulses.length-1;i>=0;i--){const p=this.pulses[i];p.age+=dt;p.mesh.scale.setScalar(.2+p.age*7);p.mesh.material.opacity=Math.max(0,.8-p.age);if(p.age>.8){this.dynamic.remove(p.mesh);p.mesh.geometry.dispose();p.mesh.material.dispose();this.pulses.splice(i,1);}}
+    let target,position;if(home){const center=this.level.night===2?25:0;target=new THREE.Vector3(center-18,0,8);position=target.clone().add(new THREE.Vector3(65,70,85));}else{target=new THREE.Vector3(game.player.pos[0],Math.max(game.player.pos[1],-4)+.7,game.player.pos[2]);position=target.clone().add(new THREE.Vector3(Math.sin(yaw)*distance,distance*.6,Math.cos(yaw)*distance));}
+    const smooth=1-Math.exp(-dt*5);this.target.lerp(target,smooth);this.camera.position.lerp(position,smooth);this.camera.lookAt(this.target);this.renderer.render(this.scene,this.camera);
   }
-
-  buildNature() {
-    const trunkMat = material(0x776753), leaves = [material(0x37745d), material(0x528b68), material(0x37695d)];
-    const treeAngles = [.12, .66, 1.0, 1.62, 2.03, 2.52, 2.9, 3.35, 3.82, 4.25, 4.72, 5.18, 5.65, 5.95];
-    treeAngles.forEach((a, i) => {
-      const radius = 18.5 + this.random() * 2.2;
-      const tree = new THREE.Group(); tree.position.set(Math.cos(a) * radius, 0, Math.sin(a) * radius);
-      tree.scale.setScalar(.8 + this.random() * .45); tree.rotation.y = a; this.scene.add(tree);
-      const trunk = this.addMesh(tree, cylinder(.13, .27, 3.2, 7), trunkMat, [0, 1.5, 0]); trunk.rotation.z = .1;
-      if (i % 4 === 0) {
-        // Rounded copper-pink trees are entirely procedural original assets.
-        this.addMesh(tree, new THREE.IcosahedronGeometry(1.5, 1), material(0xac8e87), [0, 3.4, 0], [1.15, .75, 1]);
-        this.addMesh(tree, new THREE.IcosahedronGeometry(1.1, 1), material(0xc0a192), [-.8, 3, .4]);
-      } else {
-        for (let j = 0; j < 3; j++) this.addMesh(tree, cone(1.65 - j * .35, 2.2 - j * .25, 7), leaves[(i + j) % leaves.length], [0, 2.5 + j * 1.1, 0]);
-      }
-      // Grass clumps at the tree base.
-      for (let j = 0; j < 3; j++) this.addMesh(tree, new THREE.IcosahedronGeometry(.6, 0), leaves[(i + 1) % 3], [j * .5 - .5, .25, .5], [1, .55, 1]);
-    });
-    const grass = new THREE.InstancedMesh(cone(.14, .65, 4), material(0x6c9c72), 420);
-    for (let i = 0; i < 420; i++) {
-      const a = this.random() * Math.PI * 2, r = 4 + this.random() * 18;
-      dummy.position.set(Math.cos(a) * r, .12, Math.sin(a) * r);
-      dummy.rotation.set((this.random() - .5) * .6, this.random() * 6, (this.random() - .5) * .4);
-      dummy.scale.set(.5 + this.random() * .7, .45 + this.random() * .8, .5 + this.random() * .7);
-      dummy.updateMatrix(); grass.setMatrixAt(i, dummy.matrix);
-    }
-    this.scene.add(grass);
-    const rocks = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(.7), material(0x789483), 40);
-    for (let i = 0; i < 40; i++) {
-      const a = this.random() * Math.PI * 2, r = 7 + this.random() * 14;
-      dummy.position.set(Math.cos(a) * r, .08, Math.sin(a) * r); dummy.rotation.set(this.random(), this.random(), this.random());
-      dummy.scale.set(.4 + this.random(), .25 + this.random() * .4, .5 + this.random()); dummy.updateMatrix(); rocks.setMatrixAt(i, dummy.matrix);
-    }
-    rocks.receiveShadow = true; this.scene.add(rocks);
-    // Small glowing mushrooms give routes a quiet, fairytale detail.
-    const mushroomMat = material(0x9cc7ad, { emissive: 0x345e49, emissiveIntensity: .35 });
-    for (let i = 0; i < 26; i++) {
-      const a = this.random() * Math.PI * 2, r = 8 + this.random() * 13, x = Math.cos(a) * r, z = Math.sin(a) * r;
-      this.addMesh(this.scene, cylinder(.035, .045, .27, 6), material(0xb3b69b), [x, .1, z]);
-      this.addMesh(this.scene, sphere(.22, 8), mushroomMat, [x, .26, z], [1, .45, 1]);
-    }
-  }
-
-  buildSea() {
-    const sea = this.addMesh(this.scene, new THREE.PlaneGeometry(400, 400), material(0x143b46, { roughness: .45, metalness: .25 }), [0, -4.5, 0]);
-    sea.rotation.x = -Math.PI / 2; sea.castShadow = sea.receiveShadow = false;
-    const rippleMat = new THREE.MeshBasicMaterial({ color: 0x9cc9b3, transparent: true, opacity: .065, side: THREE.DoubleSide, depthWrite: false });
-    for (let i = 0; i < 9; i++) {
-      const ring = new THREE.Mesh(new THREE.RingGeometry(26 + i * 3, 26.06 + i * 3, 96), rippleMat);
-      ring.rotation.x = -Math.PI / 2; ring.position.y = -4.45; this.scene.add(ring);
-    }
-    const cloudMat = material(0x658e91, { transparent: true, opacity: .33, flatShading: true });
-    const clouds = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 1), cloudMat, 65);
-    for (let i = 0; i < 65; i++) {
-      const a = this.random() * Math.PI * 2, r = 30 + this.random() * 36;
-      dummy.position.set(Math.cos(a) * r, -3.3 + this.random() * 1.1, Math.sin(a) * r);
-      dummy.rotation.set(0, this.random() * 6, 0); dummy.scale.set(3 + this.random() * 6, .7 + this.random() * 1.2, 2 + this.random() * 4);
-      dummy.updateMatrix(); clouds.setMatrixAt(i, dummy.matrix);
-    }
-    this.scene.add(clouds);
-    for (const [x, z, s] of [[-44, -30, 5], [38, -38, 6], [55, 15, 4], [-50, 24, 3]]) {
-      this.addMesh(this.scene, cylinder(s, s * .6, 4, 8), material(0x34545b), [x, -1.7, z]);
-      this.addMesh(this.scene, cylinder(s + .1, s, .3, 10), material(0x527d6b), [x, .4, z]);
-    }
-  }
-
-  buildAtmosphere() {
-    const positions = [];
-    for (let i = 0; i < 190; i++) positions.push((this.random() - .5) * 170, 12 + this.random() * 45, (this.random() - .5) * 170);
-    const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    this.starField = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xc0e0d3, size: .09, transparent: true, opacity: .6, sizeAttenuation: true }));
-    this.scene.add(this.starField);
-    // Drifting decorative fireflies are browser-only and never enter simulation.
-    for (let i = 0; i < 24; i++) {
-      const sprite = new THREE.Sprite(this.glowMaterial); sprite.scale.setScalar(.35 + this.random() * .5);
-      const a = this.random() * Math.PI * 2, r = 6 + this.random() * 20;
-      sprite.position.set(Math.cos(a) * r, 1.5 + this.random() * 3, Math.sin(a) * r);
-      this.floaters.push({ sprite, y: sprite.position.y, phase: this.random() * 6 }); this.scene.add(sprite);
-    }
-  }
-
-  makePlayer() {
-    const player = new THREE.Group(), cape = material(0xe6a067), skin = material(0xdac3a1), dark = material(0x294445), hat = material(0xdbc796);
-    this.addMesh(player, cylinder(.28, .4, .75, 8), cape, [0, .73, 0]);
-    this.addMesh(player, sphere(.27, 12), skin, [0, 1.32, 0]);
-    this.addMesh(player, cone(.65, .38, 24), hat, [0, 1.58, 0]);
-    const brim = this.addMesh(player, new THREE.TorusGeometry(.58, .025, 5, 32), material(0x9c9470), [0, 1.41, 0]); brim.rotation.x = Math.PI / 2;
-    this.legs = [];
-    for (const x of [-.16, .16]) this.legs.push(this.addMesh(player, cylinder(.095, .085, .4, 7), dark, [x, .22, 0]));
-    for (const x of [-.34, .34]) {
-      const arm = this.addMesh(player, cylinder(.085, .11, .45, 7), cape, [x, .87, 0]); arm.rotation.z = x > 0 ? .25 : -.25;
-    }
-    // A small paper lantern hangs from the side of Mây's conical hat.
-    const cord = this.addMesh(player, cylinder(.012, .012, .5, 5), material(0x7b7154), [.46, 1.2, .05]); cord.castShadow = false;
-    this.addMesh(player, sphere(.17, 10), material(0xffd18b, { emissive: 0xffa64a, emissiveIntensity: 1.3 }), [.46, .91, .05], [.8, 1.15, .8]);
-    const glow = new THREE.Sprite(this.glowMaterial); glow.position.set(.46, 1, .05); glow.scale.setScalar(1.4); player.add(glow);
-    this.playerLight = new THREE.PointLight(0xffc77c, 4, 6, 2); this.playerLight.position.set(0, 1.5, 0); player.add(this.playerLight);
-    this.playerFacing = 0; return player;
-  }
-
-  makeLantern(lantern) {
-    const group = new THREE.Group(); group.position.set(...lantern.pos); this.scene.add(group);
-    const stone = material(0x6d8978), wood = material(C.wood);
-    this.addMesh(group, cylinder(1.05, 1.2, .23, 10), stone, [0, .07, 0]);
-    this.addMesh(group, cylinder(.6, .8, .25, 8), material(0x8c9c7b), [0, .28, 0]);
-    for (const x of [-.65, .65]) this.addMesh(group, new THREE.BoxGeometry(.13, 2.7, .14), wood, [x, 1.65, 0]);
-    this.addMesh(group, new THREE.BoxGeometry(1.75, .12, .2), wood, [0, 2.92, 0]);
-    const roof = this.addMesh(group, cone(1.45, .5, 4), material(0x315c55), [0, 3.18, 0]); roof.rotation.y = Math.PI / 4;
-    this.addMesh(group, sphere(.12, 8), material(0xb2a47b), [0, 3.51, 0]);
-    const paper = material(0x81947e, { emissive: 0xf7b45a, emissiveIntensity: .05 });
-    const body = this.addMesh(group, sphere(.62, 16), paper, [0, 2.2, 0], [.82, 1, .82]);
-    const rimMat = material(0xa18a58);
-    for (const y of [1.62, 2.78]) this.addMesh(group, cylinder(.19, .19, .08, 12), rimMat, [0, y, 0]);
-    for (let i = 0; i < 8; i++) {
-      const a = i / 8 * Math.PI * 2, points = [];
-      for (let j = 0; j <= 12; j++) {
-        const theta = j / 12 * Math.PI, r = Math.sin(theta) * .515;
-        points.push(new THREE.Vector3(Math.cos(a) * r, 2.2 + Math.cos(theta) * .625, Math.sin(a) * r));
-      }
-      const rib = this.addMesh(group, new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points), 12, .013, 4, false), rimMat); rib.castShadow = false;
-    }
-    this.addMesh(group, cylinder(.018, .018, .35, 5), material(0xc4a367), [0, 1.42, 0]);
-    const glow = new THREE.Sprite(this.glowMaterial.clone()); glow.position.set(0, 2.2, 0); glow.scale.setScalar(3.8); glow.material.opacity = 0; group.add(glow);
-    const light = new THREE.PointLight(0xffbd64, 0, 12, 2); light.position.set(0, 2.5, 0); group.add(light);
-    const area = new THREE.Mesh(new THREE.CircleGeometry(this.tuning.safe_radius, 48), new THREE.MeshBasicMaterial({ color: 0xe4bf78, transparent: true, opacity: 0, depthWrite: false }));
-    area.rotation.x = -Math.PI / 2; area.position.y = .027; group.add(area);
-    const ring = new THREE.Mesh(new THREE.RingGeometry(this.tuning.safe_radius - .035, this.tuning.safe_radius, 64), new THREE.MeshBasicMaterial({ color: 0xf5d294, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
-    ring.rotation.x = -Math.PI / 2; ring.position.y = .03; group.add(ring);
-    return { group, body, paper, glow, light, area, ring, brightness: 0 };
-  }
-
-  makeMote(mote) {
-    const group = new THREE.Group();
-    const core = new THREE.Mesh(this.moteGeometry, this.moteMaterial); group.add(core);
-    const glow = new THREE.Sprite(this.glowMaterial); glow.scale.setScalar(.9); group.add(glow);
-    this.scene.add(group); return { group, phase: Number(mote.id.slice(1)) * 1.78 };
-  }
-
-  makeShade(shade) {
-    const group = new THREE.Group(), bodyMat = material(0x352c54, { emissive: 0x332446, emissiveIntensity: .35, transparent: true, opacity: .94 });
-    this.addMesh(group, sphere(.67, 12), bodyMat, [0, .75, 0], [1, 1.17, 1]);
-    for (let i = 0; i < 4; i++) {
-      const tentacle = this.addMesh(group, cone(.17, .9, 6), bodyMat, [(i - 1.5) * .27, .13, 0]); tentacle.rotation.z = Math.PI + (i - 1.5) * .2;
-    }
-    const eyes = material(0xf5afbb, { emissive: 0xf6a0bc, emissiveIntensity: 2 });
-    for (const x of [-.21, .21]) this.addMesh(group, sphere(.085, 8), eyes, [x, .92, .58]);
-    const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: this.glowTexture, color: 0x9160c4, transparent: true, opacity: .25, depthWrite: false, blending: THREE.AdditiveBlending }));
-    glow.position.y = .6; glow.scale.setScalar(2.6); group.add(glow);
-    this.scene.add(group); return { group, bodyMat, phase: this.random() * 6 };
-  }
-
-  reset(game) {
-    for (const { group } of this.lampModels.values()) this.disposeGroup(group);
-    this.lampModels.clear();
-    for (const { group } of this.moteModels.values()) this.scene.remove(group);
-    this.moteModels.clear();
-    for (const { group } of this.shadeModels.values()) this.disposeGroup(group);
-    this.shadeModels.clear();
-    for (const pulse of this.pulses) { this.scene.remove(pulse.mesh); pulse.mesh.geometry.dispose(); pulse.mesh.material.dispose(); }
-    this.pulses = [];
-    for (const lantern of game.lanterns) this.lampModels.set(lantern.id, this.makeLantern(lantern));
-    for (const mote of game.motes) this.moteModels.set(mote.id, this.makeMote(mote));
-    for (const shade of game.shades) this.shadeModels.set(shade.id, this.makeShade(shade));
-    this.player.position.set(...game.player.pos);
-  }
-
-  disposeGroup(group) {
-    this.scene.remove(group);
-    group.traverse((obj) => {
-      if (obj.geometry) obj.geometry.dispose();
-      // Group materials are private except shared sprite texture, which stays.
-      if (obj.material) obj.material.dispose();
-    });
-  }
-
-  pulse(pos) {
-    const mesh = new THREE.Mesh(new THREE.RingGeometry(.95, 1, 64), new THREE.MeshBasicMaterial({ color: 0xffd68d, transparent: true, opacity: .9, side: THREE.DoubleSide, depthWrite: false }));
-    mesh.rotation.x = -Math.PI / 2; mesh.position.set(pos[0], .13, pos[2]); this.scene.add(mesh);
-    this.pulses.push({ mesh, age: 0 });
-  }
-
-  update(game, time, dt, { home, yaw, distance, reduceMotion = false }) {
-    const litCount = game.lanterns.filter((l) => l.lit).length;
-    this.ambient.intensity = THREE.MathUtils.lerp(this.ambient.intensity, 1.85 + litCount * .13, .025);
-    this.player.position.set(...game.player.pos);
-    if (Math.hypot(...game.input.move) > 0 && !home && game.state === 'playing') {
-      const angle = Math.atan2(game.input.move[0], game.input.move[1]) + yaw;
-      this.playerFacing += Math.atan2(Math.sin(angle - this.playerFacing), Math.cos(angle - this.playerFacing)) * .18;
-      this.legs.forEach((leg, i) => { leg.rotation.x = Math.sin(time * 13 + i * Math.PI) * .55; });
-    } else this.legs.forEach((leg) => { leg.rotation.x *= .8; });
-    this.player.rotation.y = this.playerFacing;
-    this.player.visible = game.tick >= game.invulnUntil || Math.floor(time * 12) % 2 === 0 || home;
-    for (const lamp of game.lanterns) {
-      const model = this.lampModels.get(lamp.id); if (!model) continue;
-      const target = lamp.lit ? 1 : lamp.deposited / this.tuning.lantern_cost * .3;
-      model.brightness = THREE.MathUtils.lerp(model.brightness, target, Math.min(1, dt * 3));
-      const brightness = model.brightness;
-      model.paper.color.setHex(lamp.lit ? 0xffc36b : 0x81947e);
-      model.paper.emissiveIntensity = .04 + brightness * 1.6;
-      model.glow.material.opacity = brightness * .7;
-      model.light.intensity = brightness * 21;
-      model.area.material.opacity = brightness * .075;
-      model.ring.material.opacity = brightness * .27;
-      model.body.rotation.z = reduceMotion ? 0 : Math.sin(time * .8 + Number(lamp.id.slice(1))) * .025;
-    }
-    const active = new Set(game.motes.map((m) => m.id));
-    for (const [id, model] of this.moteModels) {
-      if (!active.has(id)) { this.scene.remove(model.group); this.moteModels.delete(id); }
-    }
-    for (const mote of game.motes) {
-      if (!this.moteModels.has(mote.id)) this.moteModels.set(mote.id, this.makeMote(mote));
-      const model = this.moteModels.get(mote.id);
-      model.group.position.set(mote.pos[0], .65 + (reduceMotion ? 0 : Math.sin(time * 2 + model.phase) * .16), mote.pos[2]);
-    }
-    for (const shade of game.shades) {
-      if (!this.shadeModels.has(shade.id)) this.shadeModels.set(shade.id, this.makeShade(shade));
-      const model = this.shadeModels.get(shade.id);
-      model.group.position.set(shade.pos[0], shade.pos[1] + (reduceMotion ? 0 : Math.sin(time * 2.5 + model.phase) * .13), shade.pos[2]);
-      model.group.rotation.y = Math.atan2(game.player.pos[0] - shade.pos[0], game.player.pos[2] - shade.pos[2]);
-      model.bodyMat.color.setHex(shade.state === 'stunned' ? 0x64717d : 0x352c54);
-      model.group.scale.setScalar(shade.state === 'stunned' ? .86 : 1);
-    }
-    for (let i = this.pulses.length - 1; i >= 0; i--) {
-      const pulse = this.pulses[i]; pulse.age += dt;
-      pulse.mesh.scale.setScalar(.2 + pulse.age * this.tuning.pulse_radius / .65);
-      pulse.mesh.material.opacity = Math.max(0, .9 - pulse.age * 1.3);
-      if (pulse.age > .75) { this.scene.remove(pulse.mesh); pulse.mesh.geometry.dispose(); pulse.mesh.material.dispose(); this.pulses.splice(i, 1); }
-    }
-    if (!reduceMotion) for (const f of this.floaters) f.sprite.position.y = f.y + Math.sin(time * .6 + f.phase) * .4;
-    const mobile = innerWidth < 720;
-    let desiredTarget, desiredPosition;
-    if (home) {
-      desiredTarget = new THREE.Vector3(mobile ? -8 : -13, 0, mobile ? 6 : 9);
-      const drift = reduceMotion ? 0 : Math.sin(time * .035) * 2;
-      desiredPosition = desiredTarget.clone().add(new THREE.Vector3(43 + drift, mobile ? 54 : 45, mobile ? 65 : 52));
-    } else {
-      desiredTarget = new THREE.Vector3(game.player.pos[0], .6, game.player.pos[2]);
-      desiredPosition = desiredTarget.clone().add(new THREE.Vector3(Math.sin(yaw) * distance, distance * .78, Math.cos(yaw) * distance));
-    }
-    const smoothing = 1 - Math.exp(-dt * 3.5);
-    this.target.lerp(desiredTarget, smoothing); this.camera.position.lerp(desiredPosition, smoothing); this.camera.lookAt(this.target);
-    this.renderer.render(this.scene, this.camera);
-  }
-
-  project(pos) {
-    const projected = new THREE.Vector3(...pos).project(this.camera);
-    return { x: (projected.x * .5 + .5) * this.canvas.clientWidth, y: (-projected.y * .5 + .5) * this.canvas.clientHeight, visible: projected.z > -1 && projected.z < 1 && Math.abs(projected.x) < 1.05 && Math.abs(projected.y) < 1.05 };
-  }
-  resize() {
-    const width = innerWidth, height = innerHeight;
-    this.renderer.setSize(width, height, false); this.camera.aspect = width / height; this.camera.updateProjectionMatrix();
-  }
+  project(p){const v=new THREE.Vector3(...p).project(this.camera);return {x:(v.x*.5+.5)*innerWidth,y:(-v.y*.5+.5)*innerHeight,visible:v.z>-1&&v.z<1&&Math.abs(v.x)<.95&&Math.abs(v.y)<.95};}
+  resize(){this.renderer.setSize(innerWidth,innerHeight,false);this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();}
+  dispose(){const geos=new Set(),materials=new Set();this.scene.traverse(o=>{if(o.geometry)geos.add(o.geometry);if(o.material)materials.add(o.material);});for(const g of geos)g.dispose();for(const m of materials)m.dispose();this.glowTexture.dispose();this.renderer.dispose();}
 }

@@ -1,15 +1,8 @@
-import { Game } from '../src/core/game.js';
-import { readFile, mkdir, writeFile } from 'node:fs/promises';
-import { cpus, totalmem } from 'node:os';
-const tuning = JSON.parse(await readFile(new URL('../game.contract.json', import.meta.url))).tuning;
-const trials = [];
-for (let i = 0; i < 5; i++) {
-  const game = new Game({ seed: i, tuning, scenario: { player: { flames: 1000000 } } });
-  const start = performance.now();
-  while (game.tick < 18000 && game.state === 'playing') game.step({ move: [Math.sin(game.tick / 100), Math.cos(game.tick / 100)] });
-  trials.push({ ticks: game.tick, elapsed_ms: Math.round((performance.now() - start) * 100) / 100 });
-}
-const report = { kind: 'headless-logic-only', runtime: process.version, platform: process.platform, cpu: cpus()[0]?.model, cpu_threads: cpus().length, memory_gb: Math.round(totalmem() / 1024 ** 3), trials, note: 'No Phase 4 performance threshold is released. This is a baseline, not a GPU FPS claim. High flame count is a scenario override to measure all 18,000 ticks without early death.' };
-await mkdir(new URL('../docs/proof/phase-1/', import.meta.url), { recursive: true });
-await writeFile(new URL('../docs/proof/phase-1/benchmark.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
-console.log(JSON.stringify(report, null, 2));
+import {spawnSync} from 'node:child_process';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {cpus,totalmem} from 'node:os';
+const folder=new URL('../docs/proof/phase-2/',import.meta.url);await mkdir(folder,{recursive:true});
+const scenarioPath=new URL('../tests/scenarios/phase-2/performance.scenario.json',import.meta.url);await writeFile(scenarioPath,JSON.stringify({player:{flames:1000000}})+'\n');
+const trials=[];
+for(const night of [1,2,3]){const out=`docs/proof/phase-2/benchmark-night-${night}.jsonl`;const start=performance.now();const args=['scripts/headless.mjs','--seed','2026','--night',String(night),'--scenario','tests/scenarios/phase-2/performance.scenario.json','--ticks','21600','--snapshot-every','21600','--out',out];const r=spawnSync(process.execPath,args,{encoding:'utf8'}),elapsed=performance.now()-start;if(r.status!==0)throw Error(r.stderr);const records=(await readFile(new URL(`../${out}`,import.meta.url),'utf8')).trim().split('\n').map(JSON.parse),end=records.at(-1);trials.push({night,command:`node ${args.join(' ')}`,ticks:end.ticks,state:end.state,elapsed_ms:Math.round(elapsed*100)/100,passed:elapsed<=30000});}
+const report={kind:'headless-cli-including-io',runtime:process.version,platform:process.platform,cpu:cpus()[0]?.model,cpu_threads:cpus().length,memory_gb:Math.round(totalmem()/1024**3),threshold_ms:30000,trials,note:'High flames in an explicit scenario ensure the CLI reaches each full night rather than dying early. This is not GPU FPS.'};await writeFile(new URL('benchmark.json',folder),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));if(trials.some(t=>!t.passed||t.ticks!==[0,18000,19800,21600][t.night]))process.exitCode=1;

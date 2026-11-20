@@ -26,7 +26,7 @@ export function parseArgs(args) {
     options[key] = Number(raw);
     if (!Number.isSafeInteger(options[key])) throw new InputError(`--${key} is outside safe integer range`);
   }
-  if (options.night !== 1) throw new InputError('Only --night 1 is released');
+  if (![1,2,3].includes(options.night)) throw new InputError('--night must be 1, 2, or 3');
   if (options.ticks < 0 || options['snapshot-every'] < 1) throw new InputError('ticks must be >=0; snapshot-every must be >=1');
   if (typeof options.out !== 'string' || !options.out.trim()) throw new InputError('--out is required');
   return options;
@@ -36,9 +36,9 @@ export async function runHeadless(options) {
   const contract = await readJSON(contractURL, 'contract');
   const scenario = options.scenario ? await readJSON(options.scenario, 'scenario') : {};
   const inputs = options.inputs ? await readJSON(options.inputs, 'inputs') : { frames: [] };
-  validateScenario(scenario, contract.tuning);
+  validateScenario(scenario, contract.tuning, options.night);
   validateInputs(inputs);
-  const game = new Game({ seed: options.seed, tuning: contract.tuning, scenario });
+  const game = new Game({ seed: options.seed, night: options.night, tuning: contract.tuning, scenario });
   await mkdir(dirname(options.out), { recursive: true });
   const file = await open(options.out, 'w');
   let frameIndex = 0;
@@ -52,7 +52,7 @@ export async function runHeadless(options) {
   };
   try {
     append(game.snapshot());
-    while (game.tick < options.ticks && game.state === 'playing') {
+    while (game.tick < options.ticks && ['playing','paused'].includes(game.state)) {
       let patch = {};
       if (inputs.frames[frameIndex]?.tick === game.tick) patch = inputs.frames[frameIndex++];
       for (const event of game.step(patch)) append(event);

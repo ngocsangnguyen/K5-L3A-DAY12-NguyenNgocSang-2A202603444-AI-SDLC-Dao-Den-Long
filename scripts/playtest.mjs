@@ -24,14 +24,15 @@ while (game.state === 'playing' && game.tick < 18000) {
   if (length > 0) { dx /= Math.max(length, 1); dz /= Math.max(length, 1); }
   const interact = Boolean(nearestLamp && carried > 0 && distanceXZ(nearestLamp.pos, game.player.pos) <= tuning.interact_radius && !game.input.interact);
   if (interact) { dx = 0; dz = 0; targetId = null; }
-  const danger = game.shades.some((s) => s.state !== 'stunned' && distanceXZ(s.pos, game.player.pos) < 3.5);
-  const pulse = danger && carried >= tuning.pulse_cost && game.tick + 1 >= game.pulseReadyAt && !game.input.pulse;
-  const input = { move: [dx, dz], cam_yaw_deg: 0, interact, pulse, jump: false };
+  const dash = length > 3 && game.player.dashCd === 0 && !game.dashTicks && !game.input.dash;
+  const danger = game.shades.some((s) => s.state !== 'stunned' && distanceXZ(s.pos, game.player.pos) < 1.6);
+  const pulse = danger && !dash && carried >= tuning.pulse_cost && game.player.pulseCd === 0 && !game.input.pulse;
+  const input = { move: [dx, dz], cam_yaw_deg: 0, interact, pulse, jump: false, dash };
   const encoded = JSON.stringify(input);
   if (encoded !== previous) { frames.push({ tick: game.tick, ...input }); previous = encoded; }
   game.step(input);
 }
-const folder = new URL('../docs/proof/phase-1/', import.meta.url);
+const folder = new URL('../docs/proof/phase-2/', import.meta.url);
 await mkdir(folder, { recursive: true });
 await writeFile(new URL('default-playthrough-inputs.json', folder), JSON.stringify({ frames }) + '\n');
 const result = { seed, scenario: 'default (no overrides)', ticks: game.tick, seconds: game.tick / 60, state: game.state, lit: game.lanterns.filter((l) => l.lit).length, flames: game.player.flames, score: game.score, input_frames: frames.length };
