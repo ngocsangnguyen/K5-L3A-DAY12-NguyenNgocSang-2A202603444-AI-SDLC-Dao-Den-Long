@@ -32,6 +32,7 @@
     <p>Ba hòn đảo, ba đêm giữa biển mây.<br>Cùng Mây gom những đốm sáng nhỏ bé,<br>mang ánh sáng đến tận Tháp Chuông.</p>
     <button id="start-button" class="primary-button"><span class="tiny-lantern" aria-hidden="true">✦</span> Bắt đầu hành trình</button>
     <button id="fuel-demo-button" class="demo-button">Thử giữ đèn sáng</button>
+    <div class="home-tools"><button id="leaderboard-button">Bảng xếp hạng</button><button id="home-settings">Cài đặt</button><button id="record-demo">Quay demo MP4</button></div>
     <div class="home-meta"><span>3D · MỘT NGƯỜI CHƠI</span><span>HÀNH TRÌNH QUA 3 ĐÊM</span></div>
     <div class="island-picker" aria-label="Chọn đêm bắt đầu"><button data-night="1" aria-pressed="true">Đảo Bến</button><button data-night="2" aria-pressed="false">Đảo Cau</button><button data-night="3" aria-pressed="false">Đảo Chuông</button></div>
   </main>
@@ -53,12 +54,12 @@
 
   <div class="bottom-bar" id="bottom-bar">
     <div class="chapter"><span class="chapter-line"></span><span>ĐÊM 01<small>Đảo Bến</small></span></div>
-    <div class="key-guide"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> di chuyển</span><span><kbd>Space</kbd> nhảy</span><span><kbd>Shift</kbd> lướt</span><span><kbd>E</kbd> nạp đèn</span><span><kbd>Q</kbd> tỏa sáng</span><span class="camera-guide">Kéo chuột để xoay góc nhìn</span></div>
+    <div class="key-guide"><span><kbd data-key-label="up">W</kbd> di chuyển</span><span><kbd data-key-label="jump">Space</kbd> nhảy</span><span><kbd data-key-label="interact">E</kbd> nạp đèn</span><span><kbd data-key-label="pulse">Q</kbd> tỏa sáng</span></div>
   </div>
 
   <div class="touch-controls" id="touch-controls" hidden>
-    <div class="dpad"><button data-key="KeyW" aria-label="Đi lên">▲</button><button data-key="KeyA" aria-label="Sang trái">◀</button><button data-key="KeyS" aria-label="Đi xuống">▼</button><button data-key="KeyD" aria-label="Sang phải">▶</button></div>
-    <div class="touch-actions"><button data-key="Space">Nhảy</button><button data-key="ShiftLeft">Lướt</button><button data-key="KeyQ">Tỏa sáng</button><button data-key="KeyE">Nạp đèn</button></div>
+    <div class="dpad"><button data-action="up" data-key="KeyW" aria-label="Đi lên">▲</button><button data-action="left" data-key="KeyA" aria-label="Sang trái">◀</button><button data-action="down" data-key="KeyS" aria-label="Đi xuống">▼</button><button data-action="right" data-key="KeyD" aria-label="Sang phải">▶</button></div>
+    <div class="touch-actions"><button data-action="jump" data-key="Space">Nhảy</button><button data-action="dash" data-key="ShiftLeft">Lướt</button><button data-action="pulse" data-key="KeyQ">Tỏa sáng</button><button data-action="interact" data-key="KeyE">Nạp đèn</button></div>
   </div>
 
   <dialog id="help-dialog" class="panel-dialog">
@@ -70,7 +71,13 @@
   <dialog id="pause-dialog" class="panel-dialog compact"><span class="eyebrow">NGHỈ CHÂN MỘT CHÚT</span><h2>Đom đóm vẫn chờ bạn.</h2><p>Hành trình đang tạm dừng.</p><button id="resume-button" class="primary-button">Tiếp tục hành trình</button><button id="restart-pause" class="text-button">Chơi lại Đêm này</button><button id="settings-button" class="text-button">Cài đặt</button><button id="pause-home" class="text-button">Về menu</button></dialog>
   <dialog id="end-dialog" class="panel-dialog end-dialog"><span class="end-symbol" id="end-symbol">✺</span><span class="eyebrow" id="end-eyebrow">BÌNH MINH TRÊN ĐẢO BẾN</span><h2 id="end-title">Ánh sáng đã trở về.</h2><p id="end-description"></p><div class="end-stats"><div><small>ĐIỂM SỐ</small><strong id="end-score">0</strong></div><div><small>ĐÈN ĐÃ THẮP</small><strong id="end-lamps">5 / 5</strong></div></div><button id="next-night" class="primary-button" hidden>Đêm kế tiếp</button><button id="restart-button" class="primary-button">Thử lại Đêm này</button><button id="home-button" class="text-button">Về trang đầu</button></dialog>
   <dialog id="intro-dialog" class="panel-dialog compact"><span class="eyebrow" id="intro-night">ĐÊM 1</span><h2 id="intro-title">Đảo Bến</h2><p class="quote" id="intro-story"></p><p id="intro-goal"></p><button id="enter-night" class="primary-button">Vào đảo</button><button id="intro-home" class="text-button">Về menu</button></dialog>
-  <dialog id="settings-dialog" class="panel-dialog"><span class="eyebrow">THEO CÁCH CỦA BẠN</span><h2>Cài đặt</h2><label class="setting-row" for="volume">Âm lượng <output id="volume-value">35%</output></label><input id="volume" type="range" min="0" max="100" value="35"><label class="setting-row" for="sensitivity">Độ nhạy chuột <output id="sensitivity-value">1.0×</output></label><input id="sensitivity" type="range" min="20" max="250" value="100"><label class="setting-check"><input id="audio-enabled" type="checkbox"> Bật nhạc và hiệu ứng</label><label class="setting-check"><input id="colorblind" type="checkbox"> Bảng màu dễ phân biệt</label><p>Thiết lập được lưu trên trình duyệt này.</p><button id="close-settings" class="primary-button">Lưu và quay lại</button></dialog>
+  <dialog id="settings-dialog" class="panel-dialog"><span class="eyebrow">THEO CÁCH CỦA BẠN</span><h2>Cài đặt</h2><label class="setting-row" for="volume">Âm lượng <output id="volume-value">45%</output></label><input id="volume" type="range" min="0" max="100" value="45"><label class="setting-row" for="sensitivity">Độ nhạy chuột <output id="sensitivity-value">1.0×</output></label><input id="sensitivity" type="range" min="20" max="250" value="100"><label class="setting-check"><input id="audio-enabled" type="checkbox"> Bật nhạc nền và hiệu ứng âm thanh</label><label class="setting-check"><input id="colorblind" type="checkbox"> Bảng màu dễ phân biệt</label><p>Nhạc và tiếng nhặt đom đóm được tổng hợp tại máy, không tải âm thanh ngoài. Thiết lập được lưu trên trình duyệt này.</p><button id="close-settings" class="primary-button">Lưu và quay lại</button></dialog>
+  <section id="accessibility-settings"><label class="setting-check"><input id="reduce-motion" type="checkbox"> Giảm chuyển động</label><label class="setting-check"><input id="large-text" type="checkbox"> Chữ lớn ×1.25</label><h3>Đổi phím</h3><p>Chọn một hành động rồi nhấn phím mới. Mỗi hành động dùng một phím riêng. Bốn phím mũi tên luôn dùng để di chuyển.</p><div id="key-bindings"></div><p id="binding-error" role="status"></p><button id="reset-keys" type="button">Khôi phục mặc định</button></section>
+  <form id="save-score-form" hidden><p id="score-to-save"></p><label for="player-name">Tên (3–12 chữ, số hoặc _)</label><input id="player-name" name="name" minlength="3" maxlength="12" pattern="[A-Za-z0-9_]{3,12}" required autocomplete="nickname"><button id="save-score-button" type="submit">Lưu điểm</button><p id="save-score-status" role="status"></p></form>
+  <dialog id="leaderboard-dialog" class="panel-dialog"><h2>Bảng xếp hạng</h2><p id="leaderboard-empty">Chưa có điểm được lưu.</p><ol id="leaderboard-entries"></ol><p id="leaderboard-error" role="status"></p><button id="close-leaderboard">Về menu</button></dialog>
+  <div id="spawn-caption" class="spawn-caption" role="status" hidden><span id="spawn-arrow">▲</span> Bóng Mực xuất hiện!</div>
+  <div id="countdown-caption" class="countdown-caption" role="status" hidden></div>
+  <div id="record-tools" hidden><button id="demo-evidence">Hiện bằng chứng</button><button id="stop-record">Dừng và lưu MP4</button></div><output id="record-status" role="status"></output>
   <div id="demo-banner" class="demo-banner" hidden>Minh họa cơ chế dầu · không tính vào hành trình</div>
   <div id="mote-slots" class="mote-slots" hidden aria-label="Túi đom đóm 10 ô"></div>
   <div id="dash-status" class="dash-status" hidden><span>LƯỚT</span><small id="dash-hint">Shift / R · sẵn sàng</small></div>

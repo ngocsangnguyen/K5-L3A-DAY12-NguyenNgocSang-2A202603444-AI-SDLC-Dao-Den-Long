@@ -1,0 +1,8 @@
+export const ACTIONS={up:'Đi lên',down:'Đi xuống',left:'Sang trái',right:'Sang phải',jump:'Nhảy',dash:'Lướt',interact:'Tương tác',pulse:'Tỏa sáng',pause:'Tạm dừng'};
+export const DEFAULT_BINDINGS=Object.freeze({up:'KeyW',down:'KeyS',left:'KeyA',right:'KeyD',jump:'Space',dash:'ShiftLeft',interact:'KeyE',pulse:'KeyQ',pause:'Escape'});
+export const ARROW_BINDINGS=Object.freeze({up:'ArrowUp',down:'ArrowDown',left:'ArrowLeft',right:'ArrowRight'});
+const ARROW_LABELS={ArrowUp:'↑',ArrowDown:'↓',ArrowLeft:'←',ArrowRight:'→'};
+export function keyLabel(code){return ARROW_LABELS[code]??code.replace(/^Key/,'').replace(/^Digit/,'').replace('Left',' trái').replace('Right',' phải');}
+export function validateBindings(raw){if(!raw||typeof raw!=='object')return 'Thiếu bảng phím.';const seen=new Set();for(const action of Object.keys(ACTIONS)){const key=raw[action];if(typeof key!=='string'||!/^(Key[A-Z]|Digit[0-9]|Arrow(Up|Down|Left|Right)|Space|Shift(Left|Right)|Control(Left|Right)|Alt(Left|Right)|Escape|Tab|Enter|Backspace|F([1-9]|1[0-2]))$/.test(key))return 'Phím không được hỗ trợ.';if(key.startsWith('Arrow')&&ARROW_BINDINGS[action]!==key)return 'Bốn phím mũi tên được dành riêng cho di chuyển.';if(seen.has(key))return `Trùng phím ${keyLabel(key)}. Hãy chọn phím khác.`;seen.add(key);}return null;}
+export function normalizeBindings(raw){return validateBindings(raw)?{...DEFAULT_BINDINGS}:{...raw};}
+export function gameInput(keys,b,yaw=0){const has=a=>keys.has(b[a])||Boolean(ARROW_BINDINGS[a]&&keys.has(ARROW_BINDINGS[a]));return {move:[Number(has('right'))-Number(has('left')),Number(has('down'))-Number(has('up'))],cam_yaw_deg:yaw,jump:has('jump'),dash:has('dash'),interact:has('interact'),pulse:has('pulse'),pause:false};}

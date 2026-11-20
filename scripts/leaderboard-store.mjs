@@ -1,0 +1,5 @@
+import {readFile,mkdir,writeFile,rename} from 'node:fs/promises';
+import {dirname} from 'node:path';
+import {topEntries,validName} from '../src/leaderboard.js';
+export async function readBoard(file){try{const value=JSON.parse(await readFile(file,'utf8'));if(!Array.isArray(value.entries))throw Error('Invalid leaderboard');return {entries:topEntries(value.entries)};}catch(e){if(e.code==='ENOENT')return {entries:[]};throw e;}}
+export async function saveEntry(file,input,now=new Date()){if(!validName(input.name)||!Number.isSafeInteger(input.score)||input.score<0||!Number.isInteger(input.nights_won)||input.nights_won<0||input.nights_won>3||!Number.isSafeInteger(input.seed))throw Error('Tên cần 3–12 ký tự A–Z, a–z, 0–9 hoặc _. Điểm không hợp lệ.');const board=await readBoard(file);board.entries=topEntries([...board.entries,{name:input.name,score:input.score,nights_won:input.nights_won,seed:input.seed,achieved_at:now.toISOString()}]);await mkdir(dirname(file),{recursive:true});await writeFile(file+'.tmp',JSON.stringify(board,null,2)+'\n');await rename(file+'.tmp',file);return board;}

@@ -1,0 +1,3 @@
+export function validName(name){return typeof name==='string'&&/^[A-Za-z0-9_]{3,12}$/.test(name);}
+export function validEntry(e){return e&&validName(e.name)&&Number.isSafeInteger(e.score)&&e.score>=0&&Number.isInteger(e.nights_won)&&e.nights_won>=0&&e.nights_won<=3&&Number.isSafeInteger(e.seed)&&typeof e.achieved_at==='string'&&/^\d{4}-\d\d-\d\dT.+(?:Z|[+-]\d\d:\d\d)$/.test(e.achieved_at)&&Number.isFinite(Date.parse(e.achieved_at));}
+export function topEntries(entries){return entries.filter(validEntry).map(e=>({name:e.name,score:e.score,nights_won:e.nights_won,achieved_at:e.achieved_at,seed:e.seed})).sort((a,b)=>b.score-a.score||Date.parse(a.achieved_at)-Date.parse(b.achieved_at)).slice(0,10);}

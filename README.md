@@ -39,7 +39,7 @@ Túi ban đầu10, mỗi lần thắp thành công tăng2, tối đa20; reset đ
 |Esc / P|Tạm dừng|
 |Kéo chuột / cuộn|Xoay camera / thu phóng|
 
-Có nút cảm ứng. Pause → Cài đặt có âm lượng, độ nhạy, âm thanh và **Bảng màu dễ phân biệt**, lưu trên trình duyệt. Chế độ này đổi mắt/viền Bóng Mực sang xanh#00B3FF, cảnh báo trắng kèm⚠. Đèn tắt luôn xẹp20% và rách giấy để phân biệt không cần màu. Âm thanh mặc định tắt.
+Có nút cảm ứng. Pause → Cài đặt có âm lượng, độ nhạy, âm thanh và **Bảng màu dễ phân biệt**, lưu trên trình duyệt. Chế độ này đổi mắt/viền Bóng Mực sang xanh#00B3FF, cảnh báo trắng kèm⚠. Đèn tắt luôn xẹp20% và rách giấy để phân biệt không cần màu. Nhạc nền theo từng Đêm và tiếng nhặt đom đóm được tổng hợp bằng Web Audio, mặc định bật ở45% và có thể tắt bằng nút loa hoặc trong Cài đặt.
 
 **Điểm:** mỗi đom đóm nạp/châm+5; thắp lần đầu+100, thắp lại+40; pulse mỗi con+5, tổng+15 nếu nó đang drain. Khi thắng: mỗi đèn còn sáng+50+floor(dầu), mỗi lửa còn lại+50. Không thưởng thời gian; nhặt không cộng điểm. Không cộng lại hai lần cùng kết quả.
 

@@ -176,7 +176,7 @@ export class Game {
     if(!blocked(this.level,x,z,y)){s.pos[0]=x;s.pos[2]=z;if(s.autoHeight){const h=groundHeight(this.level,x,z);if(h!==-Infinity)s.pos[1]=h+.8;}}
     this.safe(s);
   }
-  moveShades(){
+  moveShades({wanderOnly=false}={}){
     for(const s of this.shades){
       if(s.born>=this.simTick)continue;
       if(s.state==='stunned'&&s.stateTicks>0){if(s.pushTicks>0){const n=this.tuning.pulse_push_m/15;this.translateShade(s,s.pushDir[0]*n,s.pushDir[1]*n);s.pushTicks--;}continue;}
@@ -190,12 +190,13 @@ export class Game {
         if(within(s.pos,this.player.pos,6)){s.state='chase';s.targetLanternId=null;s.drainTicks=0;}else continue;
       }
       const d=distanceXZ(s.pos,this.player.pos);
-      if(s.state==='chase'&&d>18)s.state='wander';else if(s.state==='wander'&&d<=12)s.state='chase';
+      if(!wanderOnly){if(s.state==='chase'&&d>18)s.state='wander';else if(s.state==='wander'&&d<=12)s.state='chase';}
       let dir,speed,target=null;
       if(s.state==='chase'){s.targetLanternId=null;dir=direction(s.pos,this.player.pos);speed=Math.min(this.night===3?this.tuning.shade_speed_night3:this.tuning.shade_speed,d/DT);}
       else{
-        const nearest=list=>list.sort((a,b)=>distanceXZ(a.pos,s.pos)-distanceXZ(b.pos,s.pos)||compareIds(a,b))[0];
-        target=nearest(this.lanterns.filter(l=>l.lit&&!hasSafeZone(l,this.tuning)))??nearest(this.lanterns.filter(l=>!l.lit));
+        // Avoid per-shade filter/sort allocations in the 200-shade release scene.
+        const nearest=weak=>{let best=null,bestD=Infinity;for(const l of this.lanterns){if(weak?(!l.lit||hasSafeZone(l,this.tuning)):l.lit)continue;const d=distanceXZ(l.pos,s.pos);if(d<bestD||d===bestD&&compareIds(l,best)<0){best=l;bestD=d;}}return best;};
+        target=nearest(true)??nearest(false);
         s.targetLanternId=target?.id??null;
         if(target?.lit&&within(s.pos,target.pos,2)){s.state='drain';s.drainTicks=0;continue;}
         if(target){dir=direction(s.pos,target.pos);speed=Math.min(1.2,distanceXZ(s.pos,target.pos)/DT);}

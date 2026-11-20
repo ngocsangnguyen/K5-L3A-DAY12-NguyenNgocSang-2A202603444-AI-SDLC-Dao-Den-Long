@@ -1,9 +1,9 @@
 {
   "name": "dao-den-long",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Đảo Đèn Lồng — fuel maintenance, Test Contract v1.2",
+  "description": "Đảo Đèn Lồng — release candidate, Test Contract v1.3",
   "engines": {
     "node": ">=22"
   },
@@ -13,7 +13,9 @@
     "test": "node --test",
     "headless": "node scripts/headless.mjs",
     "verify": "node scripts/verify.mjs",
-    "benchmark": "node scripts/benchmark.mjs"
+    "benchmark": "node scripts/bench.mjs",
+    "soak": "node --jitless --expose-gc --max-semi-space-size=1 scripts/soak.mjs",
+    "package": "node scripts/package.mjs"
   },
   "dependencies": {
     "three": "0.187.0"

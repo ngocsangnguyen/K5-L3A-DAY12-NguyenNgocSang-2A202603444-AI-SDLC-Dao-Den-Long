@@ -1,0 +1,44 @@
+{
+  "nights": 10,
+  "crashes": 0,
+  "results": [
+    "lost",
+    "lost",
+    "lost",
+    "lost",
+    "lost",
+    "lost",
+    "lost",
+    "lost",
+    "lost",
+    "lost"
+  ],
+  "mem_start_mb": 44.62109375,
+  "mem_end_mb": 46.55859375,
+  "duration_s": 7.038510200000001,
+  "seeds": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "ticks": [
+    1516,
+    2043,
+    814,
+    1486,
+    3542,
+    1686,
+    1844,
+    1090,
+    1957,
+    1881
+  ],
+  "gc_available": true
+}

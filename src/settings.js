@@ -1,4 +1,5 @@
-export const DEFAULT_SETTINGS=Object.freeze({volume:.35,sensitivity:1,enabled:false,colorblind:false});
-export function normalizeSettings(raw={}){return {volume:Number.isFinite(raw.volume)?Math.max(0,Math.min(1,raw.volume)):.35,sensitivity:Number.isFinite(raw.sensitivity)?Math.max(.2,Math.min(2.5,raw.sensitivity)):1,enabled:typeof raw.enabled==='boolean'?raw.enabled:false,colorblind:typeof raw.colorblind==='boolean'?raw.colorblind:false};}
+import {normalizeBindings} from './controls.js';
+export const DEFAULT_SETTINGS=Object.freeze({volume:.45,sensitivity:1,enabled:true,colorblind:false,reduceMotion:false,largeText:false,bindings:normalizeBindings()});
+export function normalizeSettings(raw={}){return {volume:Number.isFinite(raw.volume)?Math.max(0,Math.min(1,raw.volume)):.45,sensitivity:Number.isFinite(raw.sensitivity)?Math.max(.2,Math.min(2.5,raw.sensitivity)):1,enabled:typeof raw.enabled==='boolean'?raw.enabled:true,colorblind:typeof raw.colorblind==='boolean'?raw.colorblind:false,reduceMotion:raw.reduceMotion===true,largeText:raw.largeText===true,bindings:normalizeBindings(raw.bindings)};}
 export function loadSettings(storage){try{return normalizeSettings(JSON.parse(storage.getItem('dao-den-long.settings')??'{}'));}catch{return {...DEFAULT_SETTINGS};}}
 export function saveSettings(storage,settings){const value=normalizeSettings(settings);try{storage.setItem('dao-den-long.settings',JSON.stringify(value));}catch{}return value;}

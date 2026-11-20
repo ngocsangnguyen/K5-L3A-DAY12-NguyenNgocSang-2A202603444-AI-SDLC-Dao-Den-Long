@@ -1,0 +1,23 @@
+{
+  "contract_version": "1.3",
+  "avg_fps": 70.76666666666667,
+  "p1_low_fps": 9.19079249697114,
+  "frame_ms_p95": 18.5,
+  "frames": 2123,
+  "renderer": "Three.js r187 / WebGL2",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "scene": {
+    "shades": 200,
+    "motes": 100,
+    "lit": 3
+  },
+  "sample_ms": 30000,
+  "load_ms": 6132.6451,
+  "peak_mem_mb": null,
+  "vsync_off": false,
+  "os": "win32 10.0.26200",
+  "note": "Web renderer: process RSS unavailable; requestAnimationFrame/vsync remains browser controlled. No headless/software-renderer substitution."
+}
